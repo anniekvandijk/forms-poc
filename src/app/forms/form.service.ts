@@ -6,6 +6,10 @@ export class FormService {
   private readonly formbuilder = inject(FormBuilder);
   formSignal = signal<FormGroup>(this.formbuilder.group({}));
 
+  fb(): FormBuilder {
+    return this.formbuilder;
+  }
+
   addChildFormGroup(name: string, group: FormGroup) {
     this.formSignal.update((form: FormGroup) => {
       form.addControl(name, group);
@@ -16,6 +20,12 @@ export class FormService {
   addChildFormArray(name: string, array: FormArray) {
     this.formSignal.update((form: FormGroup) => {
       form.addControl(name, array);
+      return form;
+    });
+  }
+  addChildFormControl(name: string, formControl: FormControl) {
+    this.formSignal.update((form: FormGroup) => {
+      form.addControl(name, formControl);
       return form;
     });
   }

@@ -8,9 +8,9 @@ import { FormService } from '../../form.service';
   imports: [
     ReactiveFormsModule
   ],
-  templateUrl: './subtwo.component.html',
+  templateUrl: './subformTwo.component.html',
 })
-export class SubtwoComponent {
+export class SubformTwoComponent {
   private readonly formbuilder = inject(FormBuilder);
   private readonly formService = inject(FormService);
   mainform = this.formService.formSignal();
@@ -18,7 +18,7 @@ export class SubtwoComponent {
 
   ngOnInit(): void {
     this.createSubFormTwo();
-    this.formService.addChildFormGroup('subtwo', this.subformTwo);
+    this.formService.addChildFormGroup('subformTwo', this.subformTwo);
   }
 
   createSubFormTwo(): void {

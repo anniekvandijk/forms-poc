@@ -1,5 +1,28 @@
-<div [formGroup]="mainform" (ngSubmit)="onSubmit()">
-<app-subone></app-subone>
-<app-subtwo></app-subtwo>
+<h1>Main Form</h1>	
+<form [formGroup]="mainform" (ngSubmit)="onSubmit()">
+  <input formControlName="veld" type="text" placeholder="Veld">
+  <app-subone></app-subone>
+  <app-subtwo></app-subtwo>
 <button type="submit">Submit</button>
+</form>
+
+<div>
+  <h2>Form Data</h2>
+  <p>Veld: {{mainform.value.veld}}</p>
+  <ul>
+    <li>Touched: {{ mainform.get('veld')?.touched }}</li>
+    <li>Dirty: {{ mainform.get('veld')?.dirty }}</li>
+    <li>Valid: {{ mainform.get('veld')?.valid }}</li>
+    <li>Prestine: {{  mainform.get('veld')?.pristine }} </li>
+    <li>Errors: {{ mainform.get('veld')?.errors }}</li>
+
+  </ul>
+  <h3>Subform One</h3>
+  <p>Naam: {{mainform.value.subformOne.naam}}</p>
+  <p>Hobby: {{mainform.value.subformOne.hobby}}</p>
+  <h3>Subform Two</h3>
+  <p>Straat: {{mainform.value.subformTwo.straat}}</p>
+  <p>Postcode: {{mainform.value.subformTwo.postcode}}</p>
+  <p>Plaats: {{mainform.value.subformTwo.plaats}}</p>
+
 </div>
