@@ -4,11 +4,12 @@
   <app-subone></app-subone>
   <app-subtwo></app-subtwo>
 <button type="submit">Submit</button>
+<button type="button" (click)="mainform.reset()">Reset</button>
 </form>
 
 <div>
   <h2>Form Data</h2>
-  <p>Veld: {{mainform.value.veld}}</p>
+  <b><p>Veld: {{mainform.value.veld}}</p></b>
   <ul>
     <li>Touched: {{ mainform.get('veld')?.touched }}</li>
     <li>Dirty: {{ mainform.get('veld')?.dirty }}</li>
