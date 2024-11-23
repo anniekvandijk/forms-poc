@@ -5,6 +5,7 @@ import { SubformTwoComponent } from './subformTwo/subformTwo.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-mainform',
@@ -12,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
+        MatButtonModule,
         SubformOneComponent,
         SubformTwoComponent
     ],

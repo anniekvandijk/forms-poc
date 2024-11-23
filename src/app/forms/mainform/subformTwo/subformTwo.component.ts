@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormService } from '../../form.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
-    selector: 'app-subtwo',
-    imports: [
-        ReactiveFormsModule
-    ],
-    templateUrl: './subformTwo.component.html'
+  selector: 'app-subtwo',
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule],
+  templateUrl: './subformTwo.component.html',
 })
 export class SubformTwoComponent {
   private readonly formbuilder = inject(FormBuilder);
@@ -24,7 +24,7 @@ export class SubformTwoComponent {
     this.subformTwo = this.formbuilder.group({
       straat: [''],
       postcode: [''],
-      plaats: ['']
+      plaats: [''],
     });
   }
 }

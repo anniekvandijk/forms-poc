@@ -2,19 +2,20 @@
   <div class="formdata">
     <h1>Main Form</h1>	
     <form [formGroup]="mainform" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline">
-        <mat-label>Veld</mat-label>
-        <input matInput formControlName="veld" placeholder="Veld">
-      </mat-form-field>
+      <div class="form-row">
+        <mat-form-field class="form-field">
+          <mat-label>Input in main form</mat-label>
+          <input matInput formControlName="veld">
+        </mat-form-field>
+      </div>
       <app-subone></app-subone>
       <app-subtwo></app-subtwo>
-    <button type="submit">Submit</button>
-    <button type="button" (click)="mainform.reset()">Reset</button>
+    <button mat-raised-button type="submit">Versturen</button>
     </form>
   </div>
   <div class="formvalues">
     <h2>Form Data</h2>
-    <b><p>Veld: {{mainform.value.veld}}</p></b>
+    <b><p>Input in main form: {{mainform.value.veld}}</p></b>
     <ul>
       <li>Touched: {{ mainform.get('veld')?.touched }}</li>
       <li>Dirty: {{ mainform.get('veld')?.dirty }}</li>

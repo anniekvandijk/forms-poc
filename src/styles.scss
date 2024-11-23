@@ -29,3 +29,34 @@ body {
 body.dark-mode {
   color-scheme: dark;
 }
+
+// FORM STUFF
+
+.form {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  padding: 20px;
+  width: 100%;
+  outline: 1px solid blue;
+
+  .formdata {
+    outline: 1px solid red;
+    padding: 15px;
+    flex-basis: 600px;
+
+    .form-row {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+    .form-field {
+      flex-grow: 1;
+    }
+  }
+
+  .formvalues{
+    outline: 1px solid red;
+    padding: 15px;
+  }
+}
