@@ -1,29 +1,34 @@
-<h1>Main Form</h1>	
-<form [formGroup]="mainform" (ngSubmit)="onSubmit()">
-  <input formControlName="veld" type="text" placeholder="Veld">
-  <app-subone></app-subone>
-  <app-subtwo></app-subtwo>
-<button type="submit">Submit</button>
-<button type="button" (click)="mainform.reset()">Reset</button>
-</form>
+<div class="form">
+  <div class="formdata">
+    <h1>Main Form</h1>	
+    <form [formGroup]="mainform" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Veld</mat-label>
+        <input matInput formControlName="veld" placeholder="Veld">
+      </mat-form-field>
+      <app-subone></app-subone>
+      <app-subtwo></app-subtwo>
+    <button type="submit">Submit</button>
+    <button type="button" (click)="mainform.reset()">Reset</button>
+    </form>
+  </div>
+  <div class="formvalues">
+    <h2>Form Data</h2>
+    <b><p>Veld: {{mainform.value.veld}}</p></b>
+    <ul>
+      <li>Touched: {{ mainform.get('veld')?.touched }}</li>
+      <li>Dirty: {{ mainform.get('veld')?.dirty }}</li>
+      <li>Valid: {{ mainform.get('veld')?.valid }}</li>
+      <li>Prestine: {{  mainform.get('veld')?.pristine }} </li>
+      <li>Errors: {{ mainform.get('veld')?.errors }}</li>
+    </ul>
 
-<div>
-  <h2>Form Data</h2>
-  <b><p>Veld: {{mainform.value.veld}}</p></b>
-  <ul>
-    <li>Touched: {{ mainform.get('veld')?.touched }}</li>
-    <li>Dirty: {{ mainform.get('veld')?.dirty }}</li>
-    <li>Valid: {{ mainform.get('veld')?.valid }}</li>
-    <li>Prestine: {{  mainform.get('veld')?.pristine }} </li>
-    <li>Errors: {{ mainform.get('veld')?.errors }}</li>
-
-  </ul>
-  <h3>Subform One</h3>
-  <p>Naam: {{mainform.value.subformOne.naam}}</p>
-  <p>Hobby: {{mainform.value.subformOne.hobby}}</p>
-  <h3>Subform Two</h3>
-  <p>Straat: {{mainform.value.subformTwo.straat}}</p>
-  <p>Postcode: {{mainform.value.subformTwo.postcode}}</p>
-  <p>Plaats: {{mainform.value.subformTwo.plaats}}</p>
-
+    <h3>Subform One</h3>
+    <p>Naam: {{mainform.value.subformOne.naam}}</p>
+    <p>Hobby: {{mainform.value.subformOne.hobby}}</p>
+    <h3>Subform Two</h3>
+    <p>Straat: {{mainform.value.subformTwo.straat}}</p>
+    <p>Postcode: {{mainform.value.subformTwo.postcode}}</p>
+    <p>Plaats: {{mainform.value.subformTwo.plaats}}</p>
+  </div>
 </div>

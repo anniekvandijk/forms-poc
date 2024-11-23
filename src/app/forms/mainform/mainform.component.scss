@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  padding: 15px;
+
+  .formdata {
+  outline: 1px solid red;
+  padding: 15px;
+  }
+
+  .formvalues{
+    outline: 1px solid red;
+    padding: 15px;
+  }
+}
