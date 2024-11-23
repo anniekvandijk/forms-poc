@@ -3,12 +3,11 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormService } from '../../form.service';
 
 @Component({
-  selector: 'app-subone',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule
-  ],
-  templateUrl: './subformOne.component.html',
+    selector: 'app-subone',
+    imports: [
+        ReactiveFormsModule
+    ],
+    templateUrl: './subformOne.component.html'
 })
 export class SubformOneComponent {
   private readonly formbuilder = inject(FormBuilder);

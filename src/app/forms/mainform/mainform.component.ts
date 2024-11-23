@@ -5,15 +5,14 @@ import { SubformTwoComponent } from './subformTwo/subformTwo.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-mainform',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    SubformOneComponent, 
-    SubformTwoComponent
-  ],
-  templateUrl: './mainform.component.html',
-  providers: [FormService],
+    selector: 'app-mainform',
+    imports: [
+        ReactiveFormsModule,
+        SubformOneComponent,
+        SubformTwoComponent
+    ],
+    templateUrl: './mainform.component.html',
+    providers: [FormService]
 })
 export class MainformComponent {
 [x: string]: any;
