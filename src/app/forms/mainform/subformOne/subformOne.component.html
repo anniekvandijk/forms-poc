@@ -9,14 +9,22 @@
   <div class="form-row">
     <mat-form-field class="form-field">
       <mat-label>Lievelingsdier</mat-label>
-      <input matInput id="Lievelingsdier" formControlName="Lievelingsdier" type="text">
+      <mat-select id="Lievelingsdier" formControlName="lievelingsdier">
+        <mat-option value="hond">Hond</mat-option>
+        <mat-option value="kat">Kat</mat-option>
+        <mat-option value="konijn">Konijn</mat-option>
+        <mat-option value="alpaca">Alpaca</mat-option>
+        <mat-option value="anders">Anders</mat-option>
+      </mat-select>
       <mat-hint>Selecteer je lievelingsdier</mat-hint>
     </mat-form-field>
+    @if (showOtherAnimalField()) {
     <mat-form-field class="form-field">
       <mat-label>Voer ander dier in</mat-label>
       <input matInput id="anderLievelingsdier" formControlName="anderLievelingsdier" type="text">
       <mat-hint>Indien overig, welk dier dan?</mat-hint>
     </mat-form-field>
+    }
   </div>
   <div class="form-row">
     <mat-form-field class="form-field grow-1">

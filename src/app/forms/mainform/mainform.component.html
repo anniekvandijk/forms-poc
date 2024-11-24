@@ -33,6 +33,14 @@
     </ul>
 
     <h3>Persoonlijke informatie</h3>
+    <p>Lievelingsdier: {{mainform.value.subformOne.lievelingsdier}}</p>
+    <p>Andere dier: {{mainform.value.subformOne.anderLievelingsdier}}</p>
+      <ul>
+        <li>Touched: {{ mainform.get('subformOne.anderLievelingsdier')?.touched }}</li>
+        <li>Dirty: {{ mainform.get('subformOne.anderLievelingsdier')?.dirty }}</li>
+        <li>Prestine: {{  mainform.get('subformOne.anderLievelingsdier')?.pristine }} </li>
+        <li>Valid: {{ mainform.get('subformOne.anderLievelingsdier')?.valid }}</li>
+      </ul>
     <p>Lievelingskleur: {{mainform.value.subformOne.lievelingskleur}}</p>
     <p class="preserveTextareaLineBreaks">Hobbies:<br> {{mainform.value.subformOne.hobbies}}</p>
     <h3>Adresgegevens</h3>
