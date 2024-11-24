@@ -6,6 +6,7 @@ import { FormService } from '../../form.service';
 import { MatSelectModule } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
+import { conditionalValidator } from '../../validators/conditionalValidator';
 
 @Component({
     selector: 'app-subone',
@@ -35,7 +36,7 @@ export class SubformOneComponent {
     this.subformOne = this.formbuilder.group({
       lievelingskleur: [''],
       lievelingsdier: [''],
-      anderLievelingsdier: ['', Validators.required],
+      anderLievelingsdier: ['', conditionalValidator(this.showOtherAnimalField, [Validators.required])],
       hobbies: ['']
     });
   }
