@@ -9,7 +9,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'outline'}
+      useValue: { 
+        appearance: 'outline',
+        floatLabel: 'always',
+      }
     },
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
