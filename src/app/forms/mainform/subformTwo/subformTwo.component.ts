@@ -23,6 +23,7 @@ export class SubformTwoComponent {
   createSubFormTwo(): void {
     this.subformTwo = this.formbuilder.group({
       straat: [''],
+      huisnummer: [''],
       postcode: [''],
       plaats: [''],
     });

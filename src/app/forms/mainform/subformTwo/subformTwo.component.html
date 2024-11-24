@@ -1,17 +1,24 @@
-<h2>Subform Two</h2>
+<h3>Adresgegevens</h3>
 <div [formGroup]="subformTwo">
   <div class="form-row">
-    <mat-form-field class="form-field">
+    <mat-form-field class="form-field grow-1">
       <mat-label>Straat</mat-label>
       <input matInput id="straat" formControlName="straat" type="text">
     </mat-form-field>
+    <mat-form-field class="form-field-small">
+      <mat-label>Nummer</mat-label>
+      <input matInput id="huisnummer" formControlName="huisnummer" type="text">
+    </mat-form-field>
   </div>
   <div class="form-row">
-    <mat-form-field class="form-field">
+    <mat-form-field class="form-field-small">
       <mat-label>Postcode</mat-label>
-      <input matInput id="postcode" formControlName="postcode" type="text">
+      <input matInput 
+        id="postcode" 
+        formControlName="postcode" 
+        type="text">
     </mat-form-field>
-    <mat-form-field class="form-field">
+    <mat-form-field class="form-field grow-1">
       <mat-label>Plaats</mat-label>
       <input matInput id="plaats" formControlName="plaats" type="text">
     </mat-form-field>

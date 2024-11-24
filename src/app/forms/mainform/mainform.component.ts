@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormService } from '../form.service';
 import { SubformOneComponent } from "./subformOne/subformOne.component";
 import { SubformTwoComponent } from './subformTwo/subformTwo.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +18,6 @@ import { MatButtonModule } from '@angular/material/button';
         SubformTwoComponent
     ],
     templateUrl: './mainform.component.html',
-    styleUrls: ['./mainform.component.scss'],
     providers: [FormService]
 })
 export class MainformComponent {
@@ -27,7 +26,7 @@ export class MainformComponent {
   mainform = this.formService.formSignal();
 
   ngOnInit(): void {
-    this.formService.addChildFormControl('veld', this.formService.fb().control(''));
+    this.formService.addChildFormControl('naam', this.formService.fb().control('', [Validators.required]));
   }
 
   onSubmit() {

@@ -1,10 +1,14 @@
 @use "@angular/material" as mat;
+@use "./app/styling/form";
 
 html {
   color-scheme: light dark;
   @include mat.theme(
     (
-     // color: mat.$blue-palette,
+      color: (
+        primary: mat.$spring-green-palette,
+        tertiary: mat.$blue-palette,
+      ),
       typography: (
         plain-family: Roboto, 
         brand-family: Open Sans,
@@ -20,40 +24,10 @@ html, body {
 
 body {
   margin: 0;
+  padding: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 body.dark-mode {
   color-scheme: dark;
-}
-
-// FORM STUFF
-
-.form {
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  padding: 20px;
-  width: 100%;
-  outline: 1px solid blue;
-
-  .formdata {
-    outline: 1px solid red;
-    padding: 15px;
-    flex-basis: 600px;
-
-    .form-row {
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-    }
-    .form-field {
-      flex-grow: 1;
-    }
-  }
-
-  .formvalues{
-    outline: 1px solid red;
-    padding: 15px;
-  }
 }

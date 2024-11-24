@@ -26,8 +26,10 @@ export class SubformOneComponent {
 
   createSubFormOne(): void {
     this.subformOne = this.formbuilder.group({
-      naam: ['', Validators.required],
-      hobby: ['']
+      lievelingskleur: [''],
+      lievelingsdier: [''],
+      anderLievelingsdier: [''],
+      hobbies: ['']
     });
   }
 }

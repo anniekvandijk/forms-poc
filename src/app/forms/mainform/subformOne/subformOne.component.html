@@ -1,15 +1,35 @@
-<h2>Subform One</h2>
+<h3>Persoonlijke informatie</h3>
 <div [formGroup]="subformOne">
   <div class="form-row">
     <mat-form-field class="form-field">
-      <mat-label>Naam</mat-label>
-      <input matInput id="naam" formControlName="naam" type="text">
+      <mat-label>Lievelingskleur</mat-label>
+      <input matInput id="lievelingskleur" formControlName="lievelingskleur" type="text">
     </mat-form-field>
   </div>
   <div class="form-row">
     <mat-form-field class="form-field">
-      <mat-label>Hobby</mat-label>
-      <input matInput id="hobby" formControlName="hobby" type="text">
+      <mat-label>Lievelingsdier</mat-label>
+      <input matInput id="Lievelingsdier" formControlName="Lievelingsdier" type="text">
+      <mat-hint>Selecteer je lievelingsdier</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>Voer ander dier in</mat-label>
+      <input matInput id="anderLievelingsdier" formControlName="anderLievelingsdier" type="text">
+      <mat-hint>Indien overig, welk dier dan?</mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="form-row">
+    <mat-form-field class="form-field grow-1">
+      <mat-label>Hobbies</mat-label>
+      <textarea 
+        matInput 
+        id="hobbies" 
+        formControlName="hobbies" 
+        type="text"
+        maxlength="200" 
+        rows="4"
+        #myHobbies></textarea>
+        <mat-hint align="end">Aantal tekens: {{myHobbies.value.length}}/{{myHobbies.maxLength}}</mat-hint>
     </mat-form-field>
   </div>
 </div>
