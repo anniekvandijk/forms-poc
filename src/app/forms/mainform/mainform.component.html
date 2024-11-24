@@ -1,6 +1,6 @@
 <div class="form">
   <div class="formdata">
-    <h2>Main Form</h2>	
+    <h2>Voorbeeld formulier</h2>	
     <form [formGroup]="mainform" (ngSubmit)="onSubmit()" #myForm>
       <div class="form-row">
         <mat-form-field class="form-field grow-1">
@@ -24,7 +24,7 @@
   </div>
   <div class="formvalues">
     <h2>Formulier waarden</h2>
-    <b><p>Naam: {{mainform.value.naam}}</p></b>
+    <p>Naam: {{mainform.value.naam}}</p>
     <ul>
       <li>Touched: {{ mainform.get('naam')?.touched }}</li>
       <li>Dirty: {{ mainform.get('naam')?.dirty }}</li>
@@ -43,6 +43,7 @@
       </ul>
     <p>Lievelingskleur: {{mainform.value.subformOne.lievelingskleur}}</p>
     <p class="preserveTextareaLineBreaks">Hobbies:<br> {{mainform.value.subformOne.hobbies}}</p>
+    <p>SubForm valid: {{ mainform.get('subformOne')?.valid }}</p>
     <h3>Adresgegevens</h3>
     <p>Straat: {{mainform.value.subformTwo.straat}}</p>
     <p>Nummer: {{mainform.value.subformTwo.nummer}}</p>

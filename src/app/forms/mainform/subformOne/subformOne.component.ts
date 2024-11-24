@@ -5,8 +5,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormService } from '../../form.service';
 import { MatSelectModule } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
-import { conditionalValidator } from '../../validators/conditionalValidator';
 
 @Component({
     selector: 'app-subone',
@@ -24,32 +22,48 @@ export class SubformOneComponent {
   private readonly formService = inject(FormService);
   mainform = this.formService.formSignal();
   subformOne!: FormGroup;
-  showOtherAnimalField = signal(false);
+  showAnderLievelingsdierField = signal(false);
+  anderlievelingsdierMaxlength = signal(20);
 
   ngOnInit(): void {
     this.createSubFormOne();
     this.formService.addChildFormGroup('subformOne', this.subformOne);
-    this.showOtherAnimal();
+    this.showAnderLievelingsdier();
   }
 
   createSubFormOne(): void {
     this.subformOne = this.formbuilder.group({
       lievelingskleur: [''],
       lievelingsdier: [''],
-      anderLievelingsdier: ['', conditionalValidator(this.showOtherAnimalField, [Validators.required])],
+      anderLievelingsdier: [''],
       hobbies: ['']
     });
   }
+  get lievelingskleurControl() {
+    return this.subformOne.get('lievelingskleur');
+  }
 
-  showOtherAnimal(): void {
-   this.subformOne.get('lievelingsdier')?.valueChanges
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe((value) => {
-      if (value && value === 'anders') {
-        this.showOtherAnimalField.set(true);
-      } else {
-      this.showOtherAnimalField.set(false);
-      }
-    });
+  get lievelingsdierControl() {
+    return this.subformOne.get('lievelingsdier');
+  }
+
+  get anderLievelingsdierControl() {
+    return this.subformOne.get('anderLievelingsdier');
+  }
+
+  private showAnderLievelingsdier(): void {
+    this.lievelingsdierControl?.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        if (value && value === 'anders') {
+          this.showAnderLievelingsdierField.set(true);
+          this.anderLievelingsdierControl?.setValidators([Validators.required, Validators.maxLength(this.anderlievelingsdierMaxlength())]);
+        } else {
+          this.showAnderLievelingsdierField.set(false);
+          this.anderLievelingsdierControl?.clearValidators();
+        }
+        this.anderLievelingsdierControl?.updateValueAndValidity({ emitEvent: false, onlySelf: true });
+      });
   }
 }
+

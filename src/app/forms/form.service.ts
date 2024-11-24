@@ -40,6 +40,7 @@ export class FormService {
   }
 
   submitForm() {
-    console.log(this.formSignal().getRawValue());
+    console.log('form: ', this.formSignal());
+    console.log('form values: ', this.formSignal().getRawValue());
   }
 }

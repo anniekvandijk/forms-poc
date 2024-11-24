@@ -18,11 +18,18 @@
       </mat-select>
       <mat-hint>Selecteer je lievelingsdier</mat-hint>
     </mat-form-field>
-    @if (showOtherAnimalField()) {
+    @if (showAnderLievelingsdierField()) {
     <mat-form-field class="form-field grow-1">
       <mat-label>Voer ander dier in</mat-label>
-      <input matInput id="anderLievelingsdier" formControlName="anderLievelingsdier" type="text">
+      <input matInput 
+        id="anderLievelingsdier" 
+        formControlName="anderLievelingsdier" 
+        [maxlength]="anderlievelingsdierMaxlength()"
+        type="text">
       <mat-hint>Indien overig, welk dier dan?</mat-hint>
+      @if (anderLievelingsdierControl?.errors?.['required']) {
+        <mat-error>Dier is verplicht</mat-error>
+      }
     </mat-form-field>
     }
   </div>
@@ -37,7 +44,7 @@
         maxlength="200" 
         rows="4"
         #myHobbies></textarea>
-        <mat-hint align="end">Aantal tekens: {{myHobbies.value.length}}/{{myHobbies.maxLength}}</mat-hint>
+        <mat-hint align="end">{{myHobbies.value.length}}/{{myHobbies.maxLength}}</mat-hint>
     </mat-form-field>
   </div>
 </div>
