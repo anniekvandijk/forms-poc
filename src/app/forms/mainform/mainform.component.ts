@@ -6,6 +6,7 @@ import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
     selector: 'app-mainform',
@@ -15,7 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
         MatInputModule,
         MatButtonModule,
         SubformOneComponent,
-        SubformTwoComponent
+        SubformTwoComponent,
+        MatCardModule
     ],
     templateUrl: './mainform.component.html',
     providers: [FormService]

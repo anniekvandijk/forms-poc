@@ -1,4 +1,8 @@
-<h3>Adresgegevens</h3>
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Adresgegevens</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
 <div [formGroup]="subformTwo">
   <div class="form-row">
     <mat-form-field class="form-field grow-1">
@@ -8,7 +12,6 @@
     <mat-form-field class="form-field-small">
       <mat-label>Huisnummer</mat-label>
       <input matInput id="huisnummer" formControlName="huisnummer" type="text">
-      <mat-hint>Met toevoeging</mat-hint>
     </mat-form-field>
   </div>
   <div class="form-row">
@@ -18,11 +21,18 @@
         id="postcode" 
         formControlName="postcode" 
         type="text">
-      <mat-hint>Formaat 1234AB</mat-hint>
     </mat-form-field>
     <mat-form-field class="form-field grow-1">
       <mat-label>Plaats</mat-label>
       <input matInput id="plaats" formControlName="plaats" type="text">
     </mat-form-field>
   </div>
+  <div class="form-row">
+    <mat-form-field class="form-field-medium">
+      <mat-label>Land</mat-label>
+      <input matInput id="land" formControlName="land" type="text">
+    </mat-form-field>
+  </div>
 </div>
+</mat-card-content>
+</mat-card>

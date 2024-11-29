@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FormService } from '../../form.service';
 import { MatSelectModule } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
     selector: 'app-subone',
@@ -12,7 +13,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
-        MatSelectModule
+        MatSelectModule,
+        MatCardModule
     ],
     templateUrl: './subformOne.component.html'
 })

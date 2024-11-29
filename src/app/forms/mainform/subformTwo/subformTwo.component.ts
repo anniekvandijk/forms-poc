@@ -1,12 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FormService } from '../../form.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+
+import { FormService } from '../../form.service';
 
 @Component({
   selector: 'app-subtwo',
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule],
+  imports: [
+    ReactiveFormsModule, 
+    MatFormFieldModule, 
+    MatInputModule,
+    MatCardModule,
+  ],
   templateUrl: './subformTwo.component.html',
 })
 export class SubformTwoComponent {
@@ -26,6 +33,7 @@ export class SubformTwoComponent {
       huisnummer: [''],
       postcode: [''],
       plaats: [''],
+      land: [''],
     });
   }
 }

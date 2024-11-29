@@ -1,17 +1,21 @@
-<div class="form">
+<div class="form-component">
   <div class="formdata">
     <h2>Voorbeeld formulier</h2>	
-    <form [formGroup]="mainform" (ngSubmit)="onSubmit()" #myForm>
-      <div class="form-row">
-        <mat-form-field class="form-field grow-1">
-          <mat-label>Naam</mat-label>
-          <input matInput formControlName="naam">
-          <mat-hint>Voer hier uw naam in</mat-hint>
-           @if (mainform.get('naam')?.errors?.['required']) {
-            <mat-error>Naam is verplicht</mat-error>
-           }
-        </mat-form-field>
-      </div>
+    <form class="form" [formGroup]="mainform" (ngSubmit)="onSubmit()" #myForm>
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="form-row">
+            <mat-form-field class="form-field grow-1">
+              <mat-label>Naam</mat-label>
+              <input matInput formControlName="naam">
+              <mat-hint>Voer hier uw naam in</mat-hint>
+              @if (mainform.get('naam')?.errors?.['required']) {
+                <mat-error>Naam is verplicht</mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
       <app-subone></app-subone>
       <app-subtwo></app-subtwo>
     <div class="form-actions">
