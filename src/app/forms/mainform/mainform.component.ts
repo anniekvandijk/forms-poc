@@ -1,24 +1,27 @@
 import { Component, inject } from '@angular/core';
-import { FormService } from '../form.service';
-import { SubformOneComponent } from "./subformOne/subformOne.component";
-import { SubformTwoComponent } from './subformTwo/subformTwo.component';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
+import { FormService } from '../form.service';
+import { SubformOneComponent } from "./subformOne/subformOne.component";
+import { SubformTwoComponent } from './subformTwo/subformTwo.component';
+import { BezorglocatiesComponent } from "./bezorglocaties/bezorglocaties.component";
+
 @Component({
     selector: 'app-mainform',
     imports: [
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        SubformOneComponent,
-        SubformTwoComponent,
-        MatCardModule
-    ],
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    SubformOneComponent,
+    SubformTwoComponent,
+    MatCardModule,
+    BezorglocatiesComponent
+],
     templateUrl: './mainform.component.html',
     providers: [FormService]
 })

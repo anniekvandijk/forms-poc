@@ -1,0 +1,51 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Bezorglocaties</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="form-row">
+      <mat-radio-group
+        [value]="selectedBezorglocatieFormGroup().value.id"
+        (change)="onSelectBezorglocatie($event.value)" 
+        aria-label="Selecteer een locatie">
+          @for (bezorglocatie of bezorglocatiesControls; track bezorglocatie.value.id) {
+            <mat-radio-button [value]="bezorglocatie.value.id">{{bezorglocatie.value.naam}}</mat-radio-button>
+          }
+      </mat-radio-group>
+      <mat-divider [vertical]="true"></mat-divider>
+      <div [formGroup]="selectedBezorglocatieFormGroup()">
+        <div class="form-row">
+          <mat-form-field class="form-field-small">
+            <mat-label>Locatie id</mat-label>
+            <input matInput 
+              type="number"
+              min="1"
+              formControlName="id">
+          </mat-form-field>
+          <mat-form-field class="form-field grow-1">
+            <mat-label>Locatie naam</mat-label>
+            <input matInput formControlName="naam">
+          </mat-form-field>
+        </div>
+        <div formArrayName="adres">
+          <div class="form-row">
+            <mat-form-field class="form-field grow-1">
+              <mat-label>Straat</mat-label>
+              <input matInput formControlName="straat">
+            </mat-form-field>
+          </div>  
+          <div class="form-row">
+            <mat-form-field class="form-field-small">
+              <mat-label>Postcode</mat-label>
+              <input matInput formControlName="postcode">
+            </mat-form-field>
+            <mat-form-field class="form-field grow-1">
+              <mat-label>Plaats</mat-label>
+              <input matInput formControlName="plaats">
+            </mat-form-field>
+            </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
