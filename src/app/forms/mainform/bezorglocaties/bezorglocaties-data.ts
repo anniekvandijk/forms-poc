@@ -3,27 +3,33 @@ export const BEZORGLOCATIES_DATA = [
         id: 1,
         naam: 'Tjoelker',
         adres: {
-            straat: 'Straatnaam 1',
-            postcode: '1234 AB',
-            plaats: 'Opende'
+            straat: 'Straatnaam',
+            huisnummer: '1',
+            postcode: '',
+            plaats: 'Opende',
+            land: 'Nederland'
         }
     },
     {
         id: 2,
         naam: 'Karwei',
         adres: {
-            straat: 'Straatnaam 2',
+            straat: 'Straatnaam',
+            huisnummer: '2',
             postcode: '1234 BC',
-            plaats: 'Opende'
+            plaats: 'Opende',
+            land: 'Nederland'
         }
     },
     {
         id: 3,
         naam: 'Jumbo',
         adres: {
-            straat: 'Straatnaam 3',
+            straat: 'Straatnaam',
+            huisnummer: '3',
             postcode: '1234 CD',
-            plaats: 'Surhuisterveen'
+            plaats: 'Surhuisterveen',
+            land: 'Nederland'
         }
     }
 ]

@@ -1,15 +1,16 @@
-<button class="testbutton" mat-raised-button (click)="toggleFormValuesSection()">{{ showFormValues() ? 'Verberg' : 'Toon' }} formulier waarden</button>
 <div class="form-component">
   <div class="formdata">
     <h2>Voorbeeld formulier</h2>	
     <form class="form" [formGroup]="mainform" (ngSubmit)="onSubmit()" #myForm>
       <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Contactgegevens</mat-card-title>
+        </mat-card-header>
         <mat-card-content>
           <div class="form-row">
             <mat-form-field class="form-field grow-1">
               <mat-label>Naam</mat-label>
               <input matInput formControlName="naam">
-              <mat-hint>Voer hier uw naam in</mat-hint>
               @if (mainform.get('naam')?.errors?.['required']) {
                 <mat-error>Naam is verplicht</mat-error>
               }
@@ -17,9 +18,9 @@
           </div>
         </mat-card-content>
       </mat-card>
+      <app-adresgegevens></app-adresgegevens>
       <app-bezorglocaties></app-bezorglocaties>
       <app-persoonlijke-informatie></app-persoonlijke-informatie>
-      <app-adresgegevens></app-adresgegevens>
     <div class="form-actions">
       <button 
         mat-raised-button
@@ -28,41 +29,37 @@
     </div>
     </form>
   </div>
-  @if (showFormValues()) {
   <div class="formvalues">
-    <h2>Formulier waarden</h2>
-    <p>Naam: {{mainform.value.naam}}</p>
-    <ul>
-      <li>Touched: {{ mainform.get('naam')?.touched }}</li>
-      <li>Dirty: {{ mainform.get('naam')?.dirty }}</li>
-      <li>Prestine: {{  mainform.get('naam')?.pristine }} </li>
-      <li>Valid: {{ mainform.get('naam')?.valid }}</li>
-    </ul>
-
-    <h3>Persoonlijke informatie</h3>
-    <p>Lievelingsdier: {{mainform.value.subformOne.lievelingsdier}}</p>
-    <p>Andere dier: {{mainform.value.subformOne.anderLievelingsdier}}</p>
-      <ul>
-        <li>Touched: {{ mainform.get('subformOne.anderLievelingsdier')?.touched }}</li>
-        <li>Dirty: {{ mainform.get('subformOne.anderLievelingsdier')?.dirty }}</li>
-        <li>Prestine: {{  mainform.get('subformOne.anderLievelingsdier')?.pristine }} </li>
-        <li>Valid: {{ mainform.get('subformOne.anderLievelingsdier')?.valid }}</li>
-      </ul>
-    <p>Lievelingskleur: {{mainform.value.subformOne.lievelingskleur}}</p>
-    <p class="preserveTextareaLineBreaks">Hobbies:<br> {{mainform.value.subformOne.hobbies}}</p>
-    <p>SubForm valid: {{ mainform.get('subformOne')?.valid }}</p>
-    <h3>Adresgegevens</h3>
-    <p>Straat: {{mainform.value.subformTwo.straat}}</p>
-    <p>Nummer: {{mainform.value.subformTwo.nummer}}</p>
-    <p>Postcode: {{mainform.value.subformTwo.postcode}}</p>
-    <p>Plaats: {{mainform.value.subformTwo.plaats}}</p>
-    <h3>Formulier</h3>  
-      <ul>
-        <li>Touched: {{ mainform.touched }}</li>
-        <li>Dirty: {{ mainform.dirty }}</li>
-        <li>Prestine: {{  mainform.pristine }} </li>
-        <li>Valid: {{ mainform.valid }}</li>
-      </ul>
+    <div>
+      <h3>Hoofdformulier</h3>
+      Naam: {{ mainform.get('naam')?.valid }}<br>
+      >>> Hoofdformulier: {{ mainform.valid }}
+      <h3>Persoonlijke informatie</h3>
+      Lievelingsdier: {{ mainform.get('persoonlijkeInformatie.lievelingsdier')?.valid }}<br>
+      Andere dier: {{ mainform.get('persoonlijkeInformatie.anderLievelingsdier')?.valid }}<br>
+      Lievelingskleur: {{ mainform.get('persoonlijkeInformatie.lievelingskleur')?.valid }}<br>
+      Hobbies: {{ mainform.get('persoonlijkeInformatie.hobbies')?.valid }}<br>
+      > Subformulier: {{ mainform.get('persoonlijkeInformatie')?.valid }}
+      <h3>Adresgegevens</h3>
+      Straat: {{ mainform.get('adresgegevens.straat')?.valid }}<br>
+      Nummer: {{ mainform.get('adresgegevens.huisnummer')?.valid }}<br>
+      Postcode: {{ mainform.get('adresgegevens.postcode')?.valid }}<br>
+      Plaats: {{ mainform.get('adresgegevens.plaats')?.valid }}<br>
+      Land: {{ mainform.get('adresgegevens.land')?.valid }}<br>
+      > Subformulier: {{ mainform.get('adresgegevens')?.valid }}
+    </div>
+    <div>
+      <h3>Bezorglocaties</h3>
+      @for (locatie of bezorglocatiesControls; track locatie.value.id; let i = $index) {
+        Locatie: {{ locatie.get('naam')?.value }}<br>
+        Naam: {{ locatie.get('naam')?.valid }}<br>
+        Straat: {{ locatie.get('adres.straat')?.valid }}<br>
+        Nummer: {{ locatie.get('adres.huisnummer')?.valid }}<br>
+        Postcode: {{ locatie.get('adres.postcode')?.valid }}<br>
+        Plaats: {{ locatie.get('adres.plaats')?.valid }}<br>
+        Land: {{ locatie.get('adres.land')?.valid }}<br>
+        >> Bezorglocatie {{ i + 1 }} Valid: {{ locatie.valid }}<p>
+      }
+    </div>
   </div>
-  }
 </div>

@@ -1,13 +1,15 @@
 .form-component {
   display: flex;
-  flex-flow: row wrap;
-  gap: 15px;
-  padding: 20px;
-  justify-content: space-evenly;
+  flex-flow: column wrap;
+  gap: 16px;
+  align-content: center;
 
   .formdata {
-    max-width: 600px;
-    padding: 15px;
+    display: flex;
+    flex-flow: column wrap;
+    width: 100%;
+    max-width: 700px;
+    padding: 16px;
     flex-grow: 1;
     border-radius: 10px;
 
@@ -23,8 +25,9 @@
 
     .mat-mdc-radio-group {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      flex-direction: row;
+      gap: 8px;
+      margin-bottom: 16px;
     }
 
     .mat-mdc-form-field-required-marker {
@@ -56,7 +59,7 @@
     .form-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
 
       .secondary-button {
         margin-left: auto;
@@ -67,11 +70,15 @@
   }
 
   .formvalues{
-    padding: 15px;
-    max-width: 600px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: row wrap;
+    width: 100%;
+    max-width: 700px;
+    padding: 16px;
     flex-grow: 1;
-    border: 2px solid var(--mat-sys-surface-container-highest);
     border-radius: 10px;
+    border: 2px solid var(--mat-sys-surface-container-highest);
   }
   .preserveTextareaLineBreaks {
     white-space: pre-line;

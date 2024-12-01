@@ -5,6 +5,7 @@
   <mat-card-content>
     <div class="form-row">
       <mat-radio-group
+        class="form-field"
         [value]="selectedBezorglocatieFormGroup().value.id"
         (change)="onSelectBezorglocatie($event.value)" 
         aria-label="Selecteer een locatie">
@@ -12,16 +13,9 @@
             <mat-radio-button [value]="bezorglocatie.value.id">{{bezorglocatie.value.naam}}</mat-radio-button>
           }
       </mat-radio-group>
-      <mat-divider [vertical]="true"></mat-divider>
+    </div>
       <div [formGroup]="selectedBezorglocatieFormGroup()">
         <div class="form-row">
-          <mat-form-field class="form-field-small">
-            <mat-label>Locatie id</mat-label>
-            <input matInput 
-              type="number"
-              min="1"
-              formControlName="id">
-          </mat-form-field>
           <mat-form-field class="form-field grow-1">
             <mat-label>Locatie naam</mat-label>
             <input matInput formControlName="naam">
@@ -33,6 +27,10 @@
               <mat-label>Straat</mat-label>
               <input matInput formControlName="straat">
             </mat-form-field>
+            <mat-form-field class="form-field-small">
+              <mat-label>Nummer</mat-label>
+              <input matInput formControlName="huisnummer">
+            </mat-form-field>
           </div>  
           <div class="form-row">
             <mat-form-field class="form-field-small">
@@ -43,9 +41,14 @@
               <mat-label>Plaats</mat-label>
               <input matInput formControlName="plaats">
             </mat-form-field>
-            </div>
+          </div>
+          <div class="form-row">
+            <mat-form-field class="form-field grow-1">
+              <mat-label>Land</mat-label>
+              <input matInput formControlName="land">
+            </mat-form-field>
+          </div>
         </div>
       </div>
-    </div>
   </mat-card-content>
 </mat-card>

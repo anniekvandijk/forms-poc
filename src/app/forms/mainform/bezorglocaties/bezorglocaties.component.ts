@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FormService } from '../../form.service';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatDividerModule } from '@angular/material/divider';
+
+import { FormService } from '../../form.service';
 import { BEZORGLOCATIES_DATA } from './bezorglocaties-data';
 
 @Component({
@@ -17,8 +17,7 @@ import { BEZORGLOCATIES_DATA } from './bezorglocaties-data';
         MatInputModule,
         MatSelectModule,
         MatCardModule,
-        MatRadioModule,
-        MatDividerModule
+        MatRadioModule
     ],
     templateUrl: './bezorglocaties.component.html'
 })
@@ -42,8 +41,10 @@ export class BezorglocatiesComponent {
         naam: [data.naam],
         adres: this.formbuilder.group({
           straat: [data.adres.straat],
-          postcode: [data.adres.postcode],
-          plaats: [data.adres.plaats]
+          huisnummer: [data.adres.huisnummer, Validators.required],
+          postcode: [data.adres.postcode, Validators.required],
+          plaats: [data.adres.plaats],
+          land: [data.adres.land]
         })
       }));
     });

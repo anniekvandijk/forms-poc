@@ -24,7 +24,7 @@ export class AdresgegevensComponent {
 
   ngOnInit(): void {
     this.createSubFormTwo();
-    this.formService.addChildFormGroup('subformTwo', this.subformTwo);
+    this.formService.addChildFormGroup('adresgegevens', this.subformTwo);
   }
 
   createSubFormTwo(): void {

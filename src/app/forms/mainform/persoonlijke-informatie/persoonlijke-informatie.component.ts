@@ -23,18 +23,18 @@ export class PersoonlijkeInformatieComponent {
   private readonly formbuilder = inject(FormBuilder);
   private readonly formService = inject(FormService);
   mainform = this.formService.formSignal();
-  subformOne!: FormGroup;
+  persoonlijkeInformatie!: FormGroup;
   showAnderLievelingsdierField = signal(false);
   anderlievelingsdierMaxlength = signal(20);
 
   ngOnInit(): void {
-    this.createSubFormOne();
-    this.formService.addChildFormGroup('subformOne', this.subformOne);
+    this.createForm();
+    this.formService.addChildFormGroup('persoonlijkeInformatie', this.persoonlijkeInformatie);
     this.showAnderLievelingsdier();
   }
 
-  createSubFormOne(): void {
-    this.subformOne = this.formbuilder.group({
+  createForm(): void {
+    this.persoonlijkeInformatie = this.formbuilder.group({
       lievelingskleur: [''],
       lievelingsdier: [''],
       anderLievelingsdier: [''],
@@ -42,15 +42,15 @@ export class PersoonlijkeInformatieComponent {
     });
   }
   get lievelingskleurControl() {
-    return this.subformOne.get('lievelingskleur');
+    return this.persoonlijkeInformatie.get('lievelingskleur');
   }
 
   get lievelingsdierControl() {
-    return this.subformOne.get('lievelingsdier');
+    return this.persoonlijkeInformatie.get('lievelingsdier');
   }
 
   get anderLievelingsdierControl() {
-    return this.subformOne.get('anderLievelingsdier');
+    return this.persoonlijkeInformatie.get('anderLievelingsdier');
   }
 
   private showAnderLievelingsdier(): void {

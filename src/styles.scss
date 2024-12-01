@@ -1,12 +1,11 @@
 @use "@angular/material" as mat;
 @use "./app/styling/form";
-@use "./app/styling/divider";
 
 html {
   color-scheme: light dark;
   @include mat.theme(
     (
-      color: mat.$blue-palette,
+      color: mat.$green-palette,
       typography: Roboto,
       density: 0,
     )
@@ -30,10 +29,5 @@ body.dark-mode {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.testbutton {
-  position: fixed !important;
-  top: 16px;
-  left: 16px;
+  color: var(--mat-sys-primary);
 }

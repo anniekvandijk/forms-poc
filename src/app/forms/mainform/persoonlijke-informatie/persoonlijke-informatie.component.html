@@ -3,15 +3,15 @@
     <mat-card-title>Persoonlijke informatie</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-  <div [formGroup]="subformOne">
+  <div [formGroup]="persoonlijkeInformatie">
     <div class="form-row">
-      <mat-form-field class="form-field">
+      <mat-form-field class="form-field grow-1">
         <mat-label>Lievelingskleur</mat-label>
         <input matInput id="lievelingskleur" formControlName="lievelingskleur" type="text">
       </mat-form-field>
     </div>
     <div class="form-row">
-      <mat-form-field class="form-field">
+      <mat-form-field class="form-field grow-1">
         <mat-label>Lievelingsdier</mat-label>
         <mat-select id="Lievelingsdier" formControlName="lievelingsdier">
           <mat-option value="hond">Hond</mat-option>
@@ -20,9 +20,10 @@
           <mat-option value="alpaca">Alpaca</mat-option>
           <mat-option value="anders">Anders</mat-option>
         </mat-select>
-        <mat-hint>Selecteer je lievelingsdier</mat-hint>
       </mat-form-field>
-      @if (showAnderLievelingsdierField()) {
+    </div>
+    @if (showAnderLievelingsdierField()) {
+    <div class="form-row">
       <mat-form-field class="form-field grow-1">
         <mat-label>Voer ander dier in</mat-label>
         <input matInput 
@@ -30,13 +31,12 @@
           formControlName="anderLievelingsdier" 
           [maxlength]="anderlievelingsdierMaxlength()"
           type="text">
-        <mat-hint>Indien overig, welk dier dan?</mat-hint>
         @if (anderLievelingsdierControl?.errors?.['required']) {
           <mat-error>Dier is verplicht</mat-error>
         }
       </mat-form-field>
-      }
     </div>
+    }
     <div class="form-row">
       <mat-form-field class="form-field grow-1">
         <mat-label>Hobbies</mat-label>

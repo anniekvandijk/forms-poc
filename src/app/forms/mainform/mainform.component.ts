@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,17 +29,17 @@ export class MainformComponent {
 [x: string]: any;
   private readonly formService = inject(FormService);
   mainform = this.formService.formSignal();
-  showFormValues = signal(false);
 
   ngOnInit(): void {
     this.formService.addChildFormControl('naam', this.formService.fb().control('', [Validators.required]));
   }
 
-  toggleFormValuesSection() {
-    this.showFormValues.update(value => !value);
-  }
-
   onSubmit() {
     this.formService.submitForm();
   }
+
+  get bezorglocatiesControls() {
+    return (<FormArray>this.mainform.get('bezorglocaties')).controls;
+  }
+
 }
