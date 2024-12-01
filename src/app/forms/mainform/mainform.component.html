@@ -11,8 +11,8 @@
             <mat-form-field class="form-field grow-1">
               <mat-label>Naam</mat-label>
               <input matInput formControlName="naam">
-              @if (mainform.get('naam')?.errors?.['required']) {
-                <mat-error>Naam is verplicht</mat-error>
+              @if (mainform.get('naam')?.errors) {
+                <mat-icon matSuffix class="error-icon">priority_high</mat-icon>
               }
             </mat-form-field>
           </div>

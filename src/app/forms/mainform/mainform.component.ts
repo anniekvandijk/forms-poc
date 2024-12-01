@@ -9,6 +9,7 @@ import { FormService } from '../form.service';
 import { PersoonlijkeInformatieComponent } from "./persoonlijke-informatie/persoonlijke-informatie.component";
 import { AdresgegevensComponent } from './adresgegevens/adresgegevens.component';
 import { BezorglocatiesComponent } from "./bezorglocaties/bezorglocaties.component";
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-mainform',
@@ -20,7 +21,8 @@ import { BezorglocatiesComponent } from "./bezorglocaties/bezorglocaties.compone
     PersoonlijkeInformatieComponent,
     AdresgegevensComponent,
     MatCardModule,
-    BezorglocatiesComponent
+    BezorglocatiesComponent,
+    MatIconModule
 ],
     templateUrl: './mainform.component.html',
     providers: [FormService]
