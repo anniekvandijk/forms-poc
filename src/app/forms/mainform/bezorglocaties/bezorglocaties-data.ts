@@ -5,7 +5,7 @@ export const BEZORGLOCATIES_DATA = [
         adres: {
             straat: 'Straatnaam',
             huisnummer: '1',
-            postcode: '',
+            postcode: '1234 BC',
             plaats: 'Opende',
             land: 'Nederland'
         }
@@ -16,7 +16,7 @@ export const BEZORGLOCATIES_DATA = [
         adres: {
             straat: 'Straatnaam',
             huisnummer: '2',
-            postcode: '1234 BC',
+            postcode: '',
             plaats: 'Opende',
             land: 'Nederland'
         }

@@ -8,6 +8,8 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { FormService } from '../../form.service';
 import { BEZORGLOCATIES_DATA } from './bezorglocaties-data';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-bezorglocaties',
@@ -17,7 +19,9 @@ import { BEZORGLOCATIES_DATA } from './bezorglocaties-data';
         MatInputModule,
         MatSelectModule,
         MatCardModule,
-        MatRadioModule
+        MatRadioModule,
+        CommonModule,
+        MatIconModule
     ],
     templateUrl: './bezorglocaties.component.html'
 })

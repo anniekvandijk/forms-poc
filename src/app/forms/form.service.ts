@@ -39,8 +39,48 @@ export class FormService {
     });
   }
 
+  private markAllAsTouched(formGroup: FormGroup | FormArray) {
+    Object.values(formGroup.controls).forEach(control => {
+      if (control instanceof FormGroup || control instanceof FormArray) {
+        this.markAllAsTouched(control);
+      } else {
+        control.markAsTouched();
+      }
+    });
+  }
+  
+  private getInvalidControls(formGroup: FormGroup): string[] {
+    const invalidControls: string[] = [];
+
+    const recursiveCheck = (form: FormGroup | FormArray, path = '') => {
+      Object.keys(form.controls).forEach(field => {
+        const control = form.get(field);
+        const controlPath = path ? `${path}.${field}` : field;
+
+        if (control instanceof FormGroup || control instanceof FormArray) {
+          recursiveCheck(control, controlPath);
+        } else if (control && control.invalid) {
+          invalidControls.push(controlPath);
+        }
+      });
+    };
+
+    recursiveCheck(formGroup);
+    return invalidControls;
+  }
+
   submitForm() {
+    this.markAllAsTouched(this.formSignal());
     console.log('form: ', this.formSignal());
     console.log('form values: ', this.formSignal().getRawValue());
+    if (this.formSignal().valid) {
+      console.log('Form is valid');
+    } else {
+      console.log('Form is invalid');
+      const invalidFields = this.getInvalidControls(this.formSignal());
+      if (invalidFields.length > 0) {
+        console.log('Invalid fields:', invalidFields);
+      }
+    }
   }
 }

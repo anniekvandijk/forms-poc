@@ -10,7 +10,14 @@
         (change)="onSelectBezorglocatie($event.value)" 
         aria-label="Selecteer een locatie">
           @for (bezorglocatie of bezorglocatiesControls; track bezorglocatie.value.id) {
-            <mat-radio-button [value]="bezorglocatie.value.id">{{bezorglocatie.value.naam}}</mat-radio-button>
+            <mat-radio-button 
+              [value]="bezorglocatie.value.id"
+              [ngClass]="{'radio-button-error-label': bezorglocatie.invalid}">
+              {{bezorglocatie.value.naam}}
+              @if (bezorglocatie.invalid) {
+                <mat-icon>priority_high</mat-icon>
+              }
+            </mat-radio-button>
           }
       </mat-radio-group>
     </div>
