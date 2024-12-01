@@ -7,16 +7,16 @@ import { MatCardModule } from '@angular/material/card';
 import { FormService } from '../../form.service';
 
 @Component({
-  selector: 'app-subtwo',
+  selector: 'app-adresgegevens',
   imports: [
     ReactiveFormsModule, 
     MatFormFieldModule, 
     MatInputModule,
     MatCardModule,
   ],
-  templateUrl: './subformTwo.component.html',
+  templateUrl: './adresgegevens.component.html',
 })
-export class SubformTwoComponent {
+export class AdresgegevensComponent {
   private readonly formbuilder = inject(FormBuilder);
   private readonly formService = inject(FormService);
   mainform = this.formService.formSignal();

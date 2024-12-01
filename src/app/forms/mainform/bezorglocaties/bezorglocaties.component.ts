@@ -27,11 +27,11 @@ export class BezorglocatiesComponent {
   private readonly formService = inject(FormService);
   mainform = this.formService.formSignal();
   bezorglocatiesFormArray = new FormArray<FormGroup>([]);
-  selectedBezorglocatieFormGroup = signal(this.bezorglocatiesFormArray.controls[0]); 
+  selectedBezorglocatieFormGroup = signal(this.bezorglocatiesFormArray.at(0)); 
 
   ngOnInit(): void {
     this.createFormArray();
-    this.selectedBezorglocatieFormGroup.set(this.bezorglocatiesFormArray.controls[0]);
+    this.selectedBezorglocatieFormGroup.set(this.bezorglocatiesFormArray.at(0));
     this.formService.addChildFormArray('bezorglocaties', this.bezorglocatiesFormArray);
   }
 

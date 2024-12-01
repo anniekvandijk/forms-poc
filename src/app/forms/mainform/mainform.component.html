@@ -1,3 +1,4 @@
+<button class="testbutton" mat-raised-button (click)="toggleFormValuesSection()">{{ showFormValues() ? 'Verberg' : 'Toon' }} formulier waarden</button>
 <div class="form-component">
   <div class="formdata">
     <h2>Voorbeeld formulier</h2>	
@@ -17,8 +18,8 @@
         </mat-card-content>
       </mat-card>
       <app-bezorglocaties></app-bezorglocaties>
-      <app-subone></app-subone>
-      <app-subtwo></app-subtwo>
+      <app-persoonlijke-informatie></app-persoonlijke-informatie>
+      <app-adresgegevens></app-adresgegevens>
     <div class="form-actions">
       <button 
         mat-raised-button
@@ -27,6 +28,7 @@
     </div>
     </form>
   </div>
+  @if (showFormValues()) {
   <div class="formvalues">
     <h2>Formulier waarden</h2>
     <p>Naam: {{mainform.value.naam}}</p>
@@ -62,4 +64,5 @@
         <li>Valid: {{ mainform.valid }}</li>
       </ul>
   </div>
+  }
 </div>

@@ -8,7 +8,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-    selector: 'app-subone',
+    selector: 'app-persoonlijke-informatie',
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,
@@ -16,9 +16,9 @@ import { MatCardModule } from '@angular/material/card';
         MatSelectModule,
         MatCardModule
     ],
-    templateUrl: './subformOne.component.html'
+    templateUrl: './persoonlijke-informatie.component.html'
 })
-export class SubformOneComponent {
+export class PersoonlijkeInformatieComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly formbuilder = inject(FormBuilder);
   private readonly formService = inject(FormService);
