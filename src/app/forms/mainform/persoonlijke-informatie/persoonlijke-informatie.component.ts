@@ -6,16 +6,18 @@ import { FormService } from '../../form.service';
 import { MatSelectModule } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
+import { CustomAutocompleteComponent } from "../../custom-formfields/autocomplete/autocomplete.component";
 
 @Component({
     selector: 'app-persoonlijke-informatie',
     imports: [
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatCardModule
-    ],
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCardModule,
+    CustomAutocompleteComponent
+],
     templateUrl: './persoonlijke-informatie.component.html'
 })
 export class PersoonlijkeInformatieComponent {
@@ -35,12 +37,15 @@ export class PersoonlijkeInformatieComponent {
 
   createForm(): void {
     this.persoonlijkeInformatie = this.formbuilder.group({
-      lievelingskleur: [''],
+      kleur: ['rood'],
       lievelingsdier: [''],
       anderLievelingsdier: [''],
       hobbies: ['']
     });
   }
+
+  kleuren = ['rood', 'blauw', 'groen', 'geel', 'oranje', 'paars', 'zwart', 'wit', 'grijs', 'bruin'];
+
   get lievelingskleurControl() {
     return this.persoonlijkeInformatie.get('lievelingskleur');
   }

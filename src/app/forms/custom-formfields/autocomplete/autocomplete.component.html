@@ -1,0 +1,16 @@
+<input #input
+  matInput
+  type="text"
+  [placeholder]="placeholder()"
+  [formControl]="autocompleteControl"
+  [matAutocomplete]="auto"
+  (change)="valueChanged(input.value)"
+  (input)="filter()"
+  (focus)="filter()"
+  [disabled]="disabled"
+>
+<mat-autocomplete requireSelection #auto="matAutocomplete">
+@for (option of filteredOptions(); track option) {
+<mat-option [value]="option">{{option}}</mat-option>
+}
+</mat-autocomplete>
