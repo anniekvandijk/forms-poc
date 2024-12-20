@@ -6,14 +6,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
 import { FormService } from '../form.service';
-import { PersoonlijkeInformatieComponent } from "./persoonlijke-informatie/persoonlijke-informatie.component";
+import { PersoonlijkeInformatieComponent } from './persoonlijke-informatie/persoonlijke-informatie.component';
 import { AdresgegevensComponent } from './adresgegevens/adresgegevens.component';
-import { BezorglocatiesComponent } from "./bezorglocaties/bezorglocaties.component";
+import { BezorglocatiesComponent } from './bezorglocaties/bezorglocaties.component';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-mainform',
-    imports: [
+  selector: 'app-mainform',
+  imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -22,18 +22,21 @@ import { MatIconModule } from '@angular/material/icon';
     AdresgegevensComponent,
     MatCardModule,
     BezorglocatiesComponent,
-    MatIconModule
-],
-    templateUrl: './mainform.component.html',
-    providers: [FormService]
+    MatIconModule,
+  ],
+  templateUrl: './mainform.component.html',
+  providers: [FormService],
 })
 export class MainformComponent {
-[x: string]: any;
+  [x: string]: any;
   private readonly formService = inject(FormService);
   mainform = this.formService.formSignal();
 
   ngOnInit(): void {
-    this.formService.addChildFormControl('naam', this.formService.fb().control('', [Validators.required]));
+    this.formService.addChildFormControl(
+      'naam',
+      this.formService.fb().control('', [Validators.required]),
+    );
   }
 
   onSubmit() {
@@ -43,5 +46,4 @@ export class MainformComponent {
   get bezorglocatiesControls() {
     return (<FormArray>this.mainform.get('bezorglocaties')).controls;
   }
-
 }

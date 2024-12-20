@@ -1,6 +1,6 @@
 <div class="form-component">
   <div class="formdata">
-    <h2>Voorbeeld formulier</h2>	
+    <h2>Voorbeeld formulier</h2>
     <form class="form" [formGroup]="mainform" (ngSubmit)="onSubmit()" #myForm>
       <mat-card appearance="outlined">
         <mat-card-header>
@@ -10,8 +10,10 @@
           <div class="form-row">
             <mat-form-field class="form-field grow-1">
               <mat-label>Naam</mat-label>
-              <input matInput formControlName="naam">
-              @if (mainform.get('naam')?.touched && mainform.get('naam')?.errors) {
+              <input matInput formControlName="naam" />
+              @if (
+                mainform.get("naam")?.touched && mainform.get("naam")?.errors
+              ) {
                 <mat-icon matSuffix class="error-icon">priority_high</mat-icon>
               }
             </mat-form-field>
@@ -21,44 +23,63 @@
       <app-adresgegevens></app-adresgegevens>
       <app-bezorglocaties></app-bezorglocaties>
       <app-persoonlijke-informatie></app-persoonlijke-informatie>
-    <div class="form-actions">
-      <button 
-        mat-raised-button
-        type="submit">Verstuur</button>
-      <button class="secondary-button" mat-button type="button" (click)="myForm.reset()">Wis formulier</button>
-    </div>
+      <div class="form-actions">
+        <button mat-raised-button type="submit">Verstuur</button>
+        <button
+          class="secondary-button"
+          mat-button
+          type="button"
+          (click)="myForm.reset()"
+        >
+          Wis formulier
+        </button>
+      </div>
     </form>
   </div>
   <div class="formvalues">
     <div>
       <h3>Hoofdformulier</h3>
-      Naam: {{ mainform.get('naam')?.valid }}<br>
+      Naam: {{ mainform.get("naam")?.valid }}<br />
       >>> Hoofdformulier: {{ mainform.valid }}
       <h3>Persoonlijke informatie</h3>
-      Lievelingsdier: {{ mainform.get('persoonlijkeInformatie.lievelingsdier')?.valid }}<br>
-      Andere dier: {{ mainform.get('persoonlijkeInformatie.anderLievelingsdier')?.valid }}<br>
-      Kleur: {{ mainform.get('persoonlijkeInformatie.kleur')?.valid }} - {{ mainform.get('persoonlijkeInformatie.kleur')?.value }}<br>
-      Hobbies: {{ mainform.get('persoonlijkeInformatie.hobbies')?.valid }}<br>
-      > Subformulier: {{ mainform.get('persoonlijkeInformatie')?.valid }}
+      Lievelingsdier:
+      {{ mainform.get("persoonlijkeInformatie.lievelingsdier")?.valid }}<br />
+      Andere dier:
+      {{ mainform.get("persoonlijkeInformatie.anderLievelingsdier")?.valid
+      }}<br />
+      Kleur: {{ mainform.get("persoonlijkeInformatie.kleur")?.valid }}<br />
+      > value: {{ mainform.get("persoonlijkeInformatie.kleur")?.value }}<br />
+      > touched: {{ mainform.get("persoonlijkeInformatie.kleur")?.touched
+      }}<br />
+      > dirty: {{ mainform.get("persoonlijkeInformatie.kleur")?.dirty }}<br />
+      > pristine: {{ mainform.get("persoonlijkeInformatie.kleur")?.pristine
+      }}<br />
+      Hobbies: {{ mainform.get("persoonlijkeInformatie.hobbies")?.valid }}<br />
+      > Subformulier: {{ mainform.get("persoonlijkeInformatie")?.valid }}
       <h3>Adresgegevens</h3>
-      Straat: {{ mainform.get('adresgegevens.straat')?.valid }}<br>
-      Nummer: {{ mainform.get('adresgegevens.huisnummer')?.valid }}<br>
-      Postcode: {{ mainform.get('adresgegevens.postcode')?.valid }}<br>
-      Plaats: {{ mainform.get('adresgegevens.plaats')?.valid }}<br>
-      Land: {{ mainform.get('adresgegevens.land')?.valid }}<br>
-      > Subformulier: {{ mainform.get('adresgegevens')?.valid }}
+      Straat: {{ mainform.get("adresgegevens.straat")?.valid }}<br />
+      Nummer: {{ mainform.get("adresgegevens.huisnummer")?.valid }}<br />
+      Postcode: {{ mainform.get("adresgegevens.postcode")?.valid }}<br />
+      Plaats: {{ mainform.get("adresgegevens.plaats")?.valid }}<br />
+      Land: {{ mainform.get("adresgegevens.land")?.valid }}<br />
+      > Subformulier: {{ mainform.get("adresgegevens")?.valid }}
     </div>
     <div>
       <h3>Bezorglocaties</h3>
-      @for (locatie of bezorglocatiesControls; track locatie.value.id; let i = $index) {
-        Locatie: {{ locatie.get('naam')?.value }}<br>
-        Naam: {{ locatie.get('naam')?.valid }}<br>
-        Straat: {{ locatie.get('adres.straat')?.valid }}<br>
-        Nummer: {{ locatie.get('adres.huisnummer')?.valid }}<br>
-        Postcode: {{ locatie.get('adres.postcode')?.valid }}<br>
-        Plaats: {{ locatie.get('adres.plaats')?.valid }}<br>
-        Land: {{ locatie.get('adres.land')?.valid }}<br>
-        >> Bezorglocatie {{ i + 1 }} Valid: {{ locatie.valid }}<p>
+      @for (
+        locatie of bezorglocatiesControls;
+        track locatie.value.id;
+        let i = $index
+      ) {
+        Locatie: {{ locatie.get("naam")?.value }}<br />
+        Naam: {{ locatie.get("naam")?.valid }}<br />
+        Straat: {{ locatie.get("adres.straat")?.valid }}<br />
+        Nummer: {{ locatie.get("adres.huisnummer")?.valid }}<br />
+        Postcode: {{ locatie.get("adres.postcode")?.valid }}<br />
+        Plaats: {{ locatie.get("adres.plaats")?.valid }}<br />
+        Land: {{ locatie.get("adres.land")?.valid }}<br />
+        >> Bezorglocatie {{ i + 1 }} Valid: {{ locatie.valid }}
+        <p></p>
       }
     </div>
   </div>
