@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -25,7 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
     ],
     templateUrl: './bezorglocaties.component.html'
 })
-export class BezorglocatiesComponent {
+export class BezorglocatiesComponent implements OnInit {
   private readonly formbuilder = inject(FormBuilder);
   private readonly formService = inject(FormService);
   mainform = this.formService.formSignal();

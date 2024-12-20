@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -27,7 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './mainform.component.html',
   providers: [FormService],
 })
-export class MainformComponent {
+export class MainformComponent implements OnInit {
   [x: string]: any;
   private readonly formService = inject(FormService);
   mainform = this.formService.formSignal();
@@ -44,6 +44,6 @@ export class MainformComponent {
   }
 
   get bezorglocatiesControls() {
-    return (<FormArray>this.mainform.get('bezorglocaties')).controls;
+    return (this.mainform.get('bezorglocaties') as FormArray).controls;
   }
 }

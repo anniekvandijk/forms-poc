@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -20,7 +20,7 @@ import { CustomAutocompleteComponent } from "../../custom-formfields/autocomplet
 ],
     templateUrl: './persoonlijke-informatie.component.html'
 })
-export class PersoonlijkeInformatieComponent {
+export class PersoonlijkeInformatieComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly formbuilder = inject(FormBuilder);
   private readonly formService = inject(FormService);
@@ -37,7 +37,7 @@ export class PersoonlijkeInformatieComponent {
 
   createForm(): void {
     this.persoonlijkeInformatie = this.formbuilder.group({
-      kleur: ['rood'],
+      kleur: [{ value: 'lila', disabled: false }],
       lievelingsdier: [''],
       anderLievelingsdier: [''],
       hobbies: ['']
