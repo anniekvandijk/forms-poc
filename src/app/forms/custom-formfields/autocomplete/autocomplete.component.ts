@@ -1,6 +1,6 @@
 import {Component, computed, ElementRef, forwardRef, input, signal, ViewChild} from '@angular/core';
 import {ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 
@@ -37,22 +37,26 @@ export class CustomAutocompleteComponent implements ControlValueAccessor {
     this.filterValue.set(this.input.nativeElement.value.toLowerCase());
   }
 
-  // ControlValueAccessor methods
+  optionSelected(optionSelected: MatAutocompleteSelectedEvent ) {
+    this.onChange(optionSelected.option.value);
+    this.markAsTouched();
+  }
+ 
+  /* ControlValueAccessor methods */
 
-  /* 
-  * This method is called when the form control is instantiated.
-  * It is used to write the initial value to the view.
-  * @param value The initial value to write to the view.
-  */
+  // ControlValueAccessor method writeValue
   writeValue(value: string): void {
-    // TODO check if value is in options
     this.autocompleteControl.setValue(value);
   }
 
+  // ControlValueAccessor method registerOnTouched
   private touched = false;
-  onTouched: any = () => {};
+  onTouched: any = () => {
+    // empty function
+  };
+
   registerOnTouched(onTouched: any): void {
-      this.onTouched = onTouched;
+    this.onTouched = onTouched;
   }
 
   private markAsTouched(): void{
@@ -62,19 +66,22 @@ export class CustomAutocompleteComponent implements ControlValueAccessor {
     }
   }
 
-  onChange = (input: string) => {};
+  // ControlValueAccessor method registerOnChange
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onChange = (input: string) => {
+    // empty function in order to avoid errors
+  };
 
   registerOnChange(onChange: any): void {
       this.onChange = onChange;
   }
 
-  valueChanged(value: string) {
-    this.onChange(value);
-    this.markAsTouched();
-  }
+  // ControlValueAccessor method setDisabledState
 
   disabled!: boolean;
-    
+  
+  // TODO fix disabled
   setDisabledState?(isDisabled: boolean): void {
      this.disabled = isDisabled;
    }

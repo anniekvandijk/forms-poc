@@ -37,7 +37,7 @@ export class PersoonlijkeInformatieComponent implements OnInit {
 
   createForm(): void {
     this.persoonlijkeInformatie = this.formbuilder.group({
-      kleur: [{ value: 'lila', disabled: false }],
+      kleur: [{ value: '', disabled: false }],
       lievelingsdier: [''],
       anderLievelingsdier: [''],
       hobbies: ['']

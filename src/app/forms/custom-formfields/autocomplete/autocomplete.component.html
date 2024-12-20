@@ -4,12 +4,13 @@
   [placeholder]="placeholder()"
   [formControl]="autocompleteControl"
   [matAutocomplete]="auto"
-  (change)="valueChanged(input.value)"
   (input)="filter()"
   (focus)="filter()"
-  [disabled]="disabled"
 >
-<mat-autocomplete requireSelection #auto="matAutocomplete">
+<mat-autocomplete
+  (optionSelected)="optionSelected($event)"
+  requireSelection 
+#auto="matAutocomplete">
 @for (option of filteredOptions(); track option) {
 <mat-option [value]="option">{{option}}</mat-option>
 }
