@@ -1,8 +1,9 @@
-import {Component, computed, ElementRef, forwardRef, input, signal, ViewChild} from '@angular/core';
-import {ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
-import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { Component, computed, ElementRef, forwardRef, inject, input, OnInit, signal, ViewChild } from '@angular/core';
+import { ControlValueAccessor, FormBuilder, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { AutocompleteFormGroup } from './autocompleteFormGroup.model';
 
 @Component({
   selector: 'app-autocomplete',
@@ -22,16 +23,23 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     },
   ],
 })
-export class CustomAutocompleteComponent implements ControlValueAccessor {
+export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit {
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
   placeholder = input('Selecteer een optie');
   options = input<string[]>([]);
+  private readonly fb = inject(FormBuilder);
   private filterValue = signal<string>('');
-  autocompleteControl = new FormControl('');
+  autocompleteForm!: FormGroup<AutocompleteFormGroup>;
   filteredOptions = computed(() => {
     const value = this.filterValue().toLowerCase();
     return this.options().filter(option => option.toLowerCase().includes(value));
   });
+
+  ngOnInit(): void {
+    this.autocompleteForm = this.fb.nonNullable.group({
+      autocomplete: [''],
+    });
+  }
 
   filter(): void {
     this.filterValue.set(this.input.nativeElement.value.toLowerCase());
@@ -46,7 +54,7 @@ export class CustomAutocompleteComponent implements ControlValueAccessor {
 
   // ControlValueAccessor method writeValue
   writeValue(value: string): void {
-    this.autocompleteControl.setValue(value);
+    this.autocompleteForm.controls.autocomplete.setValue(value);
   }
 
   // ControlValueAccessor method registerOnTouched

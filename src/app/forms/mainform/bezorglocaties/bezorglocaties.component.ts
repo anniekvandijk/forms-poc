@@ -1,15 +1,15 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 
-import { FormService } from '../../form.service';
-import { BEZORGLOCATIES_DATA } from './bezorglocaties-data';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { FormService } from '../../form.service';
+import { BEZORGLOCATIES_DATA } from './bezorglocaties-data';
 
 @Component({
     selector: 'app-bezorglocaties',

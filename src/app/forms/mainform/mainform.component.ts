@@ -1,15 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { FormService } from '../form.service';
-import { PersoonlijkeInformatieComponent } from './persoonlijke-informatie/persoonlijke-informatie.component';
 import { AdresgegevensComponent } from './adresgegevens/adresgegevens.component';
 import { BezorglocatiesComponent } from './bezorglocaties/bezorglocaties.component';
-import { MatIconModule } from '@angular/material/icon';
+import { PersoonlijkeInformatieComponent } from './persoonlijke-informatie/persoonlijke-informatie.component';
 
 @Component({
   selector: 'app-mainform',

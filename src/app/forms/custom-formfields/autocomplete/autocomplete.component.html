@@ -1,17 +1,19 @@
-<input #input
-  matInput
-  type="text"
-  [placeholder]="placeholder()"
-  [formControl]="autocompleteControl"
-  [matAutocomplete]="auto"
-  (input)="filter()"
-  (focus)="filter()"
->
-<mat-autocomplete
-  (optionSelected)="optionSelected($event)"
-  requireSelection 
-#auto="matAutocomplete">
-@for (option of filteredOptions(); track option) {
-<mat-option [value]="option">{{option}}</mat-option>
-}
-</mat-autocomplete>
+<form [formGroup]="autocompleteForm">
+  <input #input
+    matInput
+    type="text"
+    [placeholder]="placeholder()"
+    formControlName="autocomplete"
+    [matAutocomplete]="auto"
+    (input)="filter()"
+    (focus)="filter()"
+  >
+  <mat-autocomplete
+    (optionSelected)="optionSelected($event)"
+    requireSelection 
+  #auto="matAutocomplete">
+  @for (option of filteredOptions(); track option) {
+  <mat-option [value]="option">{{option}}</mat-option>
+  }
+  </mat-autocomplete>
+</form>

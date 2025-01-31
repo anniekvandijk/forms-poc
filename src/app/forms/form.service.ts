@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Injectable()
 export class FormService {

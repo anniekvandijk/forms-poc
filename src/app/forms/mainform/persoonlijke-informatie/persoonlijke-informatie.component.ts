@@ -1,12 +1,12 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormService } from '../../form.service';
 import { MatSelectModule } from '@angular/material/select';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatCardModule } from '@angular/material/card';
 import { CustomAutocompleteComponent } from "../../custom-formfields/autocomplete/autocomplete.component";
+import { FormService } from '../../form.service';
 
 @Component({
     selector: 'app-persoonlijke-informatie',
