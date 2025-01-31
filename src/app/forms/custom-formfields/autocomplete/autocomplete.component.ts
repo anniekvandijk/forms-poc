@@ -1,11 +1,11 @@
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, computed, ElementRef, HostBinding, inject, Input, input, OnDestroy, OnInit, Optional, Self, signal, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormBuilder, FormGroup, FormsModule, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { AutocompleteFormGroup } from './autocompleteFormGroup.model';
 import { Subject } from 'rxjs';
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { AutocompleteFormGroup } from './autocompleteFormGroup.model';
 
 ///
 // This is a custom autocomplete component that uses the MatFormFieldControl and ControlValueAccessor interfaces

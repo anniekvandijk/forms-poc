@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { CustomAutocompleteComponent } from "../../custom-formfields/autocomplete/autocomplete.component";
 import { FormService } from '../../form.service';
+import { CustomMatAutocompleteComponent } from '../../custom-formfields/custom-mat-autocomplete/custom-mat-autocomplete.component';
 
 @Component({
     selector: 'app-persoonlijke-informatie',
@@ -16,7 +17,8 @@ import { FormService } from '../../form.service';
     MatInputModule,
     MatSelectModule,
     MatCardModule,
-    CustomAutocompleteComponent
+    CustomAutocompleteComponent,
+    CustomMatAutocompleteComponent
 ],
     templateUrl: './persoonlijke-informatie.component.html'
 })

@@ -6,7 +6,7 @@
   <div [formGroup]="persoonlijkeInformatie">
     <div class="form-row">
       <mat-form-field class="form-field grow-1">
-        <mat-label>Kies de beste kleur</mat-label>
+        <mat-label>Kies je favoriete kleur</mat-label>
         <app-autocomplete 
           formControlName="kleur"
           [options]="kleuren" 
@@ -15,6 +15,14 @@
           [aria-describedby]="'kleurtjes'"
         ></app-autocomplete>
       </mat-form-field>
+    </div>
+    <div class="form-row">
+      <app-custom-mat-autocomplete 
+        formControlName="kleur"
+        [options]="kleuren" 
+        label="Kies je favoriete kleur"
+        required
+      ></app-custom-mat-autocomplete>
     </div>
     <div class="form-row">
       <mat-form-field class="form-field grow-1">
