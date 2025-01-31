@@ -128,13 +128,11 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
   }
 
   get empty() {
-    return !(this.autocompleteForm.value);
+    return !(this.autocompleteForm.controls.autocomplete.value);
   }
 
   @HostBinding('class.floating')
-  get shouldLabelFloat() {
-    return this.focused || !this.empty;
-  }
+  get shouldLabelFloat() { return this.focused || !this.empty; }
 
   @Input()
   get required(): boolean { return this._required; }
@@ -170,10 +168,10 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('aria-describedby') userAriaDescribedBy = '';
 
-  // TODO: queryselector fix
+  // TODO: setDescribedByIds check if this is ok
   setDescribedByIds(ids: string[]) {
     const controlElement = this.input.nativeElement
-      .querySelector('.example-tel-input-container')!;
+      .querySelector('.autocomplete-input')!;
     controlElement.setAttribute('aria-describedby', ids.join(' '));
   }
 

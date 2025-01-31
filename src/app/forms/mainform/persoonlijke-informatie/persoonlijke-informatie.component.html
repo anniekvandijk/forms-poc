@@ -10,8 +10,9 @@
         <app-autocomplete 
           formControlName="kleur"
           [options]="kleuren" 
-          placeholder="'Kies een kleur'"
+          placeholder="Kies een kleur"
           required
+          [aria-describedby]="'kleurtjes'"
         ></app-autocomplete>
       </mat-form-field>
     </div>
