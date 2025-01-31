@@ -5,14 +5,15 @@
   <mat-card-content>
   <div [formGroup]="persoonlijkeInformatie">
     <div class="form-row">
-      <!-- <mat-form-field class="form-field grow-1"> -->
+      <mat-form-field class="form-field grow-1">
         <mat-label>Kies de beste kleur</mat-label>
         <app-autocomplete 
           formControlName="kleur"
           [options]="kleuren" 
-          [placeholder]="'Kies een kleur'"
+          placeholder="'Kies een kleur'"
+          required
         ></app-autocomplete>
-      <!-- </mat-form-field> -->
+      </mat-form-field>
     </div>
     <div class="form-row">
       <mat-form-field class="form-field grow-1">
