@@ -8,21 +8,50 @@
       <mat-form-field class="form-field grow-1">
         <mat-label>Kies je favoriete kleur</mat-label>
         <app-autocomplete 
-          formControlName="kleur"
+          formControlName="kleur1"
           [options]="kleuren" 
           placeholder="Kies een kleur"
-          required
           [aria-describedby]="'kleurtjes'"
         ></app-autocomplete>
       </mat-form-field>
     </div>
     <div class="form-row">
       <app-custom-mat-autocomplete 
-        formControlName="kleur"
+        formControlName="kleur2"
         [options]="kleuren" 
         label="Kies je favoriete kleur"
-        required
       ></app-custom-mat-autocomplete>
+    </div>
+    <div class="form-row">
+      <mat-form-field class="form-field grow-1">
+        <mat-label>Kies je favoriete kleur met mat-autocomplete</mat-label>
+        <input #autocompleteinput
+        matInput
+        class="autocomplete-input"
+        type="text"
+        formControlName="kleur3"
+        [matAutocomplete]="auto"
+        (input)="filter()"
+        (focus)="filter()"
+      >
+      <button matSuffix
+        (click)="clearAutocompleteInput()"
+        aria-label="clear input"
+        class="mat-suffix-button"
+        mat-icon-button
+        type="button"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+      <mat-autocomplete
+        #autocompleteselect
+        requireSelection
+        #auto="matAutocomplete">
+      @for (option of filteredOptions(); track option) {
+      <mat-option [value]="option">{{option}}</mat-option>
+      }
+      </mat-autocomplete>
+      </mat-form-field>
     </div>
     <div class="form-row">
       <mat-form-field class="form-field grow-1">

@@ -1,11 +1,10 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, computed, ElementRef, HostBinding, inject, Input, input, OnDestroy, OnInit, Optional, Self, signal, ViewChild } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormGroup, FormsModule, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ControlValueAccessor, FormBuilder, FormsModule, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Subject } from 'rxjs';
-import { AutocompleteFormGroup } from './autocompleteFormGroup.model';
 
 ///
 // This is a custom autocomplete component that uses the MatFormFieldControl and ControlValueAccessor interfaces
@@ -39,10 +38,10 @@ import { AutocompleteFormGroup } from './autocompleteFormGroup.model';
 export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit, MatFormFieldControl<string>, OnDestroy {
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
   // placeholder = input('Selecteer een optie');
-  options = input<string[]>([]);
+  options = input.required<string[]>();
   private readonly fb = inject(FormBuilder);
   private filterValue = signal<string>('');
-  autocompleteForm!: FormGroup<AutocompleteFormGroup>;
+  autocompleteFormControl = this.fb.control('');
   filteredOptions = computed(() => {
     const value = this.filterValue().toLowerCase();
     return this.options().filter(option => option.toLowerCase().includes(value));
@@ -61,13 +60,10 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
   /* MatFormFieldControl method */
 
   ngOnInit(): void {
-    this.autocompleteForm = this.fb.nonNullable.group({
-      autocomplete: ['']
-    });
     if (this.required) {
-      this.autocompleteForm.controls.autocomplete.setValidators(Validators.required);
+      this.autocompleteFormControl.setValidators(Validators.required);
     } else {
-      this.autocompleteForm.controls.autocomplete.clearValidators();
+      this.autocompleteFormControl.clearValidators();
     }
   }
 
@@ -96,7 +92,7 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
   stateChanges = new Subject<void>();
 
   set value(autocomplete: string) {
-    this.autocompleteForm.controls.autocomplete.setValue(autocomplete);
+    this.autocompleteFormControl.setValue(autocomplete);
     this.stateChanges.next();
   }
 
@@ -128,7 +124,7 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
   }
 
   get empty() {
-    return !(this.autocompleteForm.controls.autocomplete.value);
+    return !(this.autocompleteFormControl.value);
   }
 
   @HostBinding('class.floating')
@@ -146,11 +142,11 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
   get disabled(): boolean { return this._disabled; }
   set disabled(value: BooleanInput) {
     this._disabled = coerceBooleanProperty(value);
-    if (this.autocompleteForm) {
+    if (this.autocompleteFormControl) {
       if (this._disabled) {
-        this.autocompleteForm.disable();
+        this.autocompleteFormControl.disable();
       } else {
-        this.autocompleteForm.enable();
+        this.autocompleteFormControl.enable();
       }
       this.stateChanges.next();
     }
@@ -160,7 +156,7 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
   // If this does not work, change this like explained in
   // https://material.angular.io/guide/creating-a-custom-form-field-control#trying-it-out
   get errorState(): boolean {
-    return this.autocompleteForm.invalid && this.touched;
+    return this.autocompleteFormControl.invalid && this.touched;
   }
 
   controlType = 'custom-autocomplete-input';
@@ -185,8 +181,8 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
 
   // ControlValueAccessor method writeValue
   writeValue(value: string): void {
-    if (this.autocompleteForm) {
-      this.autocompleteForm.controls.autocomplete.setValue(value);
+    if (this.autocompleteFormControl) {
+      this.autocompleteFormControl.setValue(value);
     }
   }
 

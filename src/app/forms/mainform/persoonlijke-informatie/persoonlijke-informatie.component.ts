@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -8,6 +8,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { CustomAutocompleteComponent } from "../../custom-formfields/autocomplete/autocomplete.component";
 import { FormService } from '../../form.service';
 import { CustomMatAutocompleteComponent } from '../../custom-formfields/custom-mat-autocomplete/custom-mat-autocomplete.component';
+import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-persoonlijke-informatie',
@@ -17,6 +19,8 @@ import { CustomMatAutocompleteComponent } from '../../custom-formfields/custom-m
     MatInputModule,
     MatSelectModule,
     MatCardModule,
+    MatIconModule,
+    MatAutocompleteModule,
     CustomAutocompleteComponent,
     CustomMatAutocompleteComponent
 ],
@@ -31,16 +35,48 @@ export class PersoonlijkeInformatieComponent implements OnInit {
   showAnderLievelingsdierField = signal(false);
   anderlievelingsdierMaxlength = signal(20);
 
+
   ngOnInit(): void {
     this.createForm();
     this.formService.addChildFormGroup('persoonlijkeInformatie', this.persoonlijkeInformatie);
     this.showAnderLievelingsdier();
   }
 
+  /* START - Autocomplete components */
+  @ViewChild('autocompleteinput') autocompleteinput!: ElementRef<HTMLInputElement>;
+  @ViewChild('autocompleteselect') autocompleteselect!: MatAutocomplete;
+  private filterValue = signal<string>('');
+
+  filteredOptions = computed(() => {
+    const value = this.filterValue().toLowerCase();
+    console.log('value', value);
+    return this.kleuren
+      .filter(option => 
+        option
+        .toLowerCase()
+        .includes(this.filterValue().toLowerCase())
+      );
+  });
+
+  filter(): void {
+    this.filterValue.set(this.autocompleteinput.nativeElement.value.toLowerCase());
+  }
+
+  clearAutocompleteInput(): void {
+    console.log('clearAutocompleteInput');
+    this.autocompleteinput.nativeElement.value = '';
+    this.filterValue.set('');
+    this.autocompleteselect.options.forEach(option => option.deselect());
+  }
+
+  /* END - Autocomplete component */
+
   createForm(): void {
     this.persoonlijkeInformatie = this.formbuilder.group({
-      kleur: [{ value: '', disabled: false }],
-      lievelingsdier: [''],
+      kleur1: [{ value: '', disabled: true }, Validators.required],
+      kleur2: [{ value: '', disabled: true }, Validators.required],
+      kleur3: [{ value: '', disabled: false }, Validators.required],
+      lievelingsdier: ['', Validators.required],
       anderLievelingsdier: [''],
       hobbies: ['']
     });

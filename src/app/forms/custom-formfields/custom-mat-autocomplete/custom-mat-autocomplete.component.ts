@@ -89,7 +89,6 @@ export class CustomMatAutocompleteComponent implements ControlValueAccessor {
 
   // ControlValueAccessor method setDisabledState
 
-  // TODO check this, both controlValueAccessor and matFormFieldControl have a disabled property
   disabled!: boolean;
   
   // TODO fix disabled

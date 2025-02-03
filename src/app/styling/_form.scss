@@ -68,6 +68,13 @@
         flex-basis: 250px;
       }
     }
+
+    .mat-suffix-button {
+      display: flex;
+      margin-right: 12px;
+      z-index: 1;
+    }
+
     .form-actions {
       display: flex;
       flex-wrap: wrap;
