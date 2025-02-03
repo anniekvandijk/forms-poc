@@ -48,8 +48,6 @@ export class PersoonlijkeInformatieComponent implements OnInit {
   private filterValue = signal<string>('');
 
   filteredOptions = computed(() => {
-    const value = this.filterValue().toLowerCase();
-    console.log('value', value);
     return this.kleuren
       .filter(option => 
         option
@@ -63,9 +61,10 @@ export class PersoonlijkeInformatieComponent implements OnInit {
   }
 
   clearAutocompleteInput(): void {
+    // TODO: NOT WORKING, Forvalue is not cleared
     console.log('clearAutocompleteInput');
     this.autocompleteinput.nativeElement.value = '';
-    this.filterValue.set('');
+    this.filter();
     this.autocompleteselect.options.forEach(option => option.deselect());
   }
 
