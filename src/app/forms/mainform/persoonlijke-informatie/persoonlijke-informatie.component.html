@@ -34,15 +34,17 @@
         (input)="filter()"
         (focus)="filter()"
       >
-      <button matSuffix
-        (click)="clearAutocompleteInput()"
-        aria-label="clear input"
-        class="mat-suffix-button"
-        mat-icon-button
-        type="button"
-      >
-        <mat-icon>clear</mat-icon>
-      </button>
+      @if (autocompleteinput.value !== '') {
+        <button matSuffix
+          (click)="clearAutocompleteInput()"
+          aria-label="clear input"
+          class="mat-suffix-button"
+          mat-icon-button
+          type="button"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+      }
       <mat-autocomplete
         #autocompleteselect
         requireSelection

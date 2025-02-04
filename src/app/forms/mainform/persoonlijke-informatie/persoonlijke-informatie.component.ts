@@ -61,11 +61,8 @@ export class PersoonlijkeInformatieComponent implements OnInit {
   }
 
   clearAutocompleteInput(): void {
-    // TODO: NOT WORKING, Forvalue is not cleared
-    console.log('clearAutocompleteInput');
-    this.autocompleteinput.nativeElement.value = '';
-    this.filter();
     this.autocompleteselect.options.forEach(option => option.deselect());
+    this.persoonlijkeInformatie.get('kleur3')?.setValue('');
   }
 
   /* END - Autocomplete component */
