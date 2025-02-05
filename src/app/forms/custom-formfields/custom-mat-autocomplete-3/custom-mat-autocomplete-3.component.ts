@@ -1,6 +1,6 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Component, computed, ElementRef, HostBinding, inject, Input, input, OnDestroy, OnInit, Optional, Self, signal, ViewChild } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormsModule, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, computed, ElementRef, EventEmitter, HostBinding, inject, Input, input, OnDestroy, OnInit, Optional, Output, Self, signal, ViewChild } from '@angular/core';
+import { ControlValueAccessor, FormBuilder, FormControl, FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -13,8 +13,8 @@ import { Subject } from 'rxjs';
 // https://material.angular.io/guide/creating-a-custom-form-field-control#trying-it-out
 
 @Component({
-  selector: 'app-autocomplete',
-  templateUrl: 'autocomplete.component.html',
+  selector: 'app-custom-mat-autocomplete-3',
+  templateUrl: 'custom-mat-autocomplete-3.component.html',
   imports: [
     FormsModule,
     MatFormFieldModule,
@@ -31,20 +31,28 @@ import { Subject } from 'rxjs';
     // },
     {
       provide: MatFormFieldControl,
-      useExisting: CustomAutocompleteComponent,
+      useExisting: CustomMatAutocomplete3Component,
     }
   ],
 })
-export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit, MatFormFieldControl<string>, OnDestroy {
+export class CustomMatAutocomplete3Component implements ControlValueAccessor, MatFormFieldControl<string>, OnInit, OnDestroy {
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
+  
+  // This is to emit the formControl to the parent component
+  @Output() formControlReady = new EventEmitter<FormControl>();
+
   // placeholder = input('Selecteer een optie');
   options = input.required<string[]>();
   private readonly fb = inject(FormBuilder);
   private filterValue = signal<string>('');
   autocompleteFormControl = this.fb.control('');
   filteredOptions = computed(() => {
-    const value = this.filterValue().toLowerCase();
-    return this.options().filter(option => option.toLowerCase().includes(value));
+    return this.options()
+      .filter(option => 
+        option
+        .toLowerCase()
+        .includes(this.filterValue().toLowerCase())
+      );
   });
 
   /* MatFormFieldControl method */
@@ -59,12 +67,20 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
   }
   /* MatFormFieldControl method */
 
+  // ngOnInit(): void {
+  //   if (this.required) {
+  //     this.autocompleteFormControl.setValidators(Validators.required);
+  //   } else {
+  //     this.autocompleteFormControl.clearValidators();
+  //   }
+  // }
+
+  /* This is to emit the formControl to the parent component
+  *  This is a method to get a formControl, formArray or FormGroup
+  *  attached to the parent component form
+  */
   ngOnInit(): void {
-    if (this.required) {
-      this.autocompleteFormControl.setValidators(Validators.required);
-    } else {
-      this.autocompleteFormControl.clearValidators();
-    }
+    this.formControlReady.emit(this.autocompleteFormControl);
   }
 
   filter(): void {
@@ -82,9 +98,9 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
   get placeholder() {
     return this._placeholder;
   }
-  set placeholder(placeholder) {
-    console.log('set placeholder', placeholder);
-    this._placeholder = placeholder;
+  set placeholder(plh) {
+    console.log('set placeholder', plh);
+    this._placeholder = plh;
     this.stateChanges.next();
   }
   private _placeholder!: string;
@@ -98,7 +114,7 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
 
   static nextId = 0;
 
-  @HostBinding() id = `autocomplete-input-${CustomAutocompleteComponent.nextId++}`;   
+  @HostBinding() id = `autocomplete-input-${CustomMatAutocomplete3Component.nextId++}`;   
   
   ngOnDestroy() {
     this.stateChanges.complete();
@@ -134,24 +150,15 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
   get required(): boolean { return this._required; }
   set required(req: BooleanInput) {
     this._required = coerceBooleanProperty(req);
+    // if (this.autocompleteFormControl) {
+    //   if (this._required) {
+    //     this.autocompleteFormControl.setValidators(Validators.required);
+    //   } else {
+    //     this.autocompleteFormControl.removeValidators(Validators.required);
+    //   }
     this.stateChanges.next();
   }
   private _required = false;
-
-  @Input()
-  get disabled(): boolean { return this._disabled; }
-  set disabled(value: BooleanInput) {
-    this._disabled = coerceBooleanProperty(value);
-    if (this.autocompleteFormControl) {
-      if (this._disabled) {
-        this.autocompleteFormControl.disable();
-      } else {
-        this.autocompleteFormControl.enable();
-      }
-      this.stateChanges.next();
-    }
-  }
-  private _disabled = false;
 
   // If this does not work, change this like explained in
   // https://material.angular.io/guide/creating-a-custom-form-field-control#trying-it-out
@@ -162,13 +169,15 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
   controlType = 'custom-autocomplete-input';
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('aria-describedby') userAriaDescribedBy = '';
+  @Input('aria-describedby') userAriaDescribedBy! : string;
 
   // TODO: setDescribedByIds check if this is ok
   setDescribedByIds(ids: string[]) {
-    const controlElement = this.input.nativeElement
-      .querySelector('.autocomplete-input')!;
-    controlElement.setAttribute('aria-describedby', ids.join(' '));
+    const controlElement = this.input && this.input.nativeElement && this.input.nativeElement
+      .querySelector('.custom-autocomplete-input-container')!;
+    console.log('controlElement', controlElement);
+    console.log('ids', ids);
+  //  controlElement.setAttribute('aria-describedby', ids.join(' '));
   }
 
   onContainerClick(event: MouseEvent) {
@@ -216,12 +225,31 @@ export class CustomAutocompleteComponent implements ControlValueAccessor, OnInit
 
   // ControlValueAccessor method setDisabledState
 
-  // TODO check this, both controlValueAccessor and matFormFieldControl have a disabled property
-  //disabled!: boolean;
   
-  // TODO fix disabled
-  // setDisabledState?(isDisabled: boolean): void {
-  //    this.disabled = isDisabled;
-  //  }
+  //* ControlValueAccessor 
+  // Sets the disabled state of the control linked to the form
+  // in this component
+  setDisabledState?(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+
+  ///* MatFormFieldControl
+  // Sets the disabled state of the control
+  // in this component
+  @Input()
+  get disabled(): boolean { return this._disabled; }
+  set disabled(value: BooleanInput) {
+    this._disabled = coerceBooleanProperty(value);
+    if (this.autocompleteFormControl) {
+      if (this._disabled) {
+        this.autocompleteFormControl.disable();
+      } else {
+        this.autocompleteFormControl.enable();
+      }
+      this.stateChanges.next();
+    }
+  }
+  private _disabled = false;
 
 }

@@ -31,6 +31,11 @@ import { MatInputModule } from '@angular/material/input';
       useExisting: CustomMatAutocompleteComponent,
     }
   ],
+  styles: [`
+    .form-field {
+      width: 100%;
+    }
+  `]
 })
 export class CustomMatAutocompleteComponent implements ControlValueAccessor {
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;

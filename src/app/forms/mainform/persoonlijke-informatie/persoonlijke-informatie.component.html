@@ -5,31 +5,15 @@
   <mat-card-content>
   <div [formGroup]="persoonlijkeInformatie">
     <div class="form-row">
+      <!-- START - Autocomplete component direct in the form -->
       <mat-form-field class="form-field grow-1">
-        <mat-label>Kies je favoriete kleur</mat-label>
-        <app-autocomplete 
-          formControlName="kleur1"
-          [options]="kleuren" 
-          placeholder="Kies een kleur"
-          [aria-describedby]="'kleurtjes'"
-        ></app-autocomplete>
-      </mat-form-field>
-    </div>
-    <div class="form-row">
-      <app-custom-mat-autocomplete 
-        formControlName="kleur2"
-        [options]="kleuren" 
-        label="Kies je favoriete kleur"
-      ></app-custom-mat-autocomplete>
-    </div>
-    <div class="form-row">
-      <mat-form-field class="form-field grow-1">
-        <mat-label>Kies je favoriete kleur met mat-autocomplete</mat-label>
+        <mat-label>Kies je favoriete kleur1</mat-label>
         <input #autocompleteinput
         matInput
         class="autocomplete-input"
         type="text"
-        formControlName="kleur3"
+        formControlName="kleur1"
+        placeholder="Kies een kleur"
         [matAutocomplete]="auto"
         (input)="filter()"
         (focus)="filter()"
@@ -53,6 +37,56 @@
       <mat-option [value]="option">{{option}}</mat-option>
       }
       </mat-autocomplete>
+      </mat-form-field>
+      <!-- END - Autocomplete component direct in the form -->
+    </div>
+    <div class="form-row">
+      <!-- START - Autocomplete component with mat-form-field in a separate component -->
+      <app-custom-mat-autocomplete
+        class="form-field grow-1" 
+        formControlName="kleur2"
+        [options]="kleuren" 
+        label="Kies je favoriete kleur2"
+        placeholder="Kies een kleur"
+      ></app-custom-mat-autocomplete>
+      <!-- END - Autocomplete component with mat-form-field in a separate component -->
+    </div>
+    <div class="form-row">
+      <!-- START - Autocomplete component with mat-form-field in a separate component -->
+      <app-custom-mat-autocomplete-2 
+        class="form-field grow-1"
+        (formControlReady)="addFormControlToParentForm('kleur3a', $event)" 
+        [options]="kleuren"
+        [label]="'Kies je favoriete kleur3a'"
+        [placeholder]="'Kies een kleur'"
+      ></app-custom-mat-autocomplete-2>
+      <app-custom-mat-autocomplete-2 
+      class="form-field grow-1"
+      (formControlReady)="setKleur3bParentForm($event)" 
+      [options]="kleuren"
+      [label]="'Kies je favoriete kleur3b'"
+      [placeholder]="'Kies een kleur'"
+    ></app-custom-mat-autocomplete-2>
+  </div>
+  <div class="form-row">
+    <app-custom-mat-autocomplete-2 
+      class="form-field grow-1"
+      (formControlReady)="addKleur3cToParentForm($event)" 
+      [options]="kleuren"
+      [label]="'Kies je favoriete kleur3c'"
+      [placeholder]="'Kies een kleur'"
+    ></app-custom-mat-autocomplete-2>
+      <!-- END - Autocomplete component with mat-form-field in a separate component -->
+  </div>
+    <div class="form-row">
+      <mat-form-field class="form-field grow-1">
+        <mat-label>Kies je favoriete kleur4</mat-label>
+        <app-custom-mat-autocomplete-3 
+          formControlName="kleur4"
+          [options]="kleuren" 
+          placeholder="Kies een kleur"
+          [aria-describedby]="'kleurtjes'"
+        ></app-custom-mat-autocomplete-3>
       </mat-form-field>
     </div>
     <div class="form-row">
