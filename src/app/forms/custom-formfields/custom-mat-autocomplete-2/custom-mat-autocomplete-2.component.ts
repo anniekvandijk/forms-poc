@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, EventEmitter, inject, Input, input, OnInit, Output, signal, ViewChild } from '@angular/core';
+import { Component, computed, ElementRef, EventEmitter, inject, input, OnInit, Output, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -38,9 +38,9 @@ export class CustomMatAutocomplete2Component implements OnInit {
   */ 
 
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
-  @Input({ required: true }) label!: string;
-  @Input() placeholder!: string;
   @Output() formControlReady = new EventEmitter<FormControl>();
+  label = input.required<string>();
+  placeholder = input<string>();
   options = input.required<string[]>();
   private readonly fb = inject(FormBuilder);
   private filterValue = signal<string>('');

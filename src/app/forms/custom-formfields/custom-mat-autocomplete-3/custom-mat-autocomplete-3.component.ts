@@ -1,6 +1,6 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, computed, ElementRef, EventEmitter, HostBinding, inject, Input, input, OnDestroy, OnInit, Optional, Output, Self, signal, ViewChild } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormControl, FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormsModule, NgControl, ReactiveFormsModule, ValidationErrors, Validator } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -35,13 +35,11 @@ import { Subject } from 'rxjs';
     }
   ],
 })
-export class CustomMatAutocomplete3Component implements ControlValueAccessor, MatFormFieldControl<string>, OnInit, OnDestroy {
+export class CustomMatAutocomplete3Component implements ControlValueAccessor, Validator, MatFormFieldControl<string>, OnInit, OnDestroy {
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
   
   // This is to emit the formControl to the parent component
   @Output() formControlReady = new EventEmitter<FormControl>();
-
-  // placeholder = input('Selecteer een optie');
   options = input.required<string[]>();
   private readonly fb = inject(FormBuilder);
   private filterValue = signal<string>('');
@@ -63,6 +61,7 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor, Ma
       // Setting the value accessor directly (instead of using
       // the providers) to avoid running into a circular import.
       this.ngControl.valueAccessor = this;
+      
     }
   }
   /* MatFormFieldControl method */
@@ -251,5 +250,14 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor, Ma
     }
   }
   private _disabled = false;
+
+  validate(c: AbstractControl): ValidationErrors | null {
+    console.log('validate kleur4', c);
+    const validationErrors = this.autocompleteFormControl.invalid 
+      ? { internal: true} 
+      : null;
+    return validationErrors;
+  }
+
 
 }

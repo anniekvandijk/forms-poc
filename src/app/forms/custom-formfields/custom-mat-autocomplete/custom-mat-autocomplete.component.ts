@@ -1,7 +1,9 @@
-import { Component, computed, ElementRef, forwardRef, inject, input, signal, ViewChild } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Component, computed, forwardRef, inject, input, signal } from '@angular/core';
+import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule, ValidationErrors, Validator } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 ///
@@ -24,11 +26,12 @@ import { MatInputModule } from '@angular/material/input';
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
-      useExisting: forwardRef(() => CustomMatAutocompleteComponent),
+      useExisting: CustomMatAutocompleteComponent,
     },
     {
-      provide: MatFormFieldControl,
-      useExisting: CustomMatAutocompleteComponent,
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: forwardRef(() => CustomMatAutocompleteComponent)
     }
   ],
   styles: [`
@@ -37,9 +40,10 @@ import { MatInputModule } from '@angular/material/input';
     }
   `]
 })
-export class CustomMatAutocompleteComponent implements ControlValueAccessor {
-  @ViewChild('input') input!: ElementRef<HTMLInputElement>;
+export class CustomMatAutocompleteComponent implements ControlValueAccessor, Validator {
+ // @ViewChild('input') input!: ElementRef<HTMLInputElement>;
   label = input<string>('Selecteer een optie');
+  placeholder = input<string>('');
   options = input<string[]>([]);
   private readonly fb = inject(FormBuilder);
   private filterValue = signal<string>('');
@@ -49,25 +53,24 @@ export class CustomMatAutocompleteComponent implements ControlValueAccessor {
     return this.options().filter(option => option.toLowerCase().includes(value));
   });
   filter(): void {
-    this.filterValue.set(this.input.nativeElement.value.toLowerCase());
+    this.filterValue.set(this.autocompleteFormControl.value?.toLowerCase() ?? '');
   }
 
-  optionSelected(optionSelected: MatAutocompleteSelectedEvent ) {
+  onOptionSelected(optionSelected: MatAutocompleteSelectedEvent ) {
     this.onChange(optionSelected.option.value);
     this.markAsTouched();
   }
    
   /* ControlValueAccessor methods */
 
-  // ControlValueAccessor method writeValue
   writeValue(value: string): void {
+    console.log('writeValue', value);
     this.autocompleteFormControl.setValue(value);
   }
 
-  // ControlValueAccessor method registerOnTouched
-  private touched = false;
-  onTouched: any = () => {
-    // empty function
+  touched = false;
+  onTouched = () => {
+    console.log('onTouched');
   };
 
   registerOnTouched(onTouched: any): void {
@@ -81,24 +84,29 @@ export class CustomMatAutocompleteComponent implements ControlValueAccessor {
     }
   }
 
-  // ControlValueAccessor method registerOnChange
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onChange = (_input: string) => {
-    // empty function in order to avoid errors
+  onChange = (autocompleteFormControl: string) => {
+    console.log('onChange');
   };
 
   registerOnChange(onChange: any): void {
       this.onChange = onChange;
   }
 
-  // ControlValueAccessor method setDisabledState
+  disabled = false;
+  setDisabledState(disabled: boolean) {
+    if (disabled) {
+      this.autocompleteFormControl.disable();
+    } else {
+      this.autocompleteFormControl.enable();
+    }
+    this.disabled = disabled;
+  }
 
-  disabled!: boolean;
-  
-  // TODO fix disabled
-  setDisabledState?(isDisabled: boolean): void {
-     this.disabled = isDisabled;
-   }
-
+  validate(c: AbstractControl): ValidationErrors | null {
+    console.log('validate kleur2', c);
+    const validationErrors = this.autocompleteFormControl.invalid 
+      ? { internal: true} 
+      : null;
+    return validationErrors;
+  }
 }

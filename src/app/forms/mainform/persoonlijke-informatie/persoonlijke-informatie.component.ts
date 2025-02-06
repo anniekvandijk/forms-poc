@@ -72,8 +72,8 @@ export class PersoonlijkeInformatieComponent implements OnInit {
 
   createForm(): void {
     this.persoonlijkeInformatie = this.formbuilder.nonNullable.group({
-      kleur1: [{ value: '', disabled: false }, Validators.required],
-      kleur2: [{ value: '', disabled: true }, Validators.required],
+      kleur1: [{ value: '', disabled: false }, Validators.required], // in formulier
+      kleur2: [{ value: '', disabled: false }, Validators.required],
       kleur3b: [''],
       kleur4: [{ value: '', disabled: false }, Validators.required],
       lievelingsdier: ['', Validators.required],
