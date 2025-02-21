@@ -90,7 +90,10 @@
     <div class="form-row">
       <mat-form-field class="form-field grow-1">
         <mat-label>Lievelingsdier</mat-label>
-        <mat-select id="Lievelingsdier" formControlName="lievelingsdier">
+        <mat-select 
+          id="Lievelingsdier" 
+          (selectionChange)="onLievelingsdierChange($event)"  
+          formControlName="lievelingsdier">
           <mat-option value="hond">Hond</mat-option>
           <mat-option value="kat">Kat</mat-option>
           <mat-option value="konijn">Konijn</mat-option>
@@ -111,6 +114,14 @@
         @if (anderLievelingsdierControl?.errors?.['required']) {
           <mat-error>Dier is verplicht</mat-error>
         }
+      </mat-form-field>
+      <mat-form-field class="form-field grow-1">
+        <mat-label>Waarom?</mat-label>
+        <input matInput 
+          id="waaromDitDier" 
+          formControlName="waaromDitDier" 
+          [maxlength]="waaromDitDierMaxlength()"
+          type="text">
       </mat-form-field>
     </div>
     }

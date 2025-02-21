@@ -12,5 +12,6 @@ export interface PersoonlijkeInformatie {
   kleur4: FormControl<string>;
   lievelingsdier: FormControl<string>;
   anderLievelingsdier: FormControl<string>;
+  waaromDitDier: FormControl<string>;
   hobbies: FormControl<string>;
 }

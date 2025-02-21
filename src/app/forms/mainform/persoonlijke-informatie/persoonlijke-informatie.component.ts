@@ -1,21 +1,38 @@
-import { Component, computed, DestroyRef, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { CustomMatAutocomplete3Component } from "../../custom-formfields/custom-mat-autocomplete-3/custom-mat-autocomplete-3.component";
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { CustomMatAutocomplete3Component } from '../../custom-formfields/custom-mat-autocomplete-3/custom-mat-autocomplete-3.component';
 import { CustomMatAutocomplete2Component } from '../../custom-formfields/custom-mat-autocomplete-2/custom-mat-autocomplete-2.component';
 import { FormService } from '../../form.service';
 import { CustomMatAutocompleteComponent } from '../../custom-formfields/custom-mat-autocomplete/custom-mat-autocomplete.component';
-import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+import {
+  MatAutocomplete,
+  MatAutocompleteModule,
+} from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { PersoonlijkeInformatie } from './persoonlijke-informatie.model';
 
 @Component({
-    selector: 'app-persoonlijke-informatie',
-    imports: [
+  selector: 'app-persoonlijke-informatie',
+  imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -25,9 +42,9 @@ import { PersoonlijkeInformatie } from './persoonlijke-informatie.model';
     MatAutocompleteModule,
     CustomMatAutocompleteComponent,
     CustomMatAutocomplete2Component,
-    CustomMatAutocomplete3Component
-],
-    templateUrl: './persoonlijke-informatie.component.html'
+    CustomMatAutocomplete3Component,
+  ],
+  templateUrl: './persoonlijke-informatie.component.html',
 })
 export class PersoonlijkeInformatieComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
@@ -37,35 +54,37 @@ export class PersoonlijkeInformatieComponent implements OnInit {
   persoonlijkeInformatie!: FormGroup<PersoonlijkeInformatie>;
   showAnderLievelingsdierField = signal(false);
   anderlievelingsdierMaxlength = signal(20);
-
+  waaromDitDierMaxlength = signal(50);	
 
   ngOnInit(): void {
     this.createForm();
-    this.formService.addChildFormGroup('persoonlijkeInformatie', this.persoonlijkeInformatie);
-    this.showAnderLievelingsdier();
+    this.formService.addChildFormGroup(
+      'persoonlijkeInformatie',
+      this.persoonlijkeInformatie,
+    );
   }
 
   /* START - Autocomplete components */
-  @ViewChild('autocompleteinput') autocompleteinput!: ElementRef<HTMLInputElement>;
+  @ViewChild('autocompleteinput')
+  autocompleteinput!: ElementRef<HTMLInputElement>;
   @ViewChild('autocompleteselect') autocompleteselect!: MatAutocomplete;
   private filterValue = signal<string>('');
 
   filteredOptions = computed(() => {
-    return this.kleuren
-      .filter(option => 
-        option
-        .toLowerCase()
-        .includes(this.filterValue().toLowerCase())
-      );
+    return this.kleuren.filter((option) =>
+      option.toLowerCase().includes(this.filterValue().toLowerCase()),
+    );
   });
 
   filter(): void {
-    this.filterValue.set(this.autocompleteinput.nativeElement.value.toLowerCase());
+    this.filterValue.set(
+      this.autocompleteinput.nativeElement.value.toLowerCase(),
+    );
   }
 
   clearAutocompleteInput(): void {
-    this.autocompleteselect.options.forEach(option => option.deselect());
-    this.persoonlijkeInformatie.get('kleur1')?.setValue('');
+    this.autocompleteselect.options.forEach((option) => option.deselect());
+    this.persoonlijkeInformatie.controls.kleur1?.setValue('');
   }
 
   /* END - Autocomplete component */
@@ -78,11 +97,15 @@ export class PersoonlijkeInformatieComponent implements OnInit {
       kleur4: [{ value: '', disabled: false }, Validators.required],
       lievelingsdier: ['', Validators.required],
       anderLievelingsdier: [''],
-      hobbies: ['']
-    }) ;
+      waaromDitDier: [''],
+      hobbies: [''],
+    });
   }
 
-  addFormControlToParentForm(formControlname: string, formControl: FormControl): void {
+  addFormControlToParentForm(
+    formControlname: string,
+    formControl: FormControl,
+  ): void {
     this.persoonlijkeInformatie.addControl(formControlname, formControl);
     // aangezien je niet weet welke formControl je toevoegt,
     // kun je niet de juiste validatie toevoegen
@@ -91,7 +114,9 @@ export class PersoonlijkeInformatieComponent implements OnInit {
 
   setKleur3bParentForm(formControl: FormControl): void {
     this.persoonlijkeInformatie.setControl('kleur3b', formControl);
-    this.persoonlijkeInformatie.get('kleur3b')?.addValidators(Validators.required);
+    this.persoonlijkeInformatie
+      .get('kleur3b')
+      ?.addValidators(Validators.required);
     // Je overschijft een bestaande formControl die in de interface staat,
     // je kunt de validatie toevoegen
     // maar dit kan heel verwarrend zijn
@@ -99,39 +124,49 @@ export class PersoonlijkeInformatieComponent implements OnInit {
 
   addKleur3cToParentForm(formControl: FormControl): void {
     this.persoonlijkeInformatie.addControl('kleur3c', formControl);
-    this.persoonlijkeInformatie.get('kleur3c')?.addValidators(Validators.required);
+    this.persoonlijkeInformatie
+      .get('kleur3c')
+      ?.addValidators(Validators.required);
     // Je voegt een formControl toe,
     // je kunt de validatie toevoegen
     // maar dit kan heel verwarrend zijn, want dit staat niet in de interface
   }
 
-  kleuren = ['rood', 'blauw', 'groen', 'geel', 'oranje', 'paars', 'zwart', 'wit', 'grijs', 'bruin'];
+  kleuren = [
+    'rood',
+    'blauw',
+    'groen',
+    'geel',
+    'oranje',
+    'paars',
+    'zwart',
+    'wit',
+    'grijs',
+    'bruin',
+  ];
 
-  get lievelingskleurControl() {
-    return this.persoonlijkeInformatie.get('lievelingskleur');
-  }
-
-  get lievelingsdierControl() {
-    return this.persoonlijkeInformatie.get('lievelingsdier');
+  onLievelingsdierChange(event: MatSelectChange): void {
+    if (event.value === 'anders') {
+      this.showAnderLievelingsdierField.set(true);
+      this.anderLievelingsdierControl?.setValidators([
+        Validators.required,
+        Validators.maxLength(this.anderlievelingsdierMaxlength()),
+      ]);
+    } else {
+      this.showAnderLievelingsdierField.set(false);
+      this.anderLievelingsdierControl?.clearValidators();
+    }
+    this.anderLievelingsdierControl?.updateValueAndValidity({
+      emitEvent: false,
+      onlySelf: true,
+    });
   }
 
   get anderLievelingsdierControl() {
-    return this.persoonlijkeInformatie.get('anderLievelingsdier');
+    return this.persoonlijkeInformatie.controls.anderLievelingsdier;
   }
 
-  private showAnderLievelingsdier(): void {
-    this.lievelingsdierControl?.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        if (value && value === 'anders') {
-          this.showAnderLievelingsdierField.set(true);
-          this.anderLievelingsdierControl?.setValidators([Validators.required, Validators.maxLength(this.anderlievelingsdierMaxlength())]);
-        } else {
-          this.showAnderLievelingsdierField.set(false);
-          this.anderLievelingsdierControl?.clearValidators();
-        }
-        this.anderLievelingsdierControl?.updateValueAndValidity({ emitEvent: false, onlySelf: true });
-      });
+  get waaromDitDierControl() {
+    return this.persoonlijkeInformatie.controls.waaromDitDier;
   }
 }
-
