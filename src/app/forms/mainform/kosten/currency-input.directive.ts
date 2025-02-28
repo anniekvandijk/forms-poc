@@ -53,11 +53,11 @@ export class CurrencyInputMaskDirective implements OnInit {
 
   @HostListener("keydown.control.z", ["$event.target.value"])
   onUndo(value: any) {
-    this.el.value = '';
+    this.el.value = '0,00';
   }
 
   // variable to store last valid input
-  private lastValid = '';
+  private lastValid = '0,00';
   @HostListener('input', ['$event'])
   onInput(event: any) {
     // on input, run regex to only allow certain characters and format

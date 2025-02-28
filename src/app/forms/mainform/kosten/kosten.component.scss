@@ -5,10 +5,31 @@
   justify-content:flex-start;
 }
 
-.align-right {
+.currency-input {
+  text-align: right;
+  input {
+    text-align: right;
+  }
+  mat-label, .mdc-floating-label {
+    width: 100%;
+    text-align: right;
+  }
+}
+
+.total-culculation {
+  margin-top: 8px;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
   margin-left: auto;
+  user-select: none;
+}
+
+.total-sub-culculation {
+  margin-left: auto;
+  user-select: none;
 }
 
 h4 {
   margin-top: 0;
+  margin-bottom: 8px;
 }

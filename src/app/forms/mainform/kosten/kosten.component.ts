@@ -76,22 +76,37 @@ export class KostenComponent implements OnInit {
     return this.kostenForm.controls.totaal.value ?? 0.00;
   }
 
+  toFloatParser(value: any): number {
+    if (value === null || value === undefined) {
+      return 0.00;
+    }
+    if (typeof value === 'number') {
+      return value;
+    }
+    return parseFloat(value.replace(',', '.'));
+  }
+
   calculate(): void {
     // Huisdieren
-    const alpacas = this.kostenForm.controls.huisdieren.controls.alpacas.value ?? 0.00;
-    const honden = this.kostenForm.controls.huisdieren.controls.honden.value ?? 0.00;
+    const alpacas = this.toFloatParser(this.kostenForm.controls.huisdieren.controls.alpacas.value) ?? 0.00;
+    const honden = this.toFloatParser(this.kostenForm.controls.huisdieren.controls.honden.value) ?? 0.00;
+    const totaalHuisdieren = alpacas + honden;
     console.log('alpacas', alpacas);
     console.log('honden', honden);
-    const totaalHuisdieren = alpacas + honden;
+
+    console.log('totaalHuisdieren', totaalHuisdieren);
+
     this.kostenForm.controls.huisdieren.controls.totaal.setValue(totaalHuisdieren, { emitEvent: false });
-    console.log('totaalhuisdieren', totaalHuisdieren);
-    console.log('totaalhuisdierenformvalue', this.kostenForm.controls.huisdieren.controls.totaal.value);
 
     // Hobbies
     const knutselen = this.kostenForm.controls.hobbies.controls.knutselen.value ?? 0.00;
     const gamen = this.kostenForm.controls.hobbies.controls.gamen.value ?? 0.00;
     const totaalHobbies = knutselen + gamen;
     this.kostenForm.controls.hobbies.controls.totaal.setValue(totaalHobbies, { emitEvent: false });
+    console.log('typeof knutselen', typeof knutselen);
+    console.log('totaalHobbies', totaalHobbies);
+
+
 
     // Eten
     const boodschappen = this.kostenForm.controls.eten.controls.boodschappen.value ?? 0.00;
