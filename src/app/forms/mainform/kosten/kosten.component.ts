@@ -80,6 +80,8 @@ export class KostenComponent implements OnInit {
     // Huisdieren
     const alpacas = this.kostenForm.controls.huisdieren.controls.alpacas.value ?? 0.00;
     const honden = this.kostenForm.controls.huisdieren.controls.honden.value ?? 0.00;
+    console.log('alpacas', alpacas);
+    console.log('honden', honden);
     const totaalHuisdieren = alpacas + honden;
     this.kostenForm.controls.huisdieren.controls.totaal.setValue(totaalHuisdieren, { emitEvent: false });
     console.log('totaalhuisdieren', totaalHuisdieren);
@@ -90,16 +92,12 @@ export class KostenComponent implements OnInit {
     const gamen = this.kostenForm.controls.hobbies.controls.gamen.value ?? 0.00;
     const totaalHobbies = knutselen + gamen;
     this.kostenForm.controls.hobbies.controls.totaal.setValue(totaalHobbies, { emitEvent: false });
-    console.log('totaalhobbies', totaalHobbies);
-    console.log('totaalhobbiesformvalue', this.kostenForm.controls.hobbies.controls.totaal.value);
 
     // Eten
     const boodschappen = this.kostenForm.controls.eten.controls.boodschappen.value ?? 0.00;
     const uiteten = this.kostenForm.controls.eten.controls.uiteten.value ?? 0.00;
     const totaalEten = boodschappen + uiteten;
     this.kostenForm.controls.eten.controls.totaal.setValue(totaalEten, { emitEvent: false });
-    console.log('totaaleten', totaalEten);
-    console.log('totaaletenformvalue', this.kostenForm.controls.eten.controls.totaal.value);
 
     // Totaal
     const totaal = totaalHuisdieren + totaalHobbies + totaalEten;

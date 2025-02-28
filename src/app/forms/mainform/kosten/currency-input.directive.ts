@@ -8,10 +8,12 @@ import { Directive, ElementRef, HostListener, Input, OnInit } from "@angular/cor
  })
 export class CurrencyInputMaskDirective implements OnInit {
 
+  private decimalSeparator = ','; // change this to '.' for other locales
+
   // build the regex based on max pre decimal digits allowed
   private regexString(max?: number) {
     const maxStr = max ? `{0,${max}}` : `+`;
-    return `^(\\d${maxStr}(\\.\\d{0,2})?|\\.\\d{0,2})$`
+    return `^(\\d${maxStr}(\\${this.decimalSeparator}\\d{0,2})?|\\${this.decimalSeparator}\\d{0,2})$`
   }
   private digitRegex!: RegExp;
   private setRegex(maxDigits?: number) {
@@ -33,20 +35,20 @@ export class CurrencyInputMaskDirective implements OnInit {
   }
 
   ngOnInit() {
-    this.el.value = this.currencyPipe.transform(this.el.value, 'EUR') || '';
+    this.el.value = this.currencyPipe.transform(this.el.value.replace(this.decimalSeparator, '.'), 'EUR') || '';
   }
 
   @HostListener("focus", ["$event.target.value"])
   onFocus(value: any) {
     // on focus remove currency formatting
-    this.el.value = value.replace(/[^0-9.]+/g, '')
+    this.el.value = value.replace(/[^0-9,]+/g, '')
     this.el.select();
   }
 
   @HostListener("blur", ["$event.target.value"])
   onBlur(value: any) {
     // on blur, add currency formatting
-    this.el.value = this.currencyPipe.transform(value, 'EUR') || '';
+    this.el.value = this.currencyPipe.transform(value.replace(this.decimalSeparator, '.'), 'EUR') || '';
   }
 
   @HostListener("keydown.control.z", ["$event.target.value"])

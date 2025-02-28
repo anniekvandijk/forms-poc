@@ -98,7 +98,7 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor, Va
     return this._placeholder;
   }
   set placeholder(plh) {
-    console.log('set placeholder', plh);
+   // console.log('set placeholder', plh);
     this._placeholder = plh;
     this.stateChanges.next();
   }
@@ -174,8 +174,8 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor, Va
   setDescribedByIds(ids: string[]) {
     const controlElement = this.input && this.input.nativeElement && this.input.nativeElement
       .querySelector('.custom-autocomplete-input-container')!;
-    console.log('controlElement', controlElement);
-    console.log('ids', ids);
+  //  console.log('controlElement', controlElement);
+  //  console.log('ids', ids);
   //  controlElement.setAttribute('aria-describedby', ids.join(' '));
   }
 

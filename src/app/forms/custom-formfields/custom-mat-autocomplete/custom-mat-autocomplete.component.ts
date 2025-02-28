@@ -64,13 +64,13 @@ export class CustomMatAutocompleteComponent implements ControlValueAccessor, Val
   /* ControlValueAccessor methods */
 
   writeValue(value: string): void {
-    console.log('writeValue', value);
+   // console.log('writeValue', value);
     this.autocompleteFormControl.setValue(value);
   }
 
   touched = false;
   onTouched = () => {
-    console.log('onTouched');
+  //  console.log('onTouched');
   };
 
   registerOnTouched(onTouched: any): void {
@@ -85,7 +85,7 @@ export class CustomMatAutocompleteComponent implements ControlValueAccessor, Val
   }
 
   onChange = (autocompleteFormControl: string) => {
-    console.log('onChange');
+   // console.log('onChange');
   };
 
   registerOnChange(onChange: any): void {
@@ -103,7 +103,7 @@ export class CustomMatAutocompleteComponent implements ControlValueAccessor, Val
   }
 
   validate(c: AbstractControl): ValidationErrors | null {
-    console.log('validate kleur2', c);
+  //  console.log('validate kleur2', c);
     const validationErrors = this.autocompleteFormControl.invalid 
       ? { internal: true} 
       : null;
