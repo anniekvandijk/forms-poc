@@ -1,0 +1,42 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Kosten</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div [formGroup]="kostenForm">
+      <h4>huisdieren</h4>
+      <div [formGroup]="kostenForm.controls.huisdieren">
+        <div class="form-row-calculate">
+          <mat-form-field class="form-field-medium">
+            <mat-label>Alpaca's</mat-label>
+            <input matInput 
+              appCurrencyInputMask
+              formControlName="alpacas" type="text" />
+          </mat-form-field>
+          <mat-form-field class="form-field-medium">
+            <mat-label>Honden</mat-label>
+            <input matInput 
+              appCurrencyInputMask        
+              formControlName="honden" type="text" />
+          </mat-form-field>
+          <mat-form-field class="form-field-medium align-right">
+            <mat-label>Totaal huisdieren</mat-label>
+            <input matInput
+              [value]="huisdierenTotaalValue | currency"
+              readonly
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-row-calculate">
+      <mat-form-field class="form-field-medium align-right">
+        <mat-label>Totaal</mat-label>
+        <input matInput
+          [value]="totaalValue | currency"
+          readonly
+        />
+      </mat-form-field>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

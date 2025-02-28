@@ -3,11 +3,12 @@ import { FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { FormService } from '../form.service';
 import { AdresgegevensComponent } from './adresgegevens/adresgegevens.component';
 import { BezorglocatiesComponent } from './bezorglocaties/bezorglocaties.component';
+import { KostenComponent } from './kosten/kosten.component';
 import { PersoonlijkeInformatieComponent } from './persoonlijke-informatie/persoonlijke-informatie.component';
 
 @Component({
@@ -17,11 +18,12 @@ import { PersoonlijkeInformatieComponent } from './persoonlijke-informatie/perso
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
+    MatCardModule,
     PersoonlijkeInformatieComponent,
     AdresgegevensComponent,
-    MatCardModule,
     BezorglocatiesComponent,
-    MatIconModule,
+    KostenComponent,
   ],
   templateUrl: './mainform.component.html',
   providers: [FormService],
