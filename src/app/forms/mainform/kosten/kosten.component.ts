@@ -99,8 +99,8 @@ export class KostenComponent implements OnInit {
     this.kostenForm.controls.huisdieren.controls.totaal.setValue(totaalHuisdieren, { emitEvent: false });
 
     // Hobbies
-    const knutselen = this.kostenForm.controls.hobbies.controls.knutselen.value ?? 0.00;
-    const gamen = this.kostenForm.controls.hobbies.controls.gamen.value ?? 0.00;
+    const knutselen = this.toFloatParser(this.kostenForm.controls.hobbies.controls.knutselen.value) ?? 0.00;
+    const gamen = this.toFloatParser(this.kostenForm.controls.hobbies.controls.gamen.value) ?? 0.00;
     const totaalHobbies = knutselen + gamen;
     this.kostenForm.controls.hobbies.controls.totaal.setValue(totaalHobbies, { emitEvent: false });
     console.log('typeof knutselen', typeof knutselen);
@@ -109,8 +109,8 @@ export class KostenComponent implements OnInit {
 
 
     // Eten
-    const boodschappen = this.kostenForm.controls.eten.controls.boodschappen.value ?? 0.00;
-    const uiteten = this.kostenForm.controls.eten.controls.uiteten.value ?? 0.00;
+    const boodschappen = this.toFloatParser(this.kostenForm.controls.eten.controls.boodschappen.value) ?? 0.00;
+    const uiteten = this.toFloatParser(this.kostenForm.controls.eten.controls.uiteten.value) ?? 0.00;
     const totaalEten = boodschappen + uiteten;
     this.kostenForm.controls.eten.controls.totaal.setValue(totaalEten, { emitEvent: false });
 

@@ -5,17 +5,6 @@
   justify-content:flex-start;
 }
 
-.currency-input {
-  text-align: right;
-  input {
-    text-align: right;
-  }
-  mat-label, .mdc-floating-label {
-    width: 100%;
-    text-align: right;
-  }
-}
-
 .total-culculation {
   margin-top: 8px;
   border-top: 1px solid #ccc;

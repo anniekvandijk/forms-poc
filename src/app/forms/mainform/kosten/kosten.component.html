@@ -10,13 +10,13 @@
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Alpaca's</mat-label>
             <input matInput
-              appCurrencyInputMask
+              currencyInput
               [formControl]="kostenForm.controls.huisdieren.controls.alpacas"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Honden</mat-label>
             <input matInput
-              appCurrencyInputMask
+              currencyInput
               [formControl]="kostenForm.controls.huisdieren.controls.honden"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input total-sub-culculation">
@@ -35,13 +35,13 @@
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Knutselen</mat-label>
             <input matInput
-              appCurrencyInputMask
+              currencyInput
               [formControl]="kostenForm.controls.hobbies.controls.knutselen"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Gamen</mat-label>
             <input matInput
-              appCurrencyInputMask
+              currencyInput
               [formControl]="kostenForm.controls.hobbies.controls.gamen"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input total-sub-culculation">
@@ -59,18 +59,14 @@
         <div class="form-row-calculate">
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Boodschappen</mat-label>
-            <span matTextPrefix>€&nbsp;&nbsp;</span>
             <input matInput
-              type="number"
-              step="0.01"
+              currencyInput
               [formControl]="kostenForm.controls.eten.controls.boodschappen"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Uit eten</mat-label>
-            <span matTextPrefix>€&nbsp;&nbsp;</span>
             <input matInput
-              type="number"
-              step="0.01"
+              currencyInput
               [formControl]="kostenForm.controls.eten.controls.uiteten"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input total-sub-culculation">

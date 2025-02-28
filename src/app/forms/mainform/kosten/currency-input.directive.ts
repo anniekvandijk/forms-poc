@@ -1,8 +1,9 @@
+/* eslint-disable @angular-eslint/directive-selector */
 
 import { CurrencyPipe } from '@angular/common';
 import { Directive, ElementRef, HostListener, Input, OnInit } from "@angular/core";
 
-@Directive({ selector: "[appCurrencyInputMask]",
+@Directive({ selector: "[currencyInput]",
   standalone: true,
   providers: [CurrencyPipe]
  })
