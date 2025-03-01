@@ -14,11 +14,11 @@ import { KostenForm } from './kosten.model';
   selector: 'app-kosten',
   imports: [
     CurrencyPipe,
-    ReactiveFormsModule, 
-    MatFormFieldModule, 
+    ReactiveFormsModule,
+    MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    CurrencyInputMaskDirective
+    CurrencyInputMaskDirective,
   ],
   templateUrl: './kosten.component.html',
   styleUrls: ['./kosten.component.scss'],
@@ -32,92 +32,144 @@ export class KostenComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.formService.addChildFormGroup('kosten', this.kostenForm);
-    this.kostenForm.valueChanges
-      .pipe(delay(400))
-      .subscribe(() => {
-        this.calculate();
+    this.calculate();
+    this.kostenForm.valueChanges.pipe(delay(400)).subscribe(() => {
+      this.calculate();
     });
   }
 
   createForm(): void {
     this.kostenForm = this.formbuilder.nonNullable.group({
       huisdieren: this.formbuilder.nonNullable.group({
-        alpacas: [0.00],
-        honden: [0.00],
-        totaal: [0.00]
+        alpacas: [2.44],
+        honden: [5.23],
+        totaal: [0],
       }),
       hobbies: this.formbuilder.nonNullable.group({
-        knutselen: [0.00],
-        gamen: [0.00],
-        totaal: [0.00]
+        knutselen: [0],
+        gamen: [0],
+        totaal: [0],
       }),
       eten: this.formbuilder.nonNullable.group({
-        boodschappen: [0.00],
-        uiteten: [0.00],
-        totaal: [0.00]
+        boodschappen: [0],
+        uiteten: [0],
+        totaal: [0],
       }),
-      totaal: [0.00]
+      totaal: [0],
     });
   }
 
   get huisdierenTotaalValue() {
-    return this.kostenForm.controls.huisdieren.controls.totaal.value ?? 0.00;
+    return this.kostenForm.controls.huisdieren.controls.totaal.value ?? 0;
   }
 
   get hobbiesTotaalValue() {
-    return this.kostenForm.controls.hobbies.controls.totaal.value ?? 0.00;
+    return this.kostenForm.controls.hobbies.controls.totaal.value ?? 0;
   }
 
   get etenTotaalValue() {
-    return this.kostenForm.controls.eten.controls.totaal.value ?? 0.00;
+    return this.kostenForm.controls.eten.controls.totaal.value ?? 0;
   }
 
   get totaalValue() {
-    return this.kostenForm.controls.totaal.value ?? 0.00;
+    return this.kostenForm.controls.totaal.value ?? 0;
   }
 
-  toFloatParser(value: any): number {
+  private toFloatParser(value: number | string): number {
     if (value === null || value === undefined) {
-      return 0.00;
+      return 0.0;
     }
     if (typeof value === 'number') {
+      console.log('number value:', value);
       return value;
     }
+    console.log('string value:', value);
     return parseFloat(value.replace(',', '.'));
   }
 
-  calculate(): void {
+  private toCentsParser(value: any): number {
+    return Math.round(this.toFloatParser(value) * 100);
+  }
+
+  private fromCentsParcer(value: number): number {
+    return value / 100;
+  }
+
+  private calculate(): void {
     // Huisdieren
-    const alpacas = this.toFloatParser(this.kostenForm.controls.huisdieren.controls.alpacas.value) ?? 0.00;
-    const honden = this.toFloatParser(this.kostenForm.controls.huisdieren.controls.honden.value) ?? 0.00;
-    const totaalHuisdieren = alpacas + honden;
-    console.log('alpacas', alpacas);
-    console.log('honden', honden);
+    const alpacas =
+      this.toCentsParser(
+        this.kostenForm.controls.huisdieren.controls.alpacas.value,
+      ) ?? 0;
+    const honden =
+      this.toCentsParser(
+        this.kostenForm.controls.huisdieren.controls.honden.value,
+      ) ?? 0;
 
-    console.log('totaalHuisdieren', totaalHuisdieren);
+    if (isNaN(alpacas) || isNaN(honden)) {
+      return;
+    }
 
-    this.kostenForm.controls.huisdieren.controls.totaal.setValue(totaalHuisdieren, { emitEvent: false });
+    const totaalHuisdierenInCents = alpacas + honden;
+    this.kostenForm.controls.huisdieren.controls.totaal.setValue(
+      this.fromCentsParcer(totaalHuisdierenInCents),
+      { emitEvent: false },
+    );
 
     // Hobbies
-    const knutselen = this.toFloatParser(this.kostenForm.controls.hobbies.controls.knutselen.value) ?? 0.00;
-    const gamen = this.toFloatParser(this.kostenForm.controls.hobbies.controls.gamen.value) ?? 0.00;
-    const totaalHobbies = knutselen + gamen;
-    this.kostenForm.controls.hobbies.controls.totaal.setValue(totaalHobbies, { emitEvent: false });
-    console.log('typeof knutselen', typeof knutselen);
-    console.log('totaalHobbies', totaalHobbies);
+    const knutselen =
+      this.toCentsParser(
+        this.kostenForm.controls.hobbies.controls.knutselen.value,
+      ) ?? 0;
+    const gamen =
+      this.toCentsParser(
+        this.kostenForm.controls.hobbies.controls.gamen.value,
+      ) ?? 0;
 
+    if (isNaN(knutselen) || isNaN(gamen)) {
+      return;
+    }
 
+    const totaalHobbiesInCents = knutselen + gamen;
+    this.kostenForm.controls.hobbies.controls.totaal.setValue(
+      this.fromCentsParcer(totaalHobbiesInCents),
+      { emitEvent: false },
+    );
 
     // Eten
-    const boodschappen = this.toFloatParser(this.kostenForm.controls.eten.controls.boodschappen.value) ?? 0.00;
-    const uiteten = this.toFloatParser(this.kostenForm.controls.eten.controls.uiteten.value) ?? 0.00;
-    const totaalEten = boodschappen + uiteten;
-    this.kostenForm.controls.eten.controls.totaal.setValue(totaalEten, { emitEvent: false });
+    const boodschappen =
+      this.toCentsParser(
+        this.kostenForm.controls.eten.controls.boodschappen.value,
+      ) ?? 0;
+    const uiteten =
+      this.toCentsParser(
+        this.kostenForm.controls.eten.controls.uiteten.value,
+      ) ?? 0;
+
+    if (isNaN(boodschappen) || isNaN(uiteten)) {
+      return;
+    }
+
+    const totaalEtenInCents = boodschappen + uiteten;
+    this.kostenForm.controls.eten.controls.totaal.setValue(
+      this.fromCentsParcer(totaalEtenInCents),
+      { emitEvent: false },
+    );
 
     // Totaal
-    const totaal = totaalHuisdieren + totaalHobbies + totaalEten;
-    this.kostenForm.controls.totaal.setValue(totaal, { emitEvent: false });
-    console.log('totaal', totaal);
-    console.log('totaalformvalue', this.kostenForm.controls.totaal.value);
+
+    if (
+      isNaN(totaalHuisdierenInCents) ||
+      isNaN(totaalHobbiesInCents) ||
+      isNaN(totaalEtenInCents)
+    ) {
+      return;
+    }
+
+    const totaal =
+      totaalHuisdierenInCents + totaalHobbiesInCents + totaalEtenInCents;
+    this.kostenForm.controls.totaal.setValue(this.fromCentsParcer(totaal), {
+      emitEvent: false,
+    });
   }
 }

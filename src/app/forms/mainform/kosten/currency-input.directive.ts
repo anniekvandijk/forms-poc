@@ -1,17 +1,19 @@
 /* eslint-disable @angular-eslint/directive-selector */
 
 import { CurrencyPipe } from '@angular/common';
-import { Directive, ElementRef, HostListener, Input, OnInit } from "@angular/core";
+import { DEFAULT_CURRENCY_CODE, Directive, ElementRef, HostListener, Inject, Input, LOCALE_ID, OnInit } from "@angular/core";
 
 @Directive({ selector: "[currencyInput]",
   standalone: true,
   providers: [CurrencyPipe]
  })
 export class CurrencyInputMaskDirective implements OnInit {
+  @Input()
+  set maxDigits(maxDigits: number) {
+    this.setRegex(maxDigits);
+  } 
+  private decimalSeparator;
 
-  private decimalSeparator = ','; // change this to '.' for other locales
-
-  // build the regex based on max pre decimal digits allowed
   private regexString(max?: number) {
     const maxStr = max ? `{0,${max}}` : `+`;
     return `^(\\d${maxStr}(\\${this.decimalSeparator}\\d{0,2})?|\\${this.decimalSeparator}\\d{0,2})$`
@@ -20,36 +22,36 @@ export class CurrencyInputMaskDirective implements OnInit {
   private setRegex(maxDigits?: number) {
     this.digitRegex = new RegExp(this.regexString(maxDigits), 'g')
   }
-  @Input()
-  set maxDigits(maxDigits: number) {
-    this.setRegex(maxDigits);
-  } 
+
 
   private el: HTMLInputElement;
 
   constructor(
     private elementRef: ElementRef,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
+    @Inject(DEFAULT_CURRENCY_CODE)   private currency : string,
+    @Inject(LOCALE_ID) localeId: string
   ) {
     this.el = this.elementRef.nativeElement;
+    this.decimalSeparator = localeId === 'nl-NL' ? ',' : '.';
     this.setRegex();
   }
 
   ngOnInit() {
-    this.el.value = this.currencyPipe.transform(this.el.value.replace(this.decimalSeparator, '.'), 'EUR') || '';
+    this.el.value = this.currencyPipe.transform(this.el.value.replace(this.decimalSeparator, '.'), this.currency) || '';
   }
 
   @HostListener("focus", ["$event.target.value"])
   onFocus(value: any) {
     // on focus remove currency formatting
-    this.el.value = value.replace(/[^0-9,]+/g, '')
+    this.el.value = value.replace(`[^0-9\\${this.decimalSeparator}]+g`, '')
     this.el.select();
   }
 
   @HostListener("blur", ["$event.target.value"])
   onBlur(value: any) {
     // on blur, add currency formatting
-    this.el.value = this.currencyPipe.transform(value.replace(this.decimalSeparator, '.'), 'EUR') || '';
+    this.el.value = this.currencyPipe.transform(value.replace(this.decimalSeparator, '.'), this.currency) || '';
   }
 
   @HostListener("keydown.control.z", ["$event.target.value"])
