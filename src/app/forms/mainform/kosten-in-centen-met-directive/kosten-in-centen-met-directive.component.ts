@@ -30,7 +30,6 @@ export class KostenInCentenMetDirectiveComponent implements OnInit {
   private readonly calculateService = inject(CalculateService);
   mainform = this.formService.formSignal();
   kostenForm!: FormGroup<KostenForm>;
-  kosten: Kosten | undefined;
 
   ngOnInit(): void {
     this.createForm();
@@ -44,7 +43,6 @@ export class KostenInCentenMetDirectiveComponent implements OnInit {
         this.calculateService.calculateKosten(this.kostenForm)
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe(kosten => {
-            this.kosten = kosten;
             this.patchForm(kosten);
           }
         );
@@ -55,25 +53,43 @@ export class KostenInCentenMetDirectiveComponent implements OnInit {
     this.kostenForm = this.formbuilder.nonNullable.group({
       id: '',
       huisdieren: this.formbuilder.nonNullable.group({
-        alpacas: 0,
-        honden: 0,
-        totaal: 0,
+        alpacas: 68,	
+        honden: 655,
+        totaal: 723,
       }),
       hobbies: this.formbuilder.nonNullable.group({
         knutselen: 0,
-        gamen: 0,
-        totaal: 0,
+        gamen: 400,
+        totaal: 400,
       }),
       eten: this.formbuilder.nonNullable.group({
         boodschappen: 0,
         uiteten: 0,
         totaal: 0,
       }),
-      totaal: 0,
+      totaal: 1123,
     });
   }
 
   patchForm(kosten: Kosten): void {
-    this.kostenForm.patchValue(kosten, { emitEvent: false });
+    // Only patch the values that are calculated
+    // Else the fields you are working on will be reset
+    // That is very annoying
+    this.kostenForm.patchValue({
+      id: kosten.id,
+      huisdieren: {
+        totaal: kosten.huisdieren.totaal,
+      },
+      hobbies: {
+        totaal: kosten.hobbies.totaal,
+      },
+      eten: {
+        totaal: kosten.eten.totaal,
+      },
+      totaal: kosten.totaal,
+    }, 
+    { 
+      emitEvent: false 
+    });
   }
 }
