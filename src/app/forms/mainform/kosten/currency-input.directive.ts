@@ -1,72 +1,64 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @angular-eslint/directive-selector */
 
 import { CurrencyPipe } from '@angular/common';
-import { DEFAULT_CURRENCY_CODE, Directive, ElementRef, HostListener, Inject, Input, LOCALE_ID, OnInit } from "@angular/core";
+import { DEFAULT_CURRENCY_CODE, Directive, ElementRef, HostListener, inject, LOCALE_ID, OnInit } from "@angular/core";
 
 @Directive({ selector: "[currencyInput]",
   standalone: true,
   providers: [CurrencyPipe]
  })
 export class CurrencyInputMaskDirective implements OnInit {
-  @Input()
-  set maxDigits(maxDigits: number) {
-    this.setRegex(maxDigits);
-  } 
-  private decimalSeparator;
-
-  private regexString(max?: number) {
-    const maxStr = max ? `{0,${max}}` : `+`;
-    return `^(\\d${maxStr}(\\${this.decimalSeparator}\\d{0,2})?|\\${this.decimalSeparator}\\d{0,2})$`
-  }
-  private digitRegex!: RegExp;
-  private setRegex(maxDigits?: number) {
-    this.digitRegex = new RegExp(this.regexString(maxDigits), 'g')
-  }
-
-
-  private el: HTMLInputElement;
-
-  constructor(
-    private elementRef: ElementRef,
-    private currencyPipe: CurrencyPipe,
-    @Inject(DEFAULT_CURRENCY_CODE)   private currency : string,
-    @Inject(LOCALE_ID) localeId: string
-  ) {
-    this.el = this.elementRef.nativeElement;
-    this.decimalSeparator = localeId === 'nl-NL' ? ',' : '.';
-    this.setRegex();
-  }
+  private readonly localeId = inject(LOCALE_ID);
+  private readonly currencyCode = inject(DEFAULT_CURRENCY_CODE);
+  private readonly currencyPipe = inject(CurrencyPipe);
+  private readonly elementRef = inject(ElementRef);
+  private decimalSeparator = this.localeId === 'nl-NL' ? ',' : '.';
+  private el = this.elementRef.nativeElement;
+  private digitRegex = new RegExp(
+    `^(\\d+(\\${this.decimalSeparator}\\d{0,2})?|\\${this.decimalSeparator}\\d{0,2})$`,
+    'g'
+  )
+  private lastValidInput = `0${this.decimalSeparator}00`;
+  
 
   ngOnInit() {
-    this.el.value = this.currencyPipe.transform(this.el.value.replace(this.decimalSeparator, '.'), this.currency) || '';
+    // set initial value and format it to currency
+    this.el.value = this.currencyPipe
+      .transform(this.el.value.replace(this.decimalSeparator, '.'), this.currencyCode) || '';
   }
 
   @HostListener("focus", ["$event.target.value"])
   onFocus(value: any) {
     // on focus remove currency formatting
-    this.el.value = value.replace(`[^0-9\\${this.decimalSeparator}]+g`, '')
+    this.el.value = value.replace(new RegExp(`[^0-9\\${this.decimalSeparator}]+`, 'g'), '')
     this.el.select();
   }
 
   @HostListener("blur", ["$event.target.value"])
   onBlur(value: any) {
-    // on blur, add currency formatting
-    this.el.value = this.currencyPipe.transform(value.replace(this.decimalSeparator, '.'), this.currency) || '';
+    // on blur, format value to currency
+    console.log('blur', value);
+    if (!value) value = `0${this.decimalSeparator}00`;	
+    console.log('blur', value);
+    this.el.value = this.currencyPipe
+      .transform(value.replace(this.decimalSeparator, '.'), this.currencyCode) || '';
+    console.log('blur transform', this.el.value);
   }
 
   @HostListener("keydown.control.z", ["$event.target.value"])
-  onUndo(value: any) {
-    this.el.value = '0,00';
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onUndo(_value: any) {
+    // on undo, format value to zero value
+    this.el.value = `0${this.decimalSeparator}00`;
   }
 
-  // variable to store last valid input
-  private lastValid = '0,00';
   @HostListener('input', ['$event'])
   onInput(event: any) {
     // on input, run regex to only allow certain characters and format
     const cleanValue = (event.target.value.match(this.digitRegex) || []).join('')
     if (cleanValue || !event.target.value)
-      this.lastValid = cleanValue
-    this.el.value = cleanValue || this.lastValid
+      this.lastValidInput = cleanValue
+    this.el.value = cleanValue || this.lastValidInput
   }
 }

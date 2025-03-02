@@ -76,23 +76,17 @@ export class KostenComponent implements OnInit {
   }
 
   private toFloatParser(value: number | string): number {
-    if (value === null || value === undefined) {
-      return 0.0;
-    }
-    if (typeof value === 'number') {
-      console.log('number value:', value);
-      return value;
-    }
-    console.log('string value:', value);
+    if (!value) return 0;
+    if (typeof value === 'number') return value;
     return parseFloat(value.replace(',', '.'));
   }
 
   private toCentsParser(value: any): number {
-    return Math.round(this.toFloatParser(value) * 100);
+    return value ? Math.round(this.toFloatParser(value) * 100) : 0;
   }
 
   private fromCentsParcer(value: number): number {
-    return value / 100;
+    return value ? value / 100 : 0;
   }
 
   private calculate(): void {
@@ -106,9 +100,6 @@ export class KostenComponent implements OnInit {
         this.kostenForm.controls.huisdieren.controls.honden.value,
       ) ?? 0;
 
-    if (isNaN(alpacas) || isNaN(honden)) {
-      return;
-    }
 
     const totaalHuisdierenInCents = alpacas + honden;
     this.kostenForm.controls.huisdieren.controls.totaal.setValue(
@@ -126,10 +117,6 @@ export class KostenComponent implements OnInit {
         this.kostenForm.controls.hobbies.controls.gamen.value,
       ) ?? 0;
 
-    if (isNaN(knutselen) || isNaN(gamen)) {
-      return;
-    }
-
     const totaalHobbiesInCents = knutselen + gamen;
     this.kostenForm.controls.hobbies.controls.totaal.setValue(
       this.fromCentsParcer(totaalHobbiesInCents),
@@ -145,10 +132,6 @@ export class KostenComponent implements OnInit {
       this.toCentsParser(
         this.kostenForm.controls.eten.controls.uiteten.value,
       ) ?? 0;
-
-    if (isNaN(boodschappen) || isNaN(uiteten)) {
-      return;
-    }
 
     const totaalEtenInCents = boodschappen + uiteten;
     this.kostenForm.controls.eten.controls.totaal.setValue(
