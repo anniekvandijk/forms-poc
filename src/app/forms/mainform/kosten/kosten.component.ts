@@ -7,8 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { CurrencyPipe } from '@angular/common';
 import { delay } from 'rxjs';
 import { FormService } from '../../form.service';
-import { CurrencyInputMaskDirective } from './currency-input.directive';
-import { KostenForm } from './kosten.model';
+import { EuroInputFieldDirective } from './euro-input.directive';
+import { KostenForm } from './kostenForm.model';
 
 @Component({
   selector: 'app-kosten',
@@ -18,7 +18,7 @@ import { KostenForm } from './kosten.model';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    CurrencyInputMaskDirective,
+    EuroInputFieldDirective,
   ],
   templateUrl: './kosten.component.html',
   styleUrls: ['./kosten.component.scss'],
@@ -40,6 +40,7 @@ export class KostenComponent implements OnInit {
 
   createForm(): void {
     this.kostenForm = this.formbuilder.nonNullable.group({
+      id: [''],
       huisdieren: this.formbuilder.nonNullable.group({
         alpacas: [2.44],
         honden: [5.23],

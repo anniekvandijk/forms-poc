@@ -1,6 +1,6 @@
 <mat-card appearance="outlined">
   <mat-card-header>
-    <mat-card-title>Kosten in centen met Directive (poging om ook numeriek)</mat-card-title>
+    <mat-card-title>Kosten in centen (poging tot volledig numeriek)</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div [formGroup]="kostenForm">
@@ -10,19 +10,20 @@
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Alpaca's</mat-label>
             <input matInput
-              currencyCentsInput
+              eurocentsInputField
               [formControl]="kostenForm.controls.huisdieren.controls.alpacas"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Honden</mat-label>
             <input matInput
-              currencyCentsInput
+              eurocentsInputField
               [formControl]="kostenForm.controls.huisdieren.controls.honden"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input total-sub-culculation">
             <mat-label>Totaal huisdieren</mat-label>
             <input matInput
-              [value]="huisdierenTotaalValue | currency"
+              eurocentsInputField  
+              [formControl]="kostenForm.controls.huisdieren.controls.totaal"
               readonly
               tabindex="-1"
             />
@@ -35,19 +36,20 @@
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Knutselen</mat-label>
             <input matInput
-              currencyCentsInput
+              eurocentsInputField
               [formControl]="kostenForm.controls.hobbies.controls.knutselen"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Gamen</mat-label>
             <input matInput
-              currencyCentsInput
+              eurocentsInputField
               [formControl]="kostenForm.controls.hobbies.controls.gamen"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input total-sub-culculation">
             <mat-label>Totaal hobbies</mat-label>
             <input matInput
-              [value]="hobbiesTotaalValue | currency"
+              eurocentsInputField
+              [formControl]="kostenForm.controls.hobbies.controls.totaal"
               readonly
               tabindex="-1"
             />
@@ -60,19 +62,20 @@
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Boodschappen</mat-label>
             <input matInput
-              currencyCentsInput
+              eurocentsInputField
               [formControl]="kostenForm.controls.eten.controls.boodschappen"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Uit eten</mat-label>
             <input matInput
-              currencyCentsInput
+              eurocentsInputField
               [formControl]="kostenForm.controls.eten.controls.uiteten"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input total-sub-culculation">
             <mat-label>Totaal hobbies</mat-label>
             <input matInput
-              [value]="etenTotaalValue | currency"
+              eurocentsInputField
+              [formControl]="kostenForm.controls.eten.controls.totaal"
               readonly
               tabindex="-1"
             />
@@ -83,7 +86,8 @@
       <mat-form-field class="form-field-medium currency-input total-culculation">
         <mat-label>Totaal</mat-label>
         <input matInput
-          [value]="totaalValue | currency"
+          eurocentsInputField
+          [formControl]="kostenForm.controls.totaal"
           readonly
           tabindex="-1"
         />

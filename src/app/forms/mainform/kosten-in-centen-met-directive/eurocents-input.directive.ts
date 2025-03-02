@@ -12,11 +12,11 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[currencyCentsInput]',
+  selector: '[eurocentsInputField]',
   standalone: true,
   providers: [CurrencyPipe],
 })
-export class CurrencyCentsInputMaskDirective implements OnInit {
+export class EurocentsInputFieldDirective implements OnInit {
   private readonly localeId = inject(LOCALE_ID);
   private readonly currencyCode = inject(DEFAULT_CURRENCY_CODE);
   private readonly currencyPipe = inject(CurrencyPipe);

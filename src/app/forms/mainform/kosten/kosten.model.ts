@@ -1,26 +1,25 @@
-import { FormControl, FormGroup } from '@angular/forms';
-
-export interface KostenForm {
-  huisdieren: FormGroup<HuisdierenForm>;
-  hobbies: FormGroup<HobbiesForm>;
-  eten: FormGroup<EtenForm>;
-  totaal: FormControl<number>;
+export interface Kosten {
+  id: string;
+  huisdieren: Huisdieren;
+  hobbies: Hobbies;
+  eten: Eten;
+  totaal: number;
 }
 
-export interface HuisdierenForm {
-  alpacas: FormControl<number>;
-  honden: FormControl<number>;
-  totaal: FormControl<number>;
+export interface Huisdieren {
+  alpacas: number;
+  honden: number;
+  totaal: number;
 }
 
-export interface HobbiesForm {
-  knutselen: FormControl<number>;
-  gamen: FormControl<number>;
-  totaal: FormControl<number>;
+export interface Hobbies {
+  knutselen: number;
+  gamen: number;
+  totaal: number;
 }
 
-export interface EtenForm {
-  boodschappen: FormControl<number>;
-  uiteten: FormControl<number>;
-  totaal: FormControl<number>;
+export interface Eten {
+  boodschappen: number;
+  uiteten: number;
+  totaal: number;
 }

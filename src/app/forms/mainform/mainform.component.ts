@@ -9,7 +9,6 @@ import { FormService } from '../form.service';
 import { AdresgegevensComponent } from './adresgegevens/adresgegevens.component';
 import { BezorglocatiesComponent } from './bezorglocaties/bezorglocaties.component';
 import { KostenInCentenMetDirectiveComponent } from './kosten-in-centen-met-directive/kosten-in-centen-met-directive.component';
-import { KostenInCentenComponent } from "./kosten-in-centen/kosten-in-centen.component";
 import { KostenComponent } from './kosten/kosten.component';
 import { PersoonlijkeInformatieComponent } from './persoonlijke-informatie/persoonlijke-informatie.component';
 
@@ -26,7 +25,6 @@ import { PersoonlijkeInformatieComponent } from './persoonlijke-informatie/perso
     AdresgegevensComponent,
     BezorglocatiesComponent,
     KostenComponent,
-    KostenInCentenComponent,
     KostenInCentenMetDirectiveComponent
 ],
   templateUrl: './mainform.component.html',
