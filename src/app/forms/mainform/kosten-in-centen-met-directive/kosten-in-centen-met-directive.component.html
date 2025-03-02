@@ -1,6 +1,6 @@
 <mat-card appearance="outlined">
   <mat-card-header>
-    <mat-card-title>Kosten in centen numeriek</mat-card-title>
+    <mat-card-title>Kosten in centen met Directive (poging om ook numeriek)</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div [formGroup]="kostenForm">
@@ -10,21 +10,19 @@
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Alpaca's</mat-label>
             <input matInput
-              [value]="alpacas"
-              (change)="onAlpacasChange($event)"
-            />
+              currencyCentsInput
+              [formControl]="kostenForm.controls.huisdieren.controls.alpacas"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Honden</mat-label>
             <input matInput
-              [value]="honden"
-              (change)="onHondenChange($event)"
-            />
+              currencyCentsInput
+              [formControl]="kostenForm.controls.huisdieren.controls.honden"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input total-sub-culculation">
             <mat-label>Totaal huisdieren</mat-label>
             <input matInput
-              [value]="totaalHuisdieren"
+              [value]="huisdierenTotaalValue | currency"
               readonly
               tabindex="-1"
             />
@@ -37,21 +35,19 @@
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Knutselen</mat-label>
             <input matInput
-              [value]="knutselen"
-              (change)="onKnutselenChange($event)"  
-            />
+              currencyCentsInput
+              [formControl]="kostenForm.controls.hobbies.controls.knutselen"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Gamen</mat-label>
             <input matInput
-              [value]="gamen"
-              (change)="onGamenChange($event)"
-          />
+              currencyCentsInput
+              [formControl]="kostenForm.controls.hobbies.controls.gamen"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input total-sub-culculation">
             <mat-label>Totaal hobbies</mat-label>
             <input matInput
-              [value]="totaalHobbies"
+              [value]="hobbiesTotaalValue | currency"
               readonly
               tabindex="-1"
             />
@@ -64,21 +60,19 @@
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Boodschappen</mat-label>
             <input matInput
-              [value]="boodschappen"
-              (change)="onBoodschappenChange($event)"
-            />
+              currencyCentsInput
+              [formControl]="kostenForm.controls.eten.controls.boodschappen"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input">
             <mat-label>Uit eten</mat-label>
             <input matInput
-              [value]="uiteten"
-              (change)="onUitetenChange($event)"
-          />
+              currencyCentsInput
+              [formControl]="kostenForm.controls.eten.controls.uiteten"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input total-sub-culculation">
             <mat-label>Totaal hobbies</mat-label>
             <input matInput
-              [value]="totaalEten"
+              [value]="etenTotaalValue | currency"
               readonly
               tabindex="-1"
             />
@@ -89,7 +83,7 @@
       <mat-form-field class="form-field-medium currency-input total-culculation">
         <mat-label>Totaal</mat-label>
         <input matInput
-          [value]="totaal"
+          [value]="totaalValue | currency"
           readonly
           tabindex="-1"
         />

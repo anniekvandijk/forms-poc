@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, DEFAULT_CURRENCY_CODE, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -8,30 +8,30 @@ import { CurrencyPipe } from '@angular/common';
 import { delay } from 'rxjs';
 import { FormService } from '../../form.service';
 import { KostenForm } from './../kosten/kosten.model';
-import { CurrencyCentsInputMaskDirective } from './currency-cents-input.directive';
 
 @Component({
   selector: 'app-kosten-in-centen',
   imports: [
-    CurrencyPipe,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    CurrencyCentsInputMaskDirective,
   ],
+  providers: [CurrencyPipe],
   templateUrl: './kosten-in-centen.component.html',
   styleUrls: ['./kosten-in-centen.component.scss'],
 })
 export class KostenInCentenComponent implements OnInit {
   private readonly formbuilder = inject(FormBuilder);
   private readonly formService = inject(FormService);
+  private readonly currencyPipe = inject(CurrencyPipe);
+    private readonly currencyCode = inject(DEFAULT_CURRENCY_CODE);
   mainform = this.formService.formSignal();
   kostenForm!: FormGroup<KostenForm>;
 
   ngOnInit(): void {
     this.createForm();
-    this.formService.addChildFormGroup('kosten', this.kostenForm);
+    this.formService.addChildFormGroup('kosten2', this.kostenForm);
     this.calculate();
     this.kostenForm.valueChanges.pipe(delay(400)).subscribe(() => {
       this.calculate();
@@ -43,7 +43,7 @@ export class KostenInCentenComponent implements OnInit {
       huisdieren: this.formbuilder.nonNullable.group({
         alpacas: [244],
         honden: [523],
-        totaal: [0],
+        totaal: [767],
       }),
       hobbies: this.formbuilder.nonNullable.group({
         knutselen: [0],
@@ -59,38 +59,74 @@ export class KostenInCentenComponent implements OnInit {
     });
   }
 
-  get huisdierenTotaalValue() {
-    const value = this.kostenForm.controls.huisdieren.controls.totaal.value;
-    return value ? value/100 : 0;
+  get alpacas() {
+    return this.transformToCurrency(this.kostenForm.controls.huisdieren.controls.alpacas.value);
+  }
+  onAlpacasChange(event: Event) {
+    this.setValueFromEvent(event, this.kostenForm.controls.huisdieren.controls.alpacas);
   }
 
-  get hobbiesTotaalValue() {
-    const value = this.kostenForm.controls.hobbies.controls.totaal.value;
-    return value ? value/100 : 0;
+  get honden() {  
+    return this.transformToCurrency(this.kostenForm.controls.huisdieren.controls.honden.value);
+  } 
+
+  onHondenChange(event: Event) {
+    this.setValueFromEvent(event, this.kostenForm.controls.huisdieren.controls.honden);
   }
 
-  get etenTotaalValue() {
-    const value = this.kostenForm.controls.eten.controls.totaal.value;
-    return value ? value/100 : 0;
+  get knutselen() {
+    return this.transformToCurrency(this.kostenForm.controls.hobbies.controls.knutselen.value);
   }
 
-  get totaalValue() {
-    const value = this.kostenForm.controls.totaal.value;
-    return value ? value/100 : 0;
+  onKnutselenChange(event: Event) {
+    this.setValueFromEvent(event, this.kostenForm.controls.hobbies.controls.knutselen);
+  }
+
+  get gamen() {
+    return this.transformToCurrency(this.kostenForm.controls.hobbies.controls.gamen.value);
+  }
+
+  onGamenChange(event: Event) {
+    this.setValueFromEvent(event, this.kostenForm.controls.hobbies.controls.gamen);
+  }
+
+  get boodschappen() {
+    return this.transformToCurrency(this.kostenForm.controls.eten.controls.boodschappen.value);
+  }
+
+  onBoodschappenChange(event: Event) {
+    this.setValueFromEvent(event, this.kostenForm.controls.eten.controls.boodschappen);
+  }
+
+  get uiteten() {
+    return this.transformToCurrency(this.kostenForm.controls.eten.controls.uiteten.value);
+  }
+
+  onUitetenChange(event: Event) {
+    this.setValueFromEvent(event, this.kostenForm.controls.eten.controls.uiteten);
+  }
+
+  get totaalHuisdieren() {
+    return this.transformToCurrency(this.kostenForm.controls.huisdieren.controls.totaal.value);
+  }
+
+  get totaalHobbies() {
+    return this.transformToCurrency(this.kostenForm.controls.hobbies.controls.totaal.value);
+  }
+
+  get totaalEten() {
+    return this.transformToCurrency(this.kostenForm.controls.eten.controls.totaal.value);
+  }
+
+  get totaal() {
+    return this.transformToCurrency(this.kostenForm.controls.totaal.value);
   }
 
   private calculate(): void {
     // Huisdieren
     const alpacas = this.kostenForm.controls.huisdieren.controls.alpacas.value;
-    console.log('alpacas', alpacas);
-    const alpaca = parseInt(this.kostenForm.controls.huisdieren.controls.alpacas.value.toString()) || 0;
-    console.log('alpaca', alpaca);
     const honden = this.kostenForm.controls.huisdieren.controls.honden.value;
-    console.log('honden', honden);
-
-
     const totaalHuisdierenInCents = alpacas + honden;
-    console.log('totaalHuisdierenInCents', totaalHuisdierenInCents);
     this.kostenForm.controls.huisdieren.controls.totaal.setValue(
       totaalHuisdierenInCents,
       { emitEvent: false },
@@ -122,5 +158,28 @@ export class KostenInCentenComponent implements OnInit {
     this.kostenForm.controls.totaal.setValue(totaal, {
       emitEvent: false,
     });
+  }
+
+  private transformToCurrency(value: number): string {
+    return this.currencyPipe.transform(
+      (value/100).toFixed(2),
+      this.currencyCode,
+    ) || '';
+  }
+
+  private transformToCents(event: Event): number {
+    const value = (event.target as HTMLInputElement).value;
+    const numericValue = Math.round(
+      (parseFloat(value.replace(',', '.').replace(new RegExp(`[^0-9\\.]+`, 'g'), ''))
+      )*100
+    ) || 0;
+    return numericValue;
+  }
+
+  private setValueFromEvent(event: Event, control: FormControl): void {
+   control.setValue(
+      this.transformToCents(event),
+      { emitEvent: false },
+    );
   }
 }
