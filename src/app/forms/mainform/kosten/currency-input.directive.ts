@@ -37,13 +37,10 @@ export class CurrencyInputMaskDirective implements OnInit {
 
   @HostListener("blur", ["$event.target.value"])
   onBlur(value: any) {
-    // on blur, format value to currency
-    console.log('blur', value);
+    // on blur, format value to currency. If value is empty, set to zero value.
     if (!value) value = `0${this.decimalSeparator}00`;	
-    console.log('blur', value);
     this.el.value = this.currencyPipe
       .transform(value.replace(this.decimalSeparator, '.'), this.currencyCode) || '';
-    console.log('blur transform', this.el.value);
   }
 
   @HostListener("keydown.control.z", ["$event.target.value"])
