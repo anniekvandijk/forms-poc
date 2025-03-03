@@ -6,10 +6,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { delay } from 'rxjs';
 import { FormService } from '../../form.service';
-import { Kosten } from '../kosten/kosten.model';
-import { KostenForm } from '../kosten/kostenForm.model';
 import { CalculateService } from './calculate.service';
 import { EurocentsInputFieldDirective } from './eurocents-input.directive';
+import { Kosten } from './kosten.model';
+import { KostenForm } from './kostenForm.model';
+import { PercentageInputFieldDirective } from './percentage-input.directive';
 
 @Component({
   selector: 'app-kosten-in-centen-met-directive',
@@ -19,6 +20,7 @@ import { EurocentsInputFieldDirective } from './eurocents-input.directive';
     MatInputModule,
     MatCardModule,
     EurocentsInputFieldDirective,
+    PercentageInputFieldDirective,
   ],
   templateUrl: './kosten-in-centen-met-directive.component.html',
   styleUrls: ['./kosten-in-centen-met-directive.component.scss'],
@@ -55,16 +57,19 @@ export class KostenInCentenMetDirectiveComponent implements OnInit {
       huisdieren: this.formbuilder.nonNullable.group({
         alpacas: 68,	
         honden: 655,
+        percTotaal: 6438,
         totaal: 723,
       }),
       hobbies: this.formbuilder.nonNullable.group({
         knutselen: 0,
         gamen: 400,
+        percTotaal: 3562,
         totaal: 400,
       }),
       eten: this.formbuilder.nonNullable.group({
         boodschappen: 0,
         uiteten: 0,
+        percTotaal: 0,
         totaal: 0,
       }),
       totaal: 1123,
@@ -78,12 +83,15 @@ export class KostenInCentenMetDirectiveComponent implements OnInit {
     this.kostenForm.patchValue({
       id: kosten.id,
       huisdieren: {
+        percTotaal: kosten.huisdieren.percTotaal,
         totaal: kosten.huisdieren.totaal,
       },
       hobbies: {
+        percTotaal: kosten.hobbies.percTotaal,
         totaal: kosten.hobbies.totaal,
       },
       eten: {
+        percTotaal: kosten.eten.percTotaal,
         totaal: kosten.eten.totaal,
       },
       totaal: kosten.totaal,

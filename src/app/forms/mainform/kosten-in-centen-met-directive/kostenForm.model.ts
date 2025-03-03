@@ -11,17 +11,20 @@ export interface KostenForm {
 export interface HuisdierenForm {
   alpacas: FormControl<number>;
   honden: FormControl<number>;
+  percTotaal: FormControl<number>;
   totaal: FormControl<number>;
 }
 
 export interface HobbiesForm {
   knutselen: FormControl<number>;
   gamen: FormControl<number>;
+  percTotaal: FormControl<number>;
   totaal: FormControl<number>;
 }
 
 export interface EtenForm {
   boodschappen: FormControl<number>;
   uiteten: FormControl<number>;
+  percTotaal: FormControl<number>;
   totaal: FormControl<number>;
 }

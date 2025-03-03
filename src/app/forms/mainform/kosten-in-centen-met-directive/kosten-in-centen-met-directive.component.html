@@ -1,6 +1,6 @@
 <mat-card appearance="outlined">
   <mat-card-header>
-    <mat-card-title>Kosten in centen (poging tot volledig numeriek)</mat-card-title>
+    <mat-card-title>Kosten</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div [formGroup]="kostenForm">
@@ -18,6 +18,12 @@
             <input matInput
               eurocentsInputField
               [formControl]="kostenForm.controls.huisdieren.controls.honden"/>
+          </mat-form-field>
+          <mat-form-field class="form-field-medium currency-input">
+            <mat-label>% van totaal</mat-label>
+            <input matInput
+              percentageInputField
+              [formControl]="kostenForm.controls.huisdieren.controls.percTotaal"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input total-sub-culculation">
             <mat-label>Totaal huisdieren</mat-label>
@@ -45,6 +51,12 @@
               eurocentsInputField
               [formControl]="kostenForm.controls.hobbies.controls.gamen"/>
           </mat-form-field>
+          <mat-form-field class="form-field-medium currency-input">
+            <mat-label>% van totaal</mat-label>
+            <input matInput
+              percentageInputField
+              [formControl]="kostenForm.controls.hobbies.controls.percTotaal"/>
+          </mat-form-field>
           <mat-form-field class="form-field-medium currency-input total-sub-culculation">
             <mat-label>Totaal hobbies</mat-label>
             <input matInput
@@ -70,6 +82,12 @@
             <input matInput
               eurocentsInputField
               [formControl]="kostenForm.controls.eten.controls.uiteten"/>
+          </mat-form-field>
+          <mat-form-field class="form-field-medium currency-input">
+            <mat-label>% van totaal</mat-label>
+            <input matInput
+              percentageInputField
+              [formControl]="kostenForm.controls.eten.controls.percTotaal"/>
           </mat-form-field>
           <mat-form-field class="form-field-medium currency-input total-sub-culculation">
             <mat-label>Totaal hobbies</mat-label>
