@@ -86,22 +86,20 @@ export class PercentageInputFieldDirective implements ControlValueAccessor {
     );
     if (cleanValue || !event.target.value) this.lastValidInput = cleanValue;
     this.el.value = cleanValue || this.lastValidInput;
-    console.log('input', this.el.value);
   }
 
   private parseToHunderds(value: string): number {
-    console.log('value', value);
     const numericValue = value.replace(
       this.removeNonDigitsRegex,
       '',
-    ).replace(',', '.');
-    console.log('parseToHunderds', numericValue);
-    return Math.round(parseFloat(numericValue)/1000) || 0;
+    )
+    .replace(',', '.');
+    return (parseFloat(numericValue)/1000) || 0;
   }
 
   private formatToPercentage(value: number): string {
     return this.percentPipe.transform(
-      (value/10000),
+      (value),
       '1.2-2'
     ) || '';
   }

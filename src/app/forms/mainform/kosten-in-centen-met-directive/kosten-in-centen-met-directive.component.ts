@@ -57,13 +57,13 @@ export class KostenInCentenMetDirectiveComponent implements OnInit {
       huisdieren: this.formbuilder.nonNullable.group({
         alpacas: 68,	
         honden: 655,
-        percTotaal: 6438,
+        percTotaal: 0.6438,
         totaal: 723,
       }),
       hobbies: this.formbuilder.nonNullable.group({
         knutselen: 0,
         gamen: 400,
-        percTotaal: 3562,
+        percTotaal: 0.3562,
         totaal: 400,
       }),
       eten: this.formbuilder.nonNullable.group({

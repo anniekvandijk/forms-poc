@@ -42,6 +42,8 @@ export class MainformComponent implements OnInit {
       'geboortedatum', this.formService.fb().control('', [Validators.required]),	
     );
   }
+  
+  
 
   onSubmit() {
     this.formService.submitForm();

@@ -29,10 +29,10 @@ export class CalculateService {
       totaalHobbies +
       totaalEten;
     
-    const percTotaalHuisdieren = Math.round((totaalHuisdieren / totaal) * 10000);
-    const percTotaalHobbies = Math.round((totaalHobbies / totaal) * 10000);
+    const percTotaalHuisdieren = (totaalHuisdieren / totaal);
+    const percTotaalHobbies = (totaalHobbies / totaal);
     console.log('perc', percTotaalHobbies);
-    const percTotaalEten = Math.round((totaalEten / totaal) * 10000);
+    const percTotaalEten = (totaalEten / totaal);
   
     const kosten: Kosten = {
       id: kostenForm.controls.id.value || kostenformId,
