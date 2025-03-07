@@ -43,7 +43,6 @@ import { Subject } from 'rxjs';
 })
 export class CustomMatAutocomplete3Component implements ControlValueAccessor,MatFormFieldControl<any>, OnInit, DoCheck, OnDestroy {
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
-  @Output() formControlReady = new EventEmitter<FormControl>();
   options = input.required<string[]>();
   private readonly fb = inject(FormBuilder);
   private readonly injector = inject(Injector);
@@ -76,7 +75,6 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
   ngOnInit(): void {
     this.ngControl  = this.injector.get(NgControl);
     if (this.ngControl != null) { this.ngControl.valueAccessor = this; 
-    this.formControlReady.emit(this.autocompleteFormControl);
     }
   }
 
@@ -124,12 +122,17 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
   focused = false;
 
   onContainerClick(event: MouseEvent) {
+    console.log('container click', event);
     if ((event.target as Element).tagName.toLowerCase() != 'input') {
       this.input.nativeElement.querySelector('input')?.focus();
     }
+    this.touched = true;
+    this.focused = true;
+    this.stateChanges.next();
   }
 
   onFocusIn(event: FocusEvent) {
+    console.log('focus in', event);	
     if (!this.focused) {
       this.focused = true;
       this.stateChanges.next();
@@ -137,6 +140,7 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
   }
   
   onFocusOut(event: FocusEvent) {
+    console.log('focus out', event);
     if (!this.input.nativeElement.contains(event.relatedTarget as Element)) {
       this.touched = true;
       this.focused = false;
@@ -184,19 +188,18 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
   /* ---- Disabled for MatFormFieldControl ---- */
 
   /* ---- Required for MatFormFieldControl ---- */
-  private _required = false;
+  // private _required = false;
 
   @Input()
   get required(): boolean { 
     return this.ngControl?.control?.hasValidator(Validators.required) 
-    ? this._required = true 
-    : this._required = false;
+    ? true 
+    : false;
   }
 
   set required(req: BooleanInput) {
     // Not used, but needed for the interface
     // for template driven forms
-
   }
   /* ---- Required for MatFormFieldControl ---- */
 
