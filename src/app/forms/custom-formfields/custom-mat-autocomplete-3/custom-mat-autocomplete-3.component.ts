@@ -72,7 +72,9 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
     this.markAsTouched();
     this.stateChanges.next();
   }
- 
+
+  ngControl: NgControl | null = null;
+  
   ngOnInit(): void {
     this.ngControl  = this.injector.get(NgControl);
     if (this.ngControl != null) { this.ngControl.valueAccessor = this; 
@@ -81,22 +83,13 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
   }
 
   /* MatFormFieldControl methods */
-  ngControl: NgControl | null = null;
   stateChanges = new Subject<void>();
 
   set value(value: string) {
-    // This is needed for the interface MatFormFieldControl,
-    // but it is not used in this example. 
-    // This is only needed if you want to set the value from the outside
+    // Not used, but needed for the interface
     // this.control.setValue(value);
     // this.onChange(value);
     // this.stateChanges.next();
-  }
-
-  onContainerClick(event: MouseEvent) {
-    if ((event.target as Element).tagName.toLowerCase() != 'input') {
-      this.input.nativeElement.querySelector('input')?.focus();
-    }
   }
 
   get empty() {
@@ -131,6 +124,12 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
 
   /* ---- Focussed for MatFormFieldControl ---- */
   focused = false;
+
+  onContainerClick(event: MouseEvent) {
+    if ((event.target as Element).tagName.toLowerCase() != 'input') {
+      this.input.nativeElement.querySelector('input')?.focus();
+    }
+  }
 
   onFocusIn(event: FocusEvent) {
     if (!this.focused) {
@@ -184,19 +183,14 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
   private _required = false;
 
   @Input()
-  get required(): boolean { return this._required; }
+  get required(): boolean { 
+    return this.ngControl?.control?.hasValidator(Validators.required) 
+    ? this._required = true 
+    : this._required = false;
+  }
+
   set required(req: BooleanInput) {
-    this._required = coerceBooleanProperty(req);
-    if (this.autocompleteFormControl) {
-      if (this._required) {
-        this.autocompleteFormControl.setValidators(Validators.required);
-        this.autocompleteFormControl.updateValueAndValidity();
-      } else {
-        this.autocompleteFormControl.removeValidators(Validators.required);
-        this.autocompleteFormControl.updateValueAndValidity();
-      }
-    this.stateChanges.next();
-    }
+    // Not used, but needed for the interface
   }
   /* ---- Required for MatFormFieldControl ---- */
 
