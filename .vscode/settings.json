@@ -1,6 +1,6 @@
 {
     "editor.codeActionsOnSave": {
-        "source.removeUnusedImports": "always",
+    //    "source.removeUnusedImports": "always",
         "source.organizeImports": "explicit",
     },
     "editor.formatOnSaveMode": "modifications",
