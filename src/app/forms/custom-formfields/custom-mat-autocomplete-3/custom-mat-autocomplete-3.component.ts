@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -7,12 +8,6 @@ import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/ma
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Subject } from 'rxjs';
-
-///
-// This is a custom autocomplete component that uses the MatFormFieldControl and ControlValueAccessor interfaces
-// The MatFormFieldControl interface is needed for the MatFormField to work
-// The ControlValueAccessor interface is needed for the formControl to work
-// https://material.angular.io/guide/creating-a-custom-form-field-control#trying-it-out
 
 @Component({
   selector: 'app-custom-mat-autocomplete-3',
@@ -72,13 +67,19 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
 
   ngControl: NgControl | null = null;
   
+
+  /* --- combine the MatFormFieldControl and ControlValueAccessor --- */
+
   ngOnInit(): void {
     this.ngControl  = this.injector.get(NgControl);
     if (this.ngControl != null) { this.ngControl.valueAccessor = this; 
     }
   }
 
+  /* ---- end combine the MatFormFieldControl and ControlValueAccessor ---- */
+
   /* MatFormFieldControl methods */
+
   stateChanges = new Subject<void>();
 
   set value(value: string) {
@@ -235,7 +236,7 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
 
   /* --- ControlValueAccessor --- */
 
-  /* ---- Complete stateChanges ---- */
+  /* ---- Complete stateChanges MatFormFieldControl ---- */
   ngOnDestroy() {
     this.stateChanges.complete();
   }
