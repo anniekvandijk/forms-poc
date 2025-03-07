@@ -59,7 +59,6 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
   });
 
   filter(): void {
-    console.log('filter');
     const value = this.input.nativeElement.value.toLowerCase();
     this.filterValue.set(value);
     this.onChange(value);
@@ -67,7 +66,6 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
   }
 
   optionSelected(optionSelected: MatAutocompleteSelectedEvent ) {
-    console.log('optionSelected', optionSelected);
     this.onChange(optionSelected.option.value);
     this.markAsTouched();
     this.stateChanges.next();
@@ -165,9 +163,15 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
   private _disabled = false;
 
   @Input()
-  get disabled(): boolean { return this._disabled; }
+  get disabled(): boolean { 
+    return this.ngControl?.control?.disabled
+    ? this._disabled = true
+    : this._disabled = false;
+  }
+
   set disabled(value: BooleanInput) {
     this._disabled = coerceBooleanProperty(value);
+    // this is needed to disable the autocomplete input
     if (this.autocompleteFormControl) {
       if (this._disabled) {
         this.autocompleteFormControl.disable();
@@ -191,15 +195,15 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
 
   set required(req: BooleanInput) {
     // Not used, but needed for the interface
+    // for template driven forms
+
   }
   /* ---- Required for MatFormFieldControl ---- */
 
   /* ControlValueAccessor methods */
 
   writeValue(value: string): void {
-    if (this.autocompleteFormControl) {
-      this.autocompleteFormControl.setValue(value);
-    }
+    this.ngControl?.control?.setValue(value);
   }
 
   private touched = false;
