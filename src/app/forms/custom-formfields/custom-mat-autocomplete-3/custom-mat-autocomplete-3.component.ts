@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Component, computed, ElementRef, EventEmitter, HostBinding, inject, Input, input, OnDestroy, OnInit, Optional, Output, Self, signal, ViewChild } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormsModule, NgControl, ReactiveFormsModule, ValidationErrors, Validator } from '@angular/forms';
+import { Component, computed, ElementRef, EventEmitter, forwardRef, HostBinding, inject, Injector, Input, input, OnDestroy, OnInit, Optional, Output, Self, signal, ViewChild, DoCheck } from '@angular/core';
+import { AbstractControl, AbstractControlDirective, ControlValueAccessor, FormBuilder, FormControl, FormsModule, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule, ValidationErrors, Validator, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,25 +25,28 @@ import { Subject } from 'rxjs';
     ReactiveFormsModule,
   ],
   providers: [
-    // This is not needed, because the ControlValueAccessor is already provided in the MatFormFieldControl
-    // {
-    //   provide: NG_VALUE_ACCESSOR,
-    //   multi: true,
-    //   useExisting: forwardRef(() => CustomAutocompleteComponent),
-    // },
+   // This is not needed, because the ControlValueAccessor is already provided in the MatFormFieldControl
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: forwardRef(() => CustomMatAutocomplete3Component),
+    },
     {
       provide: MatFormFieldControl,
       useExisting: CustomMatAutocomplete3Component,
     }
   ],
+  host: {
+    '[id]': 'id',
+    '[attr.aria-describedby]': 'describedBy'
+  }
 })
-export class CustomMatAutocomplete3Component implements ControlValueAccessor, Validator, MatFormFieldControl<string>, OnInit, OnDestroy {
+export class CustomMatAutocomplete3Component implements ControlValueAccessor,MatFormFieldControl<any>, OnInit, DoCheck, OnDestroy {
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
-  
-  // This is to emit the formControl to the parent component
   @Output() formControlReady = new EventEmitter<FormControl>();
   options = input.required<string[]>();
   private readonly fb = inject(FormBuilder);
+  private readonly injector = inject(Injector);
   private filterValue = signal<string>('');
   autocompleteFormControl = this.fb.control('');
   filteredOptions = computed(() => {
@@ -53,75 +58,80 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor, Va
       );
   });
 
-  /* MatFormFieldControl method */
-  // For using both MatFormFieldControl and ControlValueAccessor, the following code is needed
-  constructor(@Optional() @Self() public ngControl: NgControl) { 
-    // Replace the provider from above with this.
-    if (this.ngControl != null) {
-      // Setting the value accessor directly (instead of using
-      // the providers) to avoid running into a circular import.
-      this.ngControl.valueAccessor = this;
-      
-    }
-  }
-  /* MatFormFieldControl method */
-
-  // ngOnInit(): void {
-  //   if (this.required) {
-  //     this.autocompleteFormControl.setValidators(Validators.required);
-  //   } else {
-  //     this.autocompleteFormControl.clearValidators();
-  //   }
-  // }
-
-  /* This is to emit the formControl to the parent component
-  *  This is a method to get a formControl, formArray or FormGroup
-  *  attached to the parent component form
-  */
-  ngOnInit(): void {
-    this.formControlReady.emit(this.autocompleteFormControl);
-  }
-
   filter(): void {
-    this.filterValue.set(this.input.nativeElement.value.toLowerCase());
+    console.log('filter');
+    const value = this.input.nativeElement.value.toLowerCase();
+    this.filterValue.set(value);
+    this.onChange(value);
+    this.stateChanges.next();
   }
 
   optionSelected(optionSelected: MatAutocompleteSelectedEvent ) {
+    console.log('optionSelected', optionSelected);
     this.onChange(optionSelected.option.value);
     this.markAsTouched();
+    this.stateChanges.next();
   }
  
+  ngOnInit(): void {
+    this.ngControl  = this.injector.get(NgControl);
+    if (this.ngControl != null) { this.ngControl.valueAccessor = this; 
+    this.formControlReady.emit(this.autocompleteFormControl);
+    }
+  }
+
   /* MatFormFieldControl methods */
-
-  @Input()
-  get placeholder() {
-    return this._placeholder;
-  }
-  set placeholder(plh) {
-   // console.log('set placeholder', plh);
-    this._placeholder = plh;
-    this.stateChanges.next();
-  }
-  private _placeholder!: string;
-
+  ngControl: NgControl | null = null;
   stateChanges = new Subject<void>();
 
-  set value(autocomplete: string) {
-    this.autocompleteFormControl.setValue(autocomplete);
-    this.stateChanges.next();
+  set value(value: string) {
+    // This is needed for the interface MatFormFieldControl,
+    // but it is not used in this example. 
+    // This is only needed if you want to set the value from the outside
+    // this.control.setValue(value);
+    // this.onChange(value);
+    // this.stateChanges.next();
   }
 
+  onContainerClick(event: MouseEvent) {
+    if ((event.target as Element).tagName.toLowerCase() != 'input') {
+      this.input.nativeElement.querySelector('input')?.focus();
+    }
+  }
+
+  get empty() {
+    return !(this.autocompleteFormControl.value);
+  }
+
+  /* ---- Name and Id stuff for MatFormFieldControl ---- */
+  controlType = 'custom-autocomplete-input';
   static nextId = 0;
-
   @HostBinding() id = `autocomplete-input-${CustomMatAutocomplete3Component.nextId++}`;   
-  
-  ngOnDestroy() {
-    this.stateChanges.complete();
-  }
+  @HostBinding('attr.aria-describedby') describedBy = '';
 
+  setDescribedByIds(ids: string[]) {
+    this.describedBy = ids.join(' ');
+  }
+  /* ---- Name and Id stuff for MatFormFieldControl ---- */
+
+  /* ---- Floating label for MatFormFieldControl ---- */
+  @HostBinding('class.floating')
+  get shouldLabelFloat() { return this.focused || !this.empty; }
+  /* ---- Floating label for MatFormFieldControl ---- */
+
+  /* ---- ErrorStateMatcher for MatFormFieldControl ---- */
+  errorState = false;
+
+  ngDoCheck(): void {
+    if(this.ngControl) {
+       this.errorState = !!this.ngControl?.invalid && !!this.ngControl?.touched;
+      this.stateChanges.next();
+    }
+ }
+
+  /* ---- Focussed for MatFormFieldControl ---- */
   focused = false;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onFocusIn(event: FocusEvent) {
     if (!this.focused) {
       this.focused = true;
@@ -137,105 +147,24 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor, Va
       this.stateChanges.next();
     }
   }
+  /* ---- Focussed for MatFormFieldControl ---- */
 
-  get empty() {
-    return !(this.autocompleteFormControl.value);
-  }
-
-  @HostBinding('class.floating')
-  get shouldLabelFloat() { return this.focused || !this.empty; }
+  /* ---- Placeholder for MatFormFieldControl ---- */
+  private _placeholder!: string;
 
   @Input()
-  get required(): boolean { return this._required; }
-  set required(req: BooleanInput) {
-    this._required = coerceBooleanProperty(req);
-    // if (this.autocompleteFormControl) {
-    //   if (this._required) {
-    //     this.autocompleteFormControl.setValidators(Validators.required);
-    //   } else {
-    //     this.autocompleteFormControl.removeValidators(Validators.required);
-    //   }
+  get placeholder() {
+    return this._placeholder;
+  }
+  set placeholder(plh) {
+    this._placeholder = plh;
     this.stateChanges.next();
   }
-  private _required = false;
+  /* ---- Placeholder for MatFormFieldControl ---- */
 
-  // If this does not work, change this like explained in
-  // https://material.angular.io/guide/creating-a-custom-form-field-control#trying-it-out
-  get errorState(): boolean {
-    return this.autocompleteFormControl.invalid && this.touched;
-  }
+  /* ---- Disabled for MatFormFieldControl ---- */ 
+  private _disabled = false;
 
-  controlType = 'custom-autocomplete-input';
-
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('aria-describedby') userAriaDescribedBy! : string;
-
-  // TODO: setDescribedByIds check if this is ok
-  setDescribedByIds(ids: string[]) {
-    const controlElement = this.input && this.input.nativeElement && this.input.nativeElement
-      .querySelector('.custom-autocomplete-input-container')!;
-  //  console.log('controlElement', controlElement);
-  //  console.log('ids', ids);
-  //  controlElement.setAttribute('aria-describedby', ids.join(' '));
-  }
-
-  onContainerClick(event: MouseEvent) {
-    if ((event.target as Element).tagName.toLowerCase() != 'input') {
-      this.input.nativeElement.querySelector('input')?.focus();
-    }
-  }
-
-  /* ControlValueAccessor methods */
-
-  // ControlValueAccessor method writeValue
-  writeValue(value: string): void {
-    if (this.autocompleteFormControl) {
-      this.autocompleteFormControl.setValue(value);
-    }
-  }
-
-  // ControlValueAccessor method registerOnTouched
-  private touched = false;
-  onTouched: any = () => {
-    // empty function
-  };
-
-  registerOnTouched(onTouched: any): void {
-    this.onTouched = onTouched;
-  }
-
-  private markAsTouched(): void{
-    if(!this.touched){
-      this.touched = true;
-      this.onTouched();
-    }
-  }
-
-  // ControlValueAccessor method registerOnChange
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onChange = (_input: string) => {
-    // empty function in order to avoid errors
-  };
-
-  registerOnChange(onChange: any): void {
-      this.onChange = onChange;
-  }
-
-  // ControlValueAccessor method setDisabledState
-
-  
-  //* ControlValueAccessor 
-  // Sets the disabled state of the control linked to the form
-  // in this component
-  setDisabledState?(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-
-  ///* MatFormFieldControl
-  // Sets the disabled state of the control
-  // in this component
   @Input()
   get disabled(): boolean { return this._disabled; }
   set disabled(value: BooleanInput) {
@@ -249,15 +178,64 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor, Va
       this.stateChanges.next();
     }
   }
-  private _disabled = false;
+  /* ---- Disabled for MatFormFieldControl ---- */
 
-  validate(c: AbstractControl): ValidationErrors | null {
-    console.log('validate kleur4', c);
-    const validationErrors = this.autocompleteFormControl.invalid 
-      ? { internal: true} 
-      : null;
-    return validationErrors;
+  /* ---- Required for MatFormFieldControl ---- */
+  private _required = false;
+
+  @Input()
+  get required(): boolean { return this._required; }
+  set required(req: BooleanInput) {
+    this._required = coerceBooleanProperty(req);
+    if (this.autocompleteFormControl) {
+      if (this._required) {
+        this.autocompleteFormControl.setValidators(Validators.required);
+        this.autocompleteFormControl.updateValueAndValidity();
+      } else {
+        this.autocompleteFormControl.removeValidators(Validators.required);
+        this.autocompleteFormControl.updateValueAndValidity();
+      }
+    this.stateChanges.next();
+    }
+  }
+  /* ---- Required for MatFormFieldControl ---- */
+
+  /* ControlValueAccessor methods */
+
+  writeValue(value: string): void {
+    if (this.autocompleteFormControl) {
+      this.autocompleteFormControl.setValue(value);
+    }
   }
 
+  private touched = false;
+  onTouched: any = () => {};
 
+  registerOnTouched(onTouched: any): void {
+    this.onTouched = onTouched;
+  }
+
+  private markAsTouched(): void{
+    if(!this.touched){
+      this.touched = true;
+      this.onTouched();
+    }
+  }
+
+  onChange = (_input: string) => {};
+
+  registerOnChange(onChange: any): void {
+      this.onChange = onChange;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  /* --- ControlValueAccessor --- */
+
+  /* ---- Complete stateChanges ---- */
+  ngOnDestroy() {
+    this.stateChanges.complete();
+  }
 }
