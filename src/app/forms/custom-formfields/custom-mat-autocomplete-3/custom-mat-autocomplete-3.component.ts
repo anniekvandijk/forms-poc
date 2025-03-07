@@ -61,7 +61,7 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
 
   optionSelected(optionSelected: MatAutocompleteSelectedEvent ) {
     this.onChange(optionSelected.option.value);
-    this.markAsTouched();
+    this.onTouched();
     this.stateChanges.next();
   }
 
@@ -127,7 +127,7 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
     if ((event.target as Element).tagName.toLowerCase() != 'input') {
       this.input.nativeElement.querySelector('input')?.focus();
     }
-    this.touched = true;
+    this.onTouched();
     this.focused = true;
     this.stateChanges.next();
   }
@@ -136,6 +136,7 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
     console.log('focus in', event);	
     if (!this.focused) {
       this.focused = true;
+      this.onTouched();
       this.stateChanges.next();
     }
   }
@@ -211,17 +212,12 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
   }
 
   private touched = false;
-  onTouched: any = () => {};
+  onTouched: any = () => {
+    this.touched = true;
+  };
 
   registerOnTouched(onTouched: any): void {
     this.onTouched = onTouched;
-  }
-
-  private markAsTouched(): void{
-    if(!this.touched){
-      this.touched = true;
-      this.onTouched();
-    }
   }
 
   onChange = (_input: string) => {};
