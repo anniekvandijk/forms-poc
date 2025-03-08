@@ -5,6 +5,7 @@
   [matAutocomplete]="auto"
   (input)="filter()"
   (focus)="filter()"
+  (blur)="onBlur($event)"
 >
 <mat-autocomplete
   (optionSelected)="optionSelected($event)"

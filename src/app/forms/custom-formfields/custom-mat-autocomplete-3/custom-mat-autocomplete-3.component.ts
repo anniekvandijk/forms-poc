@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Component, computed, ElementRef, EventEmitter, forwardRef, HostBinding, inject, Injector, Input, input, OnDestroy, OnInit, Optional, Output, Self, signal, ViewChild, DoCheck } from '@angular/core';
-import { AbstractControl, AbstractControlDirective, ControlValueAccessor, FormBuilder, FormControl, FormsModule, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule, ValidationErrors, Validator, Validators } from '@angular/forms';
+import { Component, computed, ElementRef, forwardRef, HostBinding, inject, Injector, Input, input, OnDestroy, OnInit, signal, ViewChild, DoCheck } from '@angular/core';
+import { ControlValueAccessor, FormBuilder, FormsModule, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +12,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-custom-mat-autocomplete-3',
   templateUrl: 'custom-mat-autocomplete-3.component.html',
+  styleUrl: 'custom-mat-autocomplete-3.component.scss',
   imports: [
     FormsModule,
     MatFormFieldModule,
@@ -20,7 +21,6 @@ import { Subject } from 'rxjs';
     ReactiveFormsModule,
   ],
   providers: [
-   // This is not needed, because the ControlValueAccessor is already provided in the MatFormFieldControl
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
@@ -56,6 +56,7 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
     const value = this.input.nativeElement.value.toLowerCase();
     this.filterValue.set(value);
     this.onChange(value);
+    this.onFocus();
     this.stateChanges.next();
   }
 
@@ -80,6 +81,12 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
 
   /* MatFormFieldControl methods */
 
+  onContainerClick(event: MouseEvent) {
+    if ((event.target as Element).tagName.toLowerCase() != 'input') {
+      this.input.nativeElement.querySelector('input')?.focus();
+    }
+  }
+
   stateChanges = new Subject<void>();
 
   set value(value: string) {
@@ -102,12 +109,10 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
   setDescribedByIds(ids: string[]) {
     this.describedBy = ids.join(' ');
   }
-  /* ---- Name and Id stuff for MatFormFieldControl ---- */
 
   /* ---- Floating label for MatFormFieldControl ---- */
   @HostBinding('class.floating')
   get shouldLabelFloat() { return this.focused || !this.empty; }
-  /* ---- Floating label for MatFormFieldControl ---- */
 
   /* ---- ErrorStateMatcher for MatFormFieldControl ---- */
   errorState = false;
@@ -122,35 +127,20 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
   /* ---- Focussed for MatFormFieldControl ---- */
   focused = false;
 
-  onContainerClick(event: MouseEvent) {
-    console.log('container click', event);
-    if ((event.target as Element).tagName.toLowerCase() != 'input') {
-      this.input.nativeElement.querySelector('input')?.focus();
-    }
-    this.onTouched();
-    this.focused = true;
-    this.stateChanges.next();
-  }
-
-  onFocusIn(event: FocusEvent) {
-    console.log('focus in', event);	
+  onFocus() {
     if (!this.focused) {
       this.focused = true;
-      this.onTouched();
       this.stateChanges.next();
     }
   }
   
-  onFocusOut(event: FocusEvent) {
-    console.log('focus out', event);
+  onBlur(event: FocusEvent) {
     if (!this.input.nativeElement.contains(event.relatedTarget as Element)) {
-      this.touched = true;
       this.focused = false;
       this.onTouched();
       this.stateChanges.next();
     }
   }
-  /* ---- Focussed for MatFormFieldControl ---- */
 
   /* ---- Placeholder for MatFormFieldControl ---- */
   private _placeholder!: string;
@@ -163,7 +153,6 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
     this._placeholder = plh;
     this.stateChanges.next();
   }
-  /* ---- Placeholder for MatFormFieldControl ---- */
 
   /* ---- Disabled for MatFormFieldControl ---- */ 
   private _disabled = false;
@@ -187,23 +176,30 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
       this.stateChanges.next();
     }
   }
-  /* ---- Disabled for MatFormFieldControl ---- */
 
   /* ---- Required for MatFormFieldControl ---- */
-  // private _required = false;
 
-  @Input()
+  // required for template driven forms
+  // _required = false;
+
+  // @Input()
+  // get required(): boolean { 
+  //   return this._required;
+  // }
+  
+  set required(req: BooleanInput) {
+    // this._required = coerceBooleanProperty(req);
+    // this.stateChanges.next();
+  }
+
+  // required for reactive forms
   get required(): boolean { 
     return this.ngControl?.control?.hasValidator(Validators.required) 
     ? true 
     : false;
   }
 
-  set required(req: BooleanInput) {
-    // Not used, but needed for the interface
-    // for template driven forms
-  }
-  /* ---- Required for MatFormFieldControl ---- */
+
 
   /* ControlValueAccessor methods */
 
@@ -211,8 +207,9 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
     this.ngControl?.control?.setValue(value);
   }
 
-  private touched = false;
-  onTouched: any = () => {
+  touched = false;
+  
+  onTouched = () => {
     this.touched = true;
   };
 
