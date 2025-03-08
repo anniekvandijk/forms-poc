@@ -53,7 +53,9 @@ export class CustomMatAutocompleteComponent implements ControlValueAccessor, Val
     return this.options().filter(option => option.toLowerCase().includes(value));
   });
   filter(): void {
-    this.filterValue.set(this.autocompleteFormControl.value?.toLowerCase() ?? '');
+    const value = this.autocompleteFormControl.value?.toLowerCase() ?? '';
+    this.filterValue.set(value);
+    this.onChange(value);
   }
 
   onOptionSelected(optionSelected: MatAutocompleteSelectedEvent ) {
