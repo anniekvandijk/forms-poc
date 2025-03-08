@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Component, computed, forwardRef, inject, input, signal } from '@angular/core';
+import { Component, computed, ElementRef, forwardRef, inject, input, signal, ViewChild } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule, ValidationErrors, Validator } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -41,7 +41,7 @@ import { MatInputModule } from '@angular/material/input';
   `]
 })
 export class CustomMatAutocompleteComponent implements ControlValueAccessor, Validator {
- // @ViewChild('input') input!: ElementRef<HTMLInputElement>;
+  @ViewChild('input') input!: ElementRef<HTMLInputElement>;
   label = input<string>('Selecteer een optie');
   placeholder = input<string>('');
   options = input<string[]>([]);
@@ -53,7 +53,7 @@ export class CustomMatAutocompleteComponent implements ControlValueAccessor, Val
     return this.options().filter(option => option.toLowerCase().includes(value));
   });
   filter(): void {
-    const value = this.autocompleteFormControl.value?.toLowerCase() ?? '';
+    const value = this.input.nativeElement.value.toLowerCase();
     this.filterValue.set(value);
     this.onChange(value);
   }
