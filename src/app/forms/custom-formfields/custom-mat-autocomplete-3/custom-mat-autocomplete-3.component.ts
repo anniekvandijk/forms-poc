@@ -83,7 +83,7 @@ export class CustomMatAutocomplete3Component implements ControlValueAccessor,Mat
 
   onContainerClick(event: MouseEvent) {
     if ((event.target as Element).tagName.toLowerCase() != 'input') {
-      this.input.nativeElement.querySelector('input')?.focus();
+      this.input.nativeElement.focus();
     }
   }
 
