@@ -55,7 +55,11 @@ export class CustomMatAutocompleteComponent implements ControlValueAccessor, Val
   filter(): void {
     const value = this.input.nativeElement.value.toLowerCase();
     this.filterValue.set(value);
-    this.onChange(value);
+    if (this.options().includes(value)) {
+      this.onChange(value);
+    } else {
+      this.onChange('');
+    }
   }
 
   onOptionSelected(optionSelected: MatAutocompleteSelectedEvent ) {
