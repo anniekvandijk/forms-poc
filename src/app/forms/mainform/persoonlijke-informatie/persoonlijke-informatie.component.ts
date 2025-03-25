@@ -67,16 +67,16 @@ export class PersoonlijkeInformatieComponent implements OnInit {
       this.persoonlijkeInformatie,
     );
     this.kleurenOptions.set([
-      { key: '1', value: 'rood' },
-      { key: '2', value: 'blauw' },
-      { key: '3', value: 'groen' },
-      { key: '4', value: 'geel' },
-      { key: '5', value: 'oranje' },
-      { key: '6', value: 'paars' },
-      { key: '7', value: 'zwart' },
-      { key: '8', value: 'wit' },
-      { key: '9', value: 'grijs' },
-      { key: '10', value: 'bruin' },
+      { key: '1', value: '1 - rood' },
+      { key: '2', value: '2 - blauw' },
+      { key: '3', value: '3 - groen' },
+      { key: '4', value: '4 - geel' },
+      { key: '5', value: '5 - oranje' },
+      { key: '6', value: '6 - paars' },
+      { key: '7', value: '7 - zwart' },
+      { key: '8', value: '8 - wit' },
+      { key: '9', value: '9 - grijs' },
+      { key: '10', value: '10 - bruin' },
     ]);
   }
 
@@ -111,7 +111,7 @@ export class PersoonlijkeInformatieComponent implements OnInit {
       kleur2: [{ value: '', disabled: false }, Validators.required],
       kleur3b: [''],
       kleur4: [{ value: '', disabled: false }, Validators.required],
-      kleur5: [{ value: '', disabled: false }, Validators.required],
+      kleur5: [{ value: '2', disabled: false }, Validators.required],
       lievelingsdier: ['', Validators.required],
       anderLievelingsdier: [''],
       waaromDitDier: [''],

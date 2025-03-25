@@ -55,8 +55,10 @@ export class CustomMatAutocomplete4Component implements ControlValueAccessor,Mat
   filter(): void {
     const value = this.input.nativeElement.value.toLowerCase();
     this.filterValue.set(value);
-    if (this.options().some(option => option.value === value)) {
-      this.onChange(value);
+    const matchingOption = this.options().find(option => option.value.toLowerCase() === value);
+    console.log('matchingOption', matchingOption);
+    if (matchingOption) {
+      this.onChange(matchingOption.key);
     } else {
       this.onChange('');
     }
@@ -65,6 +67,7 @@ export class CustomMatAutocomplete4Component implements ControlValueAccessor,Mat
   }
 
   optionSelected(optionSelected: MatAutocompleteSelectedEvent ) {
+    console.log('optionSelected', optionSelected);
     this.onChange(optionSelected.option.value);
     this.onTouched();
     this.stateChanges.next();
