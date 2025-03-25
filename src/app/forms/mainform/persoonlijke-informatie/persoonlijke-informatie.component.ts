@@ -29,6 +29,8 @@ import {
 } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { PersoonlijkeInformatie } from './persoonlijke-informatie.model';
+import { CustomMatAutocomplete4Component } from '../../custom-formfields/custom-mat-autocomplete-4/custom-mat-autocomplete-4.component';
+import { AutocompleteOptions } from '../../custom-formfields/custom-mat-autocomplete-4/autocomplete-options';
 
 @Component({
   selector: 'app-persoonlijke-informatie',
@@ -43,6 +45,7 @@ import { PersoonlijkeInformatie } from './persoonlijke-informatie.model';
     CustomMatAutocompleteComponent,
     CustomMatAutocomplete2Component,
     CustomMatAutocomplete3Component,
+    CustomMatAutocomplete4Component
   ],
   templateUrl: './persoonlijke-informatie.component.html',
 })
@@ -51,6 +54,7 @@ export class PersoonlijkeInformatieComponent implements OnInit {
   private readonly formbuilder = inject(FormBuilder);
   private readonly formService = inject(FormService);
   mainform = this.formService.formSignal();
+  kleurenOptions = signal<AutocompleteOptions[]>([]);
   persoonlijkeInformatie!: FormGroup<PersoonlijkeInformatie>;
   showAnderLievelingsdierField = signal(false);
   anderlievelingsdierMaxlength = signal(20);
@@ -62,6 +66,18 @@ export class PersoonlijkeInformatieComponent implements OnInit {
       'persoonlijkeInformatie',
       this.persoonlijkeInformatie,
     );
+    this.kleurenOptions.set([
+      { key: '1', value: 'rood' },
+      { key: '2', value: 'blauw' },
+      { key: '3', value: 'groen' },
+      { key: '4', value: 'geel' },
+      { key: '5', value: 'oranje' },
+      { key: '6', value: 'paars' },
+      { key: '7', value: 'zwart' },
+      { key: '8', value: 'wit' },
+      { key: '9', value: 'grijs' },
+      { key: '10', value: 'bruin' },
+    ]);
   }
 
   /* START - Autocomplete components */
@@ -95,6 +111,7 @@ export class PersoonlijkeInformatieComponent implements OnInit {
       kleur2: [{ value: '', disabled: false }, Validators.required],
       kleur3b: [''],
       kleur4: [{ value: '', disabled: false }, Validators.required],
+      kleur5: [{ value: '', disabled: false }, Validators.required],
       lievelingsdier: ['', Validators.required],
       anderLievelingsdier: [''],
       waaromDitDier: [''],

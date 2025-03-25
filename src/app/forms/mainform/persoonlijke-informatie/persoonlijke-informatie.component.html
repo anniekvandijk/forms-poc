@@ -88,6 +88,16 @@
     </div>
     <div class="form-row">
       <mat-form-field class="form-field grow-1">
+        <mat-label>Kies je favoriete kleur5</mat-label>
+        <app-custom-mat-autocomplete-4 
+          formControlName="kleur5"
+          [options]="kleurenOptions" 
+          [placeholder]="'Kies een kleur'"
+        ></app-custom-mat-autocomplete-4>
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+      <mat-form-field class="form-field grow-1">
         <mat-label>Lievelingsdier</mat-label>
         <mat-select 
           id="Lievelingsdier" 

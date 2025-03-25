@@ -10,6 +10,7 @@ export interface PersoonlijkeInformatie {
   kleur2: FormControl<string>;
   kleur3b: FormControl<string>;
   kleur4: FormControl<string>;
+  kleur5: FormControl<string>;
   lievelingsdier: FormControl<string>;
   anderLievelingsdier: FormControl<string>;
   waaromDitDier: FormControl<string>;

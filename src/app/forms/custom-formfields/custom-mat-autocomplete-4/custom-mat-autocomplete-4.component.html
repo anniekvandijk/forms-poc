@@ -1,0 +1,19 @@
+<input #input
+  matInput
+  [placeholder]="placeholder"
+  type="text"
+  [formControl]="autocompleteFormControl"
+  [matAutocomplete]="auto"
+  (input)="filter()"
+  (focus)="filter()"
+  (blur)="onBlur($event)"
+>
+<mat-autocomplete
+  (optionSelected)="optionSelected($event)"
+  [displayWith]="displayFn.bind(this)"
+  requireSelection 
+#auto="matAutocomplete">
+@for (option of filteredOptions(); track option) {
+<mat-option [value]="option.key">{{option.value}}</mat-option>
+}
+</mat-autocomplete>
