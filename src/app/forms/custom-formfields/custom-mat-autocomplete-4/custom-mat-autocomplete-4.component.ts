@@ -74,6 +74,9 @@ export class CustomMatAutocomplete4Component implements ControlValueAccessor,Mat
   }
 
   displayFn(optionKey: string): string {
+    if (!optionKey) {
+      return ''; 
+    }
     const option = this.options().find(option => option.key === optionKey);
     return option ? option.value : '';
   }
@@ -211,12 +214,19 @@ export class CustomMatAutocomplete4Component implements ControlValueAccessor,Mat
     : false;
   }
 
-
-
   /* ControlValueAccessor methods */
 
   writeValue(value: string): void {
-    this.ngControl?.control?.setValue(value);
+    if (value) {
+      const matchingOption = this.options().find(option => option.key === value);
+      if (matchingOption) {
+        this.autocompleteFormControl.setValue(matchingOption.key);
+      } else {
+        this.autocompleteFormControl.setValue('');
+      }
+    } else {
+      this.autocompleteFormControl.setValue('');
+    }
   }
 
   touched = false;
